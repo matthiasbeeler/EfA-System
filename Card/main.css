@@ -37,6 +37,9 @@ select{
 *:focus {
     outline: none;
 }
+::-webkit-calendar-picker-indicator {
+	filter: invert(1);
+}
 .button{
     background: var(--mainBtnColour);
     width:  calc(87% + 4px);
@@ -88,7 +91,8 @@ div.button{
     margin-right: 6.5%;
 }
 div.actionButton{
-    width: min-content;
+    width: max-content;
+    white-space: nowrap;
 }
 div.blockButton{
     background: var(--blockBtnColour);
