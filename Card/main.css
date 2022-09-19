@@ -1,0 +1,176 @@
+:root {
+    --mainInfoColour: #1A101B;
+    --mainBtnColour: #5D495F;
+    --mainTextColour: #FFFFFF;
+    --mainBorderColour: #FFFFFF;
+    --mainBackgroundColour: #2E1F2F;
+    --unblockBtnColour: #0A4500;
+    --blockBtnColour: #681A1A;
+  }
+*{
+    font-family: sans-serif;
+    color: var(--mainTextColour);
+    font-size: large;
+}
+body, html{
+    padding: 0px;
+    margin: 0px;
+    background: var(--mainBackgroundColour);
+}
+input, select{
+    border: 2px solid var(--mainBorderColour);
+    padding: 2%;
+    margin-top: 3%;
+    padding-top: 3%;
+    padding-bottom: 3%;
+    width: 83%;
+    border-radius: 10px;
+    margin-left: 6.5%;
+    background: none;
+}
+select{
+    width:  calc(87% + 4px);
+}
+::placeholder{
+    color: var(--mainTextColour);
+}
+*:focus {
+    outline: none;
+}
+.button{
+    background: var(--mainBtnColour);
+    width:  calc(87% + 4px);
+    padding: 2%;
+    margin-top: 3%;
+    border-radius: 10px;
+    margin-left: 6.5%;
+    border: none;
+    cursor:pointer;
+    font-size: x-large;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+div.button{
+    width:  calc(83% + 4px);
+    padding: 2%;
+}
+.topBtn{
+    display: flex;
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+    background: var(--mainBtnColour);
+    cursor:pointer;
+    width: 10%;
+    aspect-ratio: 1 / 1;
+    margin-left: 2vw;
+    margin-top: 2vw;
+    display: inline-flex;
+}
+.topBtn img{
+    width: 52%;
+    height: auto;
+}
+.buttonImage img{
+    margin-right: 2%;
+    height: 71%;
+    width: auto;
+}
+.buttonImage{
+    font-size: x-large;
+}
+.preRegBtn.button{
+    width: 52%;
+    margin-top: 2vw;
+    display: inline-flex;
+    float: right;
+    margin-right: 6.5%;
+}
+div.actionButton{
+    width: min-content;
+}
+div.blockButton{
+    background: var(--blockBtnColour);
+}
+div.unblockButton{
+    background: var(--unblockBtnColour);
+}
+.infoBlock{
+    background: var(--mainInfoColour);
+    width: max-content;
+    padding: 2%;
+    border-radius: 10px;
+    margin-left: 6.5%;
+    margin-top: 3%;
+}
+.infoBlock .infoName{
+    font-weight: bold;
+    font-size: larger;
+}
+.infoBlock .info{
+    font-size: larger;
+}
+.searchContent{
+    margin-top: 3%;
+    border-radius: 10px 10px 0px 0px;
+    background: var(--mainInfoColour);
+}
+.searchContent .titleBar{
+    display: inline-flex;
+    width:  calc(83% + 4px);
+    padding: 2%;
+    margin-top: 3%;
+    border-radius: 10px;
+    margin-left: 6.5%;
+    border: none;
+    cursor:pointer;
+    font-size: x-large;
+}
+.searchContent .leftText{
+    width: 46%;
+    max-width: 46%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.searchContent .rightText{
+    width: 40%;
+    max-width: 40%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.searchContent .centerSeperator{
+    padding-left: 1%;
+    padding-top: 5%;
+    border-radius: 10px;
+    margin-right: 2%;
+    background: var(--mainBtnColour);
+}
+.searchContent .searchElement .centerSeperator{
+    background: var(--mainInfoColour);
+}
+.searchContent *{
+    font-size: x-large;
+}
+.searchContent .searchElement{
+    background: var(--mainBtnColour);
+    display: inline-flex;
+    width:  calc(83% + 4px);
+    padding: 2%;
+    padding-top: 3%;
+    padding-bottom: 3%;
+    margin-top: 3%;
+    border-radius: 10px;
+    margin-left: 6.5%;
+    border: none;
+    cursor:pointer;
+    font-size: x-large;
+}
+@media (min-width: 600px) {
+    .content{
+        width: 40%;
+        margin-left: 30%;
+    }
+}
