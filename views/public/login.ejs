@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Essen für Alle</title>
+    <script src="https://code.jquery.com/jquery-1.6.2.min.js"></script>
+    <link rel="stylesheet" href="/stylesheets/main.css">
+</head>
+
+<body>
+    <div class="content">
+        <h1 class="centerSiteTitle">Essen für Alle System</h1>
+        <form>
+            <div class="message infoBlock">
+                <div class="info"></div>
+            </div>
+            <input type="text" name="username" placeholder="Benutzername / E-Mail" id="" required>
+            <input type="password" name="password" placeholder="Passwort" id="" required>
+        </form>
+        <div class="button" onclick="$('form').submit()">Login</div>
+        <br>
+        <p class="centerText">Hast du keinen Account? <a href="/register">Registriere dich hier</a></p>
+    </div>
+</body>
+
+</html>
+<script>
+    $('.message').hide()
+    $("form").submit(function(e) {
+        e.preventDefault();
+        $(".button").hide();
+        $.ajax({
+            url: '/',
+            type: 'POST',
+            cache: false,
+            data: $('form').serializeArray(),
+            success: function (data) {
+                console.log(data)
+                if (data.success == true) {
+                    window.location = "/admin/";
+                }
+                if (data.success == false) {
+                    $(".button").show();
+                    $('.message').show()
+                    $('.message').html(data.message)
+                }
+            },
+            error: function (jqXHR, textStatus, err) {
+                alert('text status ' + textStatus + ', err ' + err)
+                $(".button").show();
+            }
+        });
+    })
+</script>
