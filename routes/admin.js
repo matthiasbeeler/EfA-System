@@ -5,7 +5,6 @@ const { database } = require("../javascript/db");
 
 router.all(["*"], function (req, res, next) {
   try {
-    console.log(jwt.verify(req.cookies.Auth, process.env.jwtSecret).loggedin);
     if (jwt.verify(req.cookies.Auth, process.env.jwtSecret).loggedin)
       return next();
     res.redirect("/");

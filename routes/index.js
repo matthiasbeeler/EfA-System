@@ -4,11 +4,19 @@ const { database } = require('../javascript/db');
 const jwt = require("jsonwebtoken");
 var router = express.Router();
 
-router.all(["*"], function (req, res, next) {
+router.all(["/", "/register"], function (req, res, next) {
+  try {
   if(req.cookies.Auth){
     if(jwt.verify(req.cookies.Auth, process.env.jwtSecret).loggedin) return res.redirect('/admin')
   }
-  next()
+  if(!req.cookies.Auth){
+    if(!jwt.verify(req.cookies.Auth, process.env.jwtSecret).loggedin) return next()
+  }
+  
+    
+} catch (error) {
+    next()
+}
 })
 router.get('/', function(req, res, next) {
   res.render('public/login');
