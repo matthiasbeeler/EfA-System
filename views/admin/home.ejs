@@ -11,22 +11,30 @@
     <div class="button buttonImage actionButton logout blockButton buttonRight" onclick="window.location = '/admin/logout'"><img src="/images/svg/logout.svg" alt="" >Logout</div>
     <h1 class="centerSiteTitle">Willkommen zurück</h1>
     <div class="tiles">
+        <% if(permissions.receiverRegistration){%>
         <div class="receiverRegistration tile button" onclick="window.location = '/admin/receiverRegistration'">
             <div class="title">Bezügerregistration</div>
             <img src="/images/svg/receiverRegistration.svg" alt="">
         </div>
-        <div class="receiverRegistration tile button" onclick="window.location = '/admin/receiverMaintenance'">
+        <%}%>
+        <% if(permissions.receiverMaintenance){%>
+        <div class="receiverMaintenance tile button" onclick="window.location = '/admin/receiverMaintenance'">
             <div class="title">Bezügerverwaltng</div>
             <img src="/images/svg/receiverMaintenance.svg" alt="">
         </div>
-        <div class="receiverRegistration tile button" onclick="window.location = '/admin/entry'">
+        <%}%>
+        <% if(permissions.entry){%>
+        <div class="entry tile button" onclick="window.location = '/admin/entry'">
             <div class="title">Eingang</div>
             <img src="/images/svg/entry.svg" alt="">
         </div>
+        <%}%>
+        <% if(permissions.accounts){%>
         <div class="receiverRegistration tile button" onclick="window.location = '/admin/accounts'">
             <div class="title">Accountverwaltung</div>
             <img src="/images/svg/adminUser.svg" alt="">
         </div>
+        <%}%>
     </div>
 </body>
 </html>

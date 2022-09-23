@@ -190,12 +190,36 @@ div.unblockButton{
     font-size: xx-large;
     width: 100%;
 }
+.toptitle.title{
+    font-size: xx-large;
+    width: 60%;
+    display: inline-flex;
+    max-width: 60%;
+    margin-left: 5%;
+    font-weight: bold;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    margin-top: 2vw;
+}
 .tile{
     display: block;
 }
 .tile img{
     margin-top: 2%;
     padding: 4%;
+}
+.permissionElement{
+    color: #9A0000;
+    font-size: larger;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+}
+.permissionElement.granted{
+    color: #009a08;
+}
+.permissionInfo{
+    width: 83%;
 }
 @media (min-width: 600px) {
     .content{

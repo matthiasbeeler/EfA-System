@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Essen für Alle</title>
+    <script src="https://code.jquery.com/jquery-1.6.2.min.js"></script>
+    <link rel="stylesheet" href="/stylesheets/main.css">
+</head>
+
+<body>
+    <div class="content">
+        <div class="topBtn" onclick="window.location = '/admin/'">
+            <img src="/images/svg/ArrowBack.svg" alt="">
+        </div>
+        <form>
+            <div class="message infoBlock">
+                <div class="info"></div>
+            </div>
+            <input type="text" name="username" placeholder="Benutzername" onkeyup="searchUsername()" id="username" required>
+            <input type="text" name="name" placeholder="Name" id="name" onkeyup="searchName()" required>
+            <input type="text" name="email" placeholder="E-Mail" id="email" onkeyup="searchEmail()" required>
+            <div class="searchContent">
+                <div class="titleBar"><div class="leftText">Name</div><div class="centerSeperator"></div><div class="rightText">Username</div></div>
+                <% results.forEach(function(result) { %>
+                    <div class="searchElement" onclick="window.location = '/admin/accounts/<%-result.username%>'"><div class="leftText text"><%-result.name%></div><div class="centerSeperator"></div><div class="rightText text"><%-result.username%></div><div class="emailText text" style="display: none;"><%-result.email%></div><img src="/images/svg/continue.svg" alt=""></div>
+                <% }); %> 
+
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>
+<script>
+    function searchUsername() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("username");
+        filter = input.value.toUpperCase();
+        table = document.querySelector(".searchContent");
+        tr = table.getElementsByClassName("searchElement");
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByClassName("text")[0];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+    function searchName() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("name");
+        filter = input.value.toUpperCase();
+        table = document.querySelector(".searchContent");
+        tr = table.getElementsByClassName("searchElement");
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByClassName("text")[1];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+    function searchEmail() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("email");
+        filter = input.value.toUpperCase();
+        table = document.querySelector(".searchContent");
+        tr = table.getElementsByClassName("searchElement");
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByClassName("text")[2];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+    $('.message').hide()
+    $("form").submit(function (e) {
+        e.preventDefault();
+        if ($('#password').val() !== $('#passwordCheck').val()) return $('.message').html(
+            "Die Passwörter stimmen nicht überein")
+        $(".button").hide();
+        $.ajax({
+            url: '/register',
+            type: 'POST',
+            cache: false,
+            data: $('form').serializeArray(),
+            success: function (data) {
+                console.log(data)
+                if (data.success == true) {
+                    window.location = "/";
+                }
+                if (data.success == false) {
+                    $(".button").show();
+                    $('.message').show()
+                    $('.message').html(data.message)
+                }
+            },
+            error: function (jqXHR, textStatus, err) {
+                alert('text status ' + textStatus + ', err ' + err)
+                $(".button").show();
+            }
+        });
+    })
+</script>

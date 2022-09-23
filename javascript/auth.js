@@ -14,7 +14,6 @@ exports.login = function (request, response, database) {
         if (error) throw error;
         if (results.length > 0) {
           results[0].permissions = JSON.parse(results[0].permissions)
-          console.log(results[0].permissions.blocked)
           if(results[0].permissions.blocked) return response.json({
             success: false,
             message: "Please contact an administrator to activate your account",

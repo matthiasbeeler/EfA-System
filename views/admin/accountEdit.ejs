@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Essen für Alle</title>
+    <script src="https://code.jquery.com/jquery-1.6.2.min.js"></script>
+    <link rel="stylesheet" href="/stylesheets/main.css">
+</head>
+
+<body>
+    <div class="content">
+        <div class="topBtn" onclick="save()">
+            <img src="/images/svg/save.svg" alt="">
+        </div>
+
+        <div class="toptitle title">
+            <%-result[0].name%>
+        </div>
+            <div class="button unblockButton buttonImage" onclick="unblock()" style="display: none;"><img src="/images/svg/tick.svg" alt="">Freischalten</div>
+        <div class="infoBlock">
+
+            <div class="infoName">Benutzername
+            </div>
+        <div class="info"><%-result[0].username%></div>
+    </div>
+    <div class="infoBlock">
+
+<div class="infoName">E-Mail
+</div>
+<div class="info"><%-result[0].email%></div>
+</div>
+<div class="infoBlock permissionInfo">
+
+    <div class="infoName">Berechtigungen
+    </div>
+    <div class="info permissions">
+        <div class="permissionElement receiverRegistration" onclick="receiverRegistration()">
+            Bezügerregistration
+        </div>
+        <div class="permissionElement receiverMaintenance" onclick="receiverMaintenance()">
+            Bezügerverwaltung
+        </div>
+        <div class="permissionElement entry" onclick="entry()">
+            Eingangskontrolle
+        </div>
+        <div class="permissionElement accounts" onclick="accounts()">
+            Accountverwaltung
+        </div>
+    </div>
+    </div>
+        <div class="button unblockButton actionButton buttonImage" style="display: none;" onclick="unblock()"><img src="/images/svg/tick.svg" alt="">Freigeben</div>
+            <div class="button blockButton actionButton buttonImage" style="display: none;" onclick="block()"><img src="/images/svg/block.svg" alt="">Sperren</div>
+    <div class="button buttonImage" onclick="save()"><img src="/images/svg/save.svg" alt=""> Speichern</div>
+
+</div>
+</body>
+
+
+</html>
+<script>
+    var permissions = <%-result[0].permissions%>;
+    if(permissions.receiverRegistration == true) $('.receiverRegistration').addClass('granted')
+    if(permissions.receiverMaintenance == true) $('.receiverMaintenance').addClass('granted')
+    if(permissions.entry == true) $('.entry').addClass('granted')
+    if(permissions.accounts == true) $('.accounts').addClass('granted')
+    if(permissions.blocked == true) $('.unblockButton').show()
+    if(permissions.blocked == false) $('.blockButton').show()
+
+    function receiverRegistration(){
+        if($('.receiverRegistration').hasClass('granted')) permissions.receiverRegistration = false;
+        if($('.receiverRegistration').hasClass('granted')) return $('.receiverRegistration').removeClass('granted');
+        if(!$('.receiverRegistration').hasClass('granted')) permissions.receiverRegistration = true;
+        if(!$('.receiverRegistration').hasClass('granted')) return $('.receiverRegistration').addClass('granted');
+    }
+    function receiverMaintenance(){
+        if($('.receiverMaintenance').hasClass('granted')) permissions.receiverMaintenance = false;
+        if($('.receiverMaintenance').hasClass('granted')) return $('.receiverMaintenance').removeClass('granted');
+        if(!$('.receiverMaintenance').hasClass('granted')) permissions.receiverMaintenance = true;
+        if(!$('.receiverMaintenance').hasClass('granted')) return $('.receiverMaintenance').addClass('granted');
+    }
+    function entry(){
+        if($('.entry').hasClass('granted')) permissions.entry = false;
+        if($('.entry').hasClass('granted')) return $('.entry').removeClass('granted');
+        if(!$('.entry').hasClass('granted')) permissions.entry = true;
+        if(!$('.entry').hasClass('granted')) return $('.entry').addClass('granted');
+    }
+    function accounts(){
+        if($('.accounts').hasClass('granted')) permissions.accounts = false;
+        if($('.accounts').hasClass('granted')) return $('.accounts').removeClass('granted');
+        if(!$('.accounts').hasClass('granted')) permissions.accounts = true;
+        if(!$('.accounts').hasClass('granted')) return $('.accounts').addClass('granted');
+    }
+    function block(){
+        permissions.blocked = true;
+        $('.blockButton').hide()
+        return $('.unblockButton').show();
+    }
+    function unblock(){
+        permissions.blocked = false;
+        $('.unblockButton').hide()
+        return $('.blockButton').show();
+    }
+    $('.message').hide()
+    function save(){
+        $(".button").hide();
+        $.ajax({
+            url: '/admin/accounts/save',
+            type: 'POST',
+            cache: false,
+            data: {
+                permissions: JSON.stringify(permissions),
+                username: "<%-result[0].username%>"
+            },
+            success: function (data) {
+                if (data.success == true) {
+                    window.location = "/admin/accounts";
+                }
+                if (data.success == false) {
+                    $(".button").show();
+                    $('.message').show()
+                    $('.message').html(data.message)
+                }
+            },
+            error: function (jqXHR, textStatus, err) {
+                alert('text status ' + textStatus + ', err ' + err)
+                $(".button").show();
+            }
+        });
+    }
+</script>
