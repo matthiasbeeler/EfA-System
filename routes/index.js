@@ -1,6 +1,7 @@
 var express = require('express');
 const { login, register } = require('../javascript/auth');
 const { database } = require('../javascript/db');
+const jwt = require("jsonwebtoken");
 var router = express.Router();
 
 router.all(["*"], function (req, res, next) {

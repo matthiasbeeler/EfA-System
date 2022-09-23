@@ -1,0 +1,26 @@
+{
+"name": "Essen fr Alle Admin",
+"short_name": "Essen für Alle",
+"start_url": "https://admin.essenfueralle.org",
+"display": "standalone",
+"description": "Admin System for Essen für Alle",
+"lang": "de",
+"dir": "auto",
+"theme_color": "#2E1F2F",
+"background_color": "#2E1F2F",
+"orientation": "any",
+"icons": [
+    {
+        "src": "/images/efaLogo.png",
+        "sizes": "512x512",
+        "type": "image/png",
+        "purpose": "maskable"
+    }],
+"shortcuts": [
+    {
+        "name":"Eingang",
+        "url":"/admin/entry",
+        "description":"Get directly to the entry page"
+    }
+]
+}
