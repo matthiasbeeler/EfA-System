@@ -3,7 +3,12 @@ const { login, register } = require('../javascript/auth');
 const { database } = require('../javascript/db');
 var router = express.Router();
 
-
+router.all(["*"], function (req, res, next) {
+  if(req.cookies.Auth){
+    if(jwt.verify(req.cookies.Auth, process.env.jwtSecret).loggedin) return res.redirect('/admin')
+  }
+  next()
+})
 router.get('/', function(req, res, next) {
   res.render('public/login');
 });

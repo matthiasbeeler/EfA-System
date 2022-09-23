@@ -121,6 +121,7 @@ div.unblockButton{
     border-radius: 10px;
     margin-left: 6.5%;
     margin-top: 3%;
+    max-width: 83%;
 }
 .infoBlock .infoName{
     font-weight: bold;
