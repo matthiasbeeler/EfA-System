@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Essen für Alle</title>
+    <link rel="apple-touch-icon" sizes="640x640" href="/images/efaLogo.png">
+    <script src="https://code.jquery.com/jquery-1.6.2.min.js"></script>
+    <link rel="stylesheet" href="/stylesheets/main.css">
+    <link rel="manifest" href="/manifest.json">
+</head>
+
+<body>
+    <div class="content">
+        <div class="topBtn" onclick="window.location = '/admin/'">
+            <img src="/images/svg/ArrowBack.svg" alt="">
+        </div>
+<div class="button buttonImage preRegBtn"><img src="/images/svg/qrScan.svg" alt="">Vorregistration</div>
+
+        <form>
+            <div class="message infoBlock">
+                <div class="info"></div>
+            </div>
+            <input type="number" name="phonenumber" placeholder="Telefonnummer" id="" required>
+            <select name="permi" id="">
+                <option value="" disabled selected>Aufenthaltsstatus</option>
+                <option value="s">S</option>
+                <option value="F">F</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="CH">CH</option>
+                <option value="Sans papier">Sans papier</option>
+                <option value="N">N</option>
+                <option value="L">L</option>
+            </select>
+            <input type="text" name="passportnumber" placeholder="Ausweisnummer" id="" required>
+            <input type="text" name="birthdate" placeholder="Geburtsdatum" id="" onfocus="(this.type='date')">
+            <input type="text" name="name" placeholder="Vorname, Nachname" id="" required>
+            <select name="gender" id="">
+                <option value="" disabled selected>Geschlecht</option>
+                <option value="Weiblich">Weiblich</option>
+                <option value="Männlich">M&auml;nnlich</option>
+                <option value="Anderes">Anderes</option>
+            </select>
+            <select name="familymembers" id="">
+                <option value="" disabled selected>Zusätzliche Familienmitglieder</option>
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">9</option>
+                <option value="11">9</option>
+
+            </select>
+            <input type="number" max="9999" name="postalcode" placeholder="Postleitzahl" id="" required>
+            <div class="button buttonImage"><img src="/images/svg/qrScan.svg" alt="">Karte einscannen</div>
+            <input type="number" max="9999999" name="cardid" placeholder="Karten-ID" id="" required>
+            <textarea name="comments" placeholder="Bemerkungen" id="" cols="30" rows="2"></textarea>
+        </form>
+        <div class="button" onclick="$('form').submit()">Registrieren</div>
+        <br>
+    </div>
+</body>
+
+</html>
+<script>
+    $('.message').hide()
+    $("form").submit(function(e) {
+        e.preventDefault();
+        $(".button").hide();
+        $.ajax({
+            url: '/',
+            type: 'POST',
+            cache: false,
+            data: $('form').serializeArray(),
+            success: function (data) {
+                console.log(data)
+                if (data.success == true) {
+                    window.location = "/admin/";
+                }
+                if (data.success == false) {
+                    $(".button").show();
+                    $('.message').show()
+                    $('.message').html(data.message)
+                }
+            },
+            error: function (jqXHR, textStatus, err) {
+                alert('text status ' + textStatus + ', err ' + err)
+                $(".button").show();
+            }
+        });
+    })
+</script>

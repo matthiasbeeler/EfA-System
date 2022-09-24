@@ -67,6 +67,16 @@ router.post("/accounts/save", function (req, res, next) {
 }
 });
 
+router.get("/receiverRegistration", function (req, res, next) {
+  if (
+    jwt.verify(req.cookies.Auth, process.env.jwtSecret).permissions.receiverRegistration !==
+    true
+  )
+    return res.redirect("/admin");
+
+      return res.render("admin/receiverRegistration");
+});
+
 router.get("/logout", (req, res) => {
   res.clearCookie("Auth");
   res.redirect("/");
