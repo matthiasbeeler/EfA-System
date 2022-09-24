@@ -17,8 +17,15 @@
         <div class="topBtn" onclick="window.location = '/admin/'">
             <img src="/images/svg/ArrowBack.svg" alt="">
         </div>
-<div class="button buttonImage preRegBtn"><img src="/images/svg/qrScan.svg" alt="">Vorregistration</div>
-
+<div class="button buttonImage preRegBtn" onclick="preRegScan()"><img src="/images/svg/qrScan.svg" alt="">Vorregistration</div>
+<div class="overlay preRegOverlay">
+    <div id="preRegReader" style="margin-top: 10%;margin-left: 6.5%; overflow: hidden;width: 87%; height: fit-content; position: relative; padding: 0px; border-radius: 10px;"></div>
+    <div class="button" onclick="hidePreRegScanner()">Abbrechen</div>
+  </div>
+  <div class="overlay cardScanOverlay">
+    <div id="cardScanReader" style="margin-top: 10%;margin-left: 6.5%; overflow: hidden;width: 87%; height: fit-content; position: relative; padding: 0px; border-radius: 10px;"></div>
+    <div class="button" onclick="hideCardScanScanner()">Abbrechen</div>
+  </div>
         <form>
             <div class="message infoBlock">
                 <div class="info"></div>
@@ -61,7 +68,7 @@
 
             </select>
             <input type="number" max="9999" name="postalcode" placeholder="Postleitzahl" id="" required>
-            <div class="button buttonImage"><img src="/images/svg/qrScan.svg" alt="">Karte einscannen</div>
+            <div class="button buttonImage" onclick="cardScan()"><img src="/images/svg/qrScan.svg" alt="">Karte einscannen</div>
             <input type="number" max="9999999" name="cardid" placeholder="Karten-ID" id="" required>
             <textarea name="comments" placeholder="Bemerkungen" id="" cols="30" rows="2"></textarea>
         </form>
@@ -71,7 +78,57 @@
 </body>
 
 </html>
+<script src="/javascripts/qr.min.js"></script>
 <script>
+      $('.preRegOverlay').hide()
+      $('.cardScanOverlay').hide()
+
+    function hidePreRegScanner() {
+    preReg.stop();
+    $('.preRegOverlay').hide();
+  }
+  function preRegScan(){
+    preReg.start({
+    facingMode: "environment"
+  }, config, preRegScanSuccess);
+  $('.preRegOverlay').show()
+  }
+  function hideCardScanScanner() {
+    cardScanScanner.stop();
+    $('.cardScanOverlay').hide();
+  }
+  function cardScan(){
+    cardScanScanner.start({
+    facingMode: "environment"
+  }, config, cardScanSuccess);
+  $('.cardScanOverlay').show()
+  }
+
+    const preReg = new Html5Qrcode("preRegReader");
+    const cardScanScanner = new Html5Qrcode("cardScanReader");
+  const config = {
+    fps: 10,
+    qrbox: {
+      width: 200,
+      height: 200
+    }
+  };
+  
+
+  function preRegScanSuccess(decodedText, decodedResult) {
+    preReg.stop().then((ignore) => {
+      $('.preReg').hide()
+      console.log(decodedText)
+    }).catch((err) => {});
+  }
+  function cardScanSuccess(decodedText, decodedResult) {
+    cardScanScanner.stop().then((ignore) => {
+      $('.cardScanOverlay').hide()
+      console.log(decodedText)
+    }).catch((err) => {});
+  }
+
+
     $('.message').hide()
     $("form").submit(function(e) {
         e.preventDefault();

@@ -1,30 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
-</head>
-<body>
-    <video id="preview"></video>
 
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="/stylesheets/main.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+</head>
+
+<body>
+  <div class="overlay preRegOverlay">
+    <div id="preRegReader"
+      style="margin-top: 10%;margin-left: 6.5%; overflow: hidden;width: 87%; height: fit-content; position: relative; padding: 0px; border-radius: 10px;">
+    </div>
+    <div class="button" onclick="hidePreRegScanner()">Abbrechen</div>
+  </div>
 </body>
+
 </html>
-<script type="text/javascript">
-    let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
-    scanner.addListener('scan', function (content) {
-      alert(content);
-    });
-    Instascan.Camera.getCameras().then(function (cameras) {
-      if (cameras.length > 0) {
-        scanner.start(cameras[0]);
-      } else {
-        console.error('No cameras found.');
-      }
-    }).catch(function (e) {
-      console.error(e);
-    });
-  </script>
+<script src="/javascripts/qr.min.js"></script>
+<script>
+  function hidePreRegScanner() {
+    preReg.stop();
+    $('.preRegOverlay').hide();
+  }
+  const preReg = new Html5Qrcode("preRegReader");
+  const config = {
+    fps: 10,
+    qrbox: {
+      width: 200,
+      height: 200
+    }
+  };
+  preReg.start({
+    facingMode: "environment"
+  }, config, qrCodeSuccessCallback);
+
+  function qrCodeSuccessCallback(decodedText, decodedResult) {
+    preReg.stop().then((ignore) => {
+      $('preReg').hide()
+      console.log(decodedText)
+    }).catch((err) => {});
+  }
+</script>
