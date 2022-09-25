@@ -29,20 +29,13 @@ router.post("/", function (req, res, next) {
         req.body.cardid
       ],
       function (error, results, fields) {
-        console.log(error)
-        console.log("here");
-        console.log(results)
 
         if (results[0]) {
-            console.log("here3")
-          console.log(results[0].id);
-          console.log(req.body.id);
           if (results[0].id !== req.body.id) {
 
             return res.json({ success: false, receiverId: results[0].id });
           } 
         }else{
-            console.log("here4")
 
             if (req.body.id) {
               database.query(
@@ -101,7 +94,6 @@ router.post("/", function (req, res, next) {
       }
     );
   } catch (error) {
-    console.log("here2")
     console.log(error);
   }
 });

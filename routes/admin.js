@@ -16,35 +16,6 @@ router.get("/", function (req, res, next) {
   res.render("admin/home", {permissions: jwt.verify(req.cookies.Auth, process.env.jwtSecret).permissions});
 });
 
-router.get("/receiverMaintenance", function (req, res, next) {
-  if (
-    jwt.verify(req.cookies.Auth, process.env.jwtSecret).permissions.receiverMaintenance !==
-    true
-  )
-    return res.redirect("/admin");
-  database.query(
-    `SELECT * FROM receivers`,
-    function (error, results, fields) {
-      if (error) return res.redirect("/admin");
-      res.render("admin/receiverMaintenance", { results: results });
-    }
-  );
-});
-
-router.get("/receiverMaintenance/:id", function (req, res, next) {
-  if (
-    jwt.verify(req.cookies.Auth, process.env.jwtSecret).permissions.receiverMaintenance !==
-    true
-  )
-    return res.redirect("/admin");
-  database.query(
-    `SELECT * FROM receivers WHERE id = ?`,[req.params.id],
-    function (error, results, fields) {
-      if (error) return res.redirect("/admin");
-      res.render("admin/receiverMaintenanceSearch", { result: results });
-    }
-  );
-});
 
 router.get("/accounts", function (req, res, next) {
   if (

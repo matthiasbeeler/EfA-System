@@ -9,6 +9,7 @@ var indexRouter = require('./routes/index');
 var adminRouter = require('./routes/admin');
 var preRegRouter = require('./routes/preReg');
 var receiverRegistration = require('./routes/receiverRegistration');
+var receiverMaintenance = require('./routes/receiverMaintenance');
 
 var app = express();
 
@@ -26,6 +27,7 @@ app.use('/', indexRouter);
 app.use('/admin', adminRouter);
 app.use('/preReg', preRegRouter);
 app.use('/admin/receiverRegistration', receiverRegistration);
+app.use('/admin/receiverMaintenance', receiverMaintenance);
 
 
 // catch 404 and forward to error handler

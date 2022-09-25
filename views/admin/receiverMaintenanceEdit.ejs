@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Essen für Alle</title>
+    <link rel="apple-touch-icon" sizes="640x640" href="/images/efaLogo.png">
+    <script src="https://code.jquery.com/jquery-1.6.2.min.js"></script>
+    <link rel="stylesheet" href="/stylesheets/main.css">
+    <link rel="manifest" href="/manifest.json">
+</head>
+
+<body>
+    <div class="content">
+        <div class="topBtn" onclick="$('button').trigger('click');">
+            <img src="/images/svg/save.svg" alt="">
+        </div>
+        <div class="toptitle title">
+          <%-result[0].fullName%>
+      </div>
+  <div class="overlay cardScanOverlay">
+    <div id="cardScanReader" style="margin-top: 10%;margin-left: 6.5%; overflow: hidden;width: 87%; height: fit-content; position: relative; padding: 0px; border-radius: 10px;"></div>
+    <div class="button" onclick="hideCardScanScanner()">Abbrechen</div>
+  </div>
+        <form id="form">
+            <div class="message infoBlock">
+                <div class="info"></div>
+            </div>
+            <input type="tel" value="<%-result[0].phonenumber%>" onchange="$(this).css('border', '2px solid white');" name="phonenumber" placeholder="Telefonnummer" id="phonenumber" oninvalid=" $(this).css('border', '2px solid red');" required>
+            <select name="permit" value="<%-result[0].passportType%>" onchange="$(this).css('border', '2px solid white');" id="passportType" oninvalid=" $(this).css('border', '2px solid red');" required>
+                <option value="" disabled selected>Aufenthaltsstatus</option>
+                <option value="s">S</option>
+                <option value="F">F</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+                <option value="CH">CH</option>
+                <option value="Sans papier">Sans papier</option>
+                <option value="N">N</option>
+                <option value="L">L</option>
+            </select>
+            <input type="text" value="<%-result[0].passportNumber%>" onchange="$(this).css('border', '2px solid white');" name="passportnumber" placeholder="Ausweisnummer" id="" oninvalid=" $(this).css('border', '2px solid red');" required>
+            <input type="text" value="<%-result[0].birthdate%>" onchange="$(this).css('border', '2px solid white');" name="birthdate" placeholder="Geburtsdatum" id="" onfocus="(this.type='date')" oninvalid=" $(this).css('border', '2px solid red');" required>
+            <input type="text" value="<%-result[0].fullName%>" onchange="$(this).css('border', '2px solid white');" name="name" placeholder="Vorname, Nachname" id="name" oninvalid=" $(this).css('border', '2px solid red');" required>
+            <select name="gender" value="<%-result[0].gender%>" onchange="$(this).css('border', '2px solid white');" id="gender" oninvalid=" $(this).css('border', '2px solid red');" required>
+                <option value="" disabled selected>Geschlecht</option>
+                <option value="Weiblich">Weiblich</option>
+                <option value="Männlich">M&auml;nnlich</option>
+                <option value="Anderes">Anderes</option>
+            </select>
+            <select name="familymembers" onchange="$(this).css('border', '2px solid white');" id="familyMembers" oninvalid=" $(this).css('border', '2px solid red');" required>
+                <option value="" disabled selected>Zusätzliche Familienmitglieder</option>
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">9</option>
+                <option value="11">9</option>
+
+            </select>
+            <input type="text" value="<%-result[0].postalCode%>" name="postalcode" onchange="$(this).css('border', '2px solid white');" placeholder="Postleitzahl" id="postalCode" required oninvalid=" $(this).css('border', '2px solid red');">
+            <div class="button buttonImage" onchange="$(this).css('border', '2px solid white');" onclick="cardScan()"><img src="/images/svg/qrScan.svg" alt="">Karte einscannen</div>
+            <input type="number" value="<%-result[0].cardId%>" max="9999999" onchange="$(this).css('border', '2px solid white');" name="cardid" id="cardID" placeholder="Karten-ID" id="" required oninvalid=" $(this).css('border', '2px solid red');">
+            <select name="entitlement" id="entitlement" onchange="$(this).css('border', '2px solid white');" class="smallSelect" id="" oninvalid=" $(this).css('border', '2px solid red');" required>
+                <option value="" disabled selected>Berechtigung</option>
+                <option value="A">A</option>
+                <option value="B">B</option>
+            </select>
+            <select name="timeslot" id="timeslot" onchange="$(this).css('border', '2px solid white');" class="smallSelect" id="" required oninvalid=" $(this).css('border', '2px solid red');">
+                <option value="" disabled selected>Timeslot</option>
+                <option value="11:00-12:00">11:00-12:00</option>
+                <option value="12:00-13:00">12:00-13:00</option>
+            </select>
+            <div id="inputs">
+
+            </div>
+            <textarea name="comments" placeholder="Bemerkungen" id="" cols="30" rows="2"><%-result[0].comment%></textarea>
+            <select name="blocked" id="blocked" onchange="$(this).css('border', '2px solid white');" class="smallSelect" id="" required oninvalid=" $(this).css('border', '2px solid red');">
+              <option value="0">Nicht blockiert</option>
+              <option value="1">Blockiert</option>
+          </select>
+            <button type="submit" class="button buttonImage"><img src="/images/svg/save.svg" alt=""> Speichern</button>
+        </form>
+        <div class="tick">
+          <img src="/images/svg/greenTick.svg" alt="">
+        </div>
+        <br>
+    </div>
+</body>
+
+</html>
+<script src="/javascripts/qr.min.js"></script>
+<script>
+
+$('#blocked').val("<%-result[0].blocked%>")
+$('#passportType').val("<%-result[0].passportType%>")
+$('#gender').val("<%-result[0].gender%>")
+$('#familyMembers').val("<%-result[0].familyMembers%>")
+$('#timeslot').val("<%-result[0].timeslot%>")
+$('#entitlement').val("<%-result[0].entitlement%>")
+
+      $('.message').hide()
+      $('.cardScanOverlay').hide()
+
+  function hideCardScanScanner() {
+    $('.cardScanOverlay').hide();
+    cardScanScanner.stop();
+  }
+  function cardScan(){
+    cardScanScanner.start({
+    facingMode: "environment"
+  }, config, cardScanSuccess);
+  $('.cardScanOverlay').show()
+  }
+
+    const cardScanScanner = new Html5Qrcode("cardScanReader");
+  const config = {
+    fps: 30,
+    qrbox: {
+      width: 200,
+      height: 200
+    },
+  };
+
+  function cardScanSuccess(decodedText, decodedResult) {
+    $('.cardScanOverlay').hide()
+    cardScanScanner.stop().then((ignore) => {
+        $('#cardID').val(JSON.parse(decodedText).id)
+        $('#cardID').css("border", "2px solid white");
+        $('#timeslot').val(JSON.parse(decodedText).timeslot)
+        $('#timeslot').css("border", "2px solid white");
+        $('#entitlement').val(JSON.parse(decodedText).entitlement)
+        $('#entitlement').css("border", "2px solid white");
+
+    }).catch((err) => {});
+  }
+
+
+    $('.message').hide()
+    $("#form").submit(function(e) {
+        e.preventDefault();
+        $(".button").hide();
+        $.ajax({
+            url: '/admin/receiverMaintenance/<%-result[0].id%>/edit/',
+            type: 'POST',
+            cache: false,
+            data: $('form').serializeArray(),
+            success: function (data) {
+                console.log(data)
+                if (data.success == true) {
+                  $('form').hide();
+                  $('.button').hide();
+                  $('.tick').show()
+                  setTimeout(() => {
+                    window.location.href = "/admin/receiverMaintenance/<%-result[0].id%>/";
+                  }, 1000);
+                }
+                if (data.success == false) {
+                    $(".button").show();
+                    $('.message').show()
+                    $('.message').html(data.message)
+                }
+            },
+            error: function (jqXHR, textStatus, err) {
+                alert('text status ' + textStatus + ', err ' + err)
+                $(".button").show();
+            }
+        });
+    })
+</script>

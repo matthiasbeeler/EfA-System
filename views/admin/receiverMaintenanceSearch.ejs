@@ -19,106 +19,142 @@
         <div class="toptitle title">
             <%-result[0].fullName%>
         </div>
-            <div class="button unblockButton buttonImage" onclick="unblock()" style="display: none;"><img src="/images/svg/tick.svg" alt="">Freischalten</div>
+        <div class="button buttonImage"
+            onclick="window.location = '/admin/receiverMaintenance/<%-result[0].id%>/edit/'"><img
+                src="/images/svg/edit.svg" alt="">Bearbeiten</div>
         <div class="infoBlock">
 
             <div class="infoName">Telefonnummer
             </div>
-        <div class="info"><%-result[0].phonenumber%></div>
-    </div>
-    <div class="infoBlock">
-
-<div class="infoName">Ausweisnummer
-</div>
-<div class="info"><%-result[0].passportNumber%></div>
-</div>
-<div class="infoBlock">
-
-    <div class="infoName">Aufenthaltsstatus
-    </div>
-    <div class="info"><%-result[0].passportType%></div>
-    </div>
-    <div class="infoBlock">
-
-        <div class="infoName">Geburtsdatum
+            <div class="info">
+                <%-result[0].phonenumber%>
+            </div>
         </div>
-        <div class="info"><%-result[0].birthdate%></div>
+        <div class="infoBlock">
+
+            <div class="infoName">Name
+            </div>
+            <div class="info">
+                <%-result[0].fullName%>
+            </div>
+        </div>
+        <div class="infoBlock">
+
+            <div class="infoName">Ausweisnummer
+            </div>
+            <div class="info">
+                <%-result[0].passportNumber%>
+            </div>
+        </div>
+        <div class="infoBlock">
+
+            <div class="infoName">Aufenthaltsstatus
+            </div>
+            <div class="info">
+                <%-result[0].passportType%>
+            </div>
+        </div>
+        <div class="infoBlock">
+
+            <div class="infoName">Geburtsdatum
+            </div>
+            <div class="info">
+                <%-result[0].birthdate%>
+            </div>
         </div>
         <div class="infoBlock">
 
             <div class="infoName">Geschlecht
             </div>
-            <div class="info"><%-result[0].gender%></div>
+            <div class="info">
+                <%-result[0].gender%>
+            </div>
         </div>
 
+        <div class="infoBlock">
+
+            <div class="infoName">Zustätzliche Familienmitglieder
+            </div>
+            <div class="info">
+                <%-result[0].familyMembers%>
+            </div>
+        </div>
+        <div class="infoBlock">
+
+            <div class="infoName">Postleitzahl / Ort
+            </div>
+            <div class="info">
+                <%-result[0].postalCode%>
+            </div>
+        </div>
+
+        <div class="infoBlock">
+
+            <div class="infoName">Karten-ID
+            </div>
+            <div class="info">
+                <%-result[0].cardId%>
+            </div>
+        </div>
+
+        <div class="infoBlock">
+
+            <div class="infoName">Timeslot
+            </div>
+            <div class="info">
+                <%-result[0].timeslot%>
+            </div>
+        </div>
+        <div class="infoBlock">
+
+            <div class="infoName">Bezugsberechtigung
+            </div>
+            <div class="info">
+                <%-result[0].entitlement%>
+            </div>
+        </div>
+
+        <div class="infoBlock">
+
+            <div class="infoName">Bemerkungen
+            </div>
+            <div class="info">
+                <%-result[0].comment%>
+            </div>
+        </div>
+
+        <% if(result[0].blocked==0){%>
             <div class="infoBlock">
 
-                <div class="infoName">Zustätzliche Familienmitglieder
+                <div class="infoName">Nicht blockiert
                 </div>
-                <div class="info"><%-result[0].familyMembers%></div>
-                </div>
+            </div>
+            <% }else{%>
                 <div class="infoBlock">
 
-                    <div class="infoName">Postleitzahel / Ort
+                    <div class="infoName"> Blockiert
                     </div>
-                    <div class="info"><%-result[0].postalCode%></div>
-                    </div>
-
-                    <div class="infoBlock">
-
-                        <div class="infoName">Karten-ID
-                        </div>
-                        <div class="info"><%-result[0].cardId%></div>
-                        </div>
-
+                </div>
+                <% }%>
+                    <% if(result[0].activeRegistration==1){%>
                         <div class="infoBlock">
 
-                            <div class="infoName">Timeslot
+                            <div class="infoName">Aktiv
                             </div>
-                            <div class="info"><%-result[0].timeslot%></div>
-                            </div>
+                        </div>
+                        <% }else{%>
                             <div class="infoBlock">
 
-                                <div class="infoName">Bezugsberechtigung
+                                <div class="infoName"> Inaktiv
                                 </div>
-                                <div class="info"><%-result[0].entitlement%></div>
                             </div>
+                            <% }%>
+                                <div class="button buttonImage"
+                                    onclick="window.location = '/admin/receiverMaintenance/<%-result[0].id%>/edit/'">
+                                    <img src="/images/svg/edit.svg" alt="">Bearbeiten</div>
 
-                                <div class="infoBlock">
 
-                                    <div class="infoName">Bemerkungen
-                                    </div>
-                                    <div class="info"><%-result[0].comment%></div>
-                                </div>
-
-                                    <% if(result[0].blocked == 0){%>
-                                        <div class="infoBlock">
-
-                                            <div class="infoName">Nicht blockiert
-                                            </div>
-                                        </div>
-                                        <% }else{%>
-                                            <div class="infoBlock">
-
-                                                <div class="infoName"> Blockiert
-                                                </div>
-                                            </div>
-                                            <% }%>
-                                            <% if(result[0].activeRegistration == 1){%>
-                                                <div class="infoBlock">
-        
-                                                    <div class="infoName">Aktiv
-                                                    </div>
-                                                </div>
-                                                <% }else{%>
-                                                    <div class="infoBlock">
-        
-                                                        <div class="infoName"> Inaktiv
-                                                        </div>
-                                                    </div>
-                                                    <% }%>
-
-</div>
+    </div>
 </body>
 
 
