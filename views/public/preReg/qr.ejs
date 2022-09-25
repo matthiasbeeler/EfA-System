@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="https://system.essenfueralle.org/essenlogo.jpg">
+    <title>Essen für Alle</title>
+    <link rel="stylesheet" href="/stylesheets/preReg.css">
+</head>
+
+<body>
+    <center>
+        <div class="content">
+            <div class="title">
+                <h1>Essen für Alle</h1>
+                <h2>Vorregistration</h2>
+            </div>
+            <div class="qr_container">
+                <img src="" alt="" id="qr" class="qrimg">
+            </div>
+            <h1>
+                <%=name%>
+            </h1>
+        </div>
+    </center>
+</body>
+
+</html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="/javascripts/bwip-js-min.js"></script>
+<script>
+    /* var qrcode = new QRCode(document.querySelector(".qr_container"), {
+         text: "<%=jwt%>",
+         padding: 2,
+         correctLevel: QRCode.CorrectLevel.L
+     });*/
+    let canvas = document.createElement('canvas');
+    try {
+        bwipjs.toCanvas(canvas, {
+            bcid: 'qrcode',       // Barcode type
+            text: `{"type":"registration", "id":"<%=jwt%>"}`,    // Text to encode
+            scale: 6,
+            width: 10,
+            height: 10,
+            padding: 2,            // Bar height, in millimeters
+            includetext: false,            // Show human-readable text
+            textxalign: 'center',
+            backgroundcolor: "FFFFFF",
+            // Always good to set this
+        });
+        document.getElementById('qr').src = canvas.toDataURL('image/png');
+    } catch (e) {
+        // `e` may be a string or Error object
+        console.log(e)
+    }
+</script>

@@ -1,0 +1,138 @@
+* {
+    font-family: sans-serif;
+    color: black;
+    outline: none;
+    border-radius: 10px;
+  }
+  body{
+    background-color: whitesmoke;
+    margin: 0px;
+  }
+  
+  .content {
+    margin-top: 0px;
+    min-height: 100vh;
+    background-color: whitesmoke;
+  }
+  
+  .title-gray {
+    opacity: 0.5;
+  }
+  
+  .flex {
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box; /* Firefox, other Gecko */
+    box-sizing: border-box; /* Opera/IE 8+ */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 100vw;
+    flex-wrap: wrap;
+  }
+  .flag_btn {
+    -webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+    -moz-box-sizing: border-box; /* Firefox, other Gecko */
+    box-sizing: border-box; /* Opera/IE 8+ */
+    width: 40%;
+    flex-grow: 0;
+    flex-shrink: 0;
+    flex-basis: 40%;
+    height: max-content;
+    margin: 5%;
+  }
+  .flag_btn_img {
+    width: 100%;
+    margin-bottom: 0px;
+    aspect-ratio: 1.7;
+  }
+  .flag_btn p {
+    margin-top: 0px;
+    align-items: center;
+    text-align: center;
+  }
+  
+  /* Inputs */
+  
+  input,
+  select {
+    border: 2px solid black;
+    width: 90%;
+    padding: 3%;
+    margin-bottom: 4%;
+    color: black;
+    background-color: transparent;
+    font-size: large;
+    -webkit-appearance: none;
+    transition: border-color 0.2s;
+  }
+  ::placeholder {
+    color: black;
+  }
+  
+  .house{
+    margin-bottom: 1%;
+  }
+  
+  .qr_container img{
+    image-rendering: pixelated;
+    width: 100%;
+  }
+  
+  #qr{
+    border: 10px solid #912F77;
+    width: 75%;
+  }
+  
+  .phone_msg{
+    margin-top: 0px;
+  }
+  
+  .house_p{
+    margin-bottom: 2%;
+  }
+  
+  input:focus,
+  select:focus {
+    border-color: #912F77;
+  }
+  
+  input[type=date] {
+    text-align: right;
+  }
+  
+  input[type="date"]:before {
+    color: black;
+    content: attr(placeholder) !important;
+    margin-right: 0.5em;
+  }
+  
+  
+  input[type="submit"],
+  button[type="submit"] {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-appearance: button;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-writing-mode: horizontal-tb !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    font-size: 250%;
+    padding-top: 7%;
+    cursor: pointer;
+    padding-bottom: 7%;
+    margin: 0;
+    width: 90%;
+    color: #ffffff;
+    margin-top: 10%;
+    background: #912F77;
+    border: none;
+  }
+  
+  
+  .back{
+    position: absolute;
+    margin: 2%;
+  }

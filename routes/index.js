@@ -17,6 +17,11 @@ router.all(["/", "/register"], function (req, res, next) {
 } catch (error) {
     next()
 }
+setInterval(function () {
+  database.query('SELECT 1');
+  console.log("heartbeat")
+}, 10000);
+
 })
 router.get('/', function(req, res, next) {
   res.render('public/login');
