@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Essen für Alle</title>
+  <link rel="apple-touch-icon" sizes="640x640" href="/images/efaLogo.png">
+  <script src="https://code.jquery.com/jquery-1.6.2.min.js"></script>
+  <link rel="stylesheet" href="/stylesheets/main.css">
+  <link rel="manifest" href="/manifest.json">
+</head>
+
+<body>
+  <div class="content">
+    <div class="topBtn"  onclick="window.location = '/admin/';">
+      <img src="/images/svg/arrowBack.svg" alt="">
+    </div>
+    <div class="toptitle title">
+      Eingang
+    </div>
+    <div class="overlaySmall cardScanOverlay">
+      <div id="cardScanReader"
+        style="margin-top: 10%;margin-left: 6.5%; overflow: hidden;width: 87%; height: fit-content; position: relative; padding: 0px; border-radius: 10px;">
+      </div>
+    </div>
+    <br>
+    <br>
+    <div class="button buttonImage" onclick="window.location = '/admin/entry/manualEntry';"><img src="/images/svg/manual.svg" alt="">Manuelle Eingabe</div>
+    <br>
+    <div class="button buttonImage" onclick="window.location = '/admin/entry/cardForgotten';"><img src="/images/svg/block.svg" alt="">Karte vergessen</div>
+
+
+    <div class="tick">
+      <img src="/images/svg/greenTick.svg" alt="">
+    </div>
+    <br>
+  </div>
+</body>
+
+</html>
+<script src="/javascripts/qr.min.js"></script>
+<script>
+  $('.message').hide()
+  $('.cardScanOverlay').hide()
+
+
+  const cardScanScanner = new Html5Qrcode("cardScanReader");
+  const config = {
+    fps: 30,
+    qrbox: {
+      width: 200,
+      height: 200
+    },
+  };
+
+  cardScanScanner.start({
+    facingMode: "environment"
+  }, config, cardScanSuccess);
+  $('.cardScanOverlay').show()
+
+
+  function cardScanSuccess(decodedText, decodedResult) {
+    $('.button').hide()
+    cardScanScanner.stop().then((ignore) => {
+        $.ajax({
+            url: '/admin/entry',
+            type: 'POST',
+            cache: false,
+            data: {
+              id: JSON.parse(decodedText).id
+            },
+            success: function (data) {
+              console.log(data)
+              if (data.success == true) {
+                $('.button').hide();
+                $('.tick').show()
+                setTimeout(() => {
+                  $('.tick').hide();
+                  $('.button').show();
+                  cardScanScanner.start({
+                    facingMode: "environment"
+                  }, config, cardScanSuccess);
+                }, 2000);
+              }
+              if (data.success == false) {
+                $(".button").show();
+                $('.message').show()
+                $('.message').html(data.message)
+              }
+            },
+            error: function (jqXHR, textStatus, err) {
+              alert('text status ' + textStatus + ', err ' + err)
+              $(".button").show();
+            }
+          });
+
+        }).catch((err) => {});
+    }
+
+
+    $('.message').hide()
+    $("#form").submit(function (e) {
+      e.preventDefault();
+      $(".button").hide();
+      $.ajax({
+        url: '/admin/entry',
+        type: 'POST',
+        cache: false,
+        data: $('form').serializeArray(),
+        success: function (data) {
+          console.log(data)
+          if (data.success == true) {
+            $('form').hide();
+            $('.button').hide();
+            $('.tick').show()
+            setTimeout(() => {
+              $('.tick').hide();
+              cardScanScanner.start({
+                facingMode: "environment"
+              }, config, cardScanSuccess);
+            }, 1000);
+          }
+          if (data.success == false) {
+            $(".button").show();
+            $('.message').show()
+            $('.message').html(data.message)
+          }
+        },
+        error: function (jqXHR, textStatus, err) {
+          alert('text status ' + textStatus + ', err ' + err)
+          $(".button").show();
+        }
+      });
+    })
+</script>

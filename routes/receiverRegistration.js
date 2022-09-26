@@ -6,6 +6,7 @@ const { transliterate } = require("../javascript/transliterate");
 const { parsePhoneNumber } = require("libphonenumber-js");
 
 router.post("/preReg", function (req, res, next) {
+  try{
   database.query(
     "SELECT * FROM receivers WHERE id = ?;",
     [req.body.id],
@@ -14,6 +15,10 @@ router.post("/preReg", function (req, res, next) {
       res.json({ success: true, results: results });
     }
   );
+} catch (error) {
+  console.log(error)
+  if(!error) return res.json({ success: false});
+}
 });
 
 router.post("/", function (req, res, next) {
@@ -95,6 +100,7 @@ router.post("/", function (req, res, next) {
     );
   } catch (error) {
     console.log(error);
+    if (error) return res.json({ success: false });
   }
 });
 

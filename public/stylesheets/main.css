@@ -146,6 +146,7 @@ div.unblockButton{
     margin-top: 3%;
     border-radius: 10px 10px 0px 0px;
     background: var(--mainInfoColour);
+    padding-bottom: 10%;
 }
 .searchContent .titleBar{
     display: inline-flex;
@@ -242,13 +243,31 @@ div.unblockButton{
     height: 100vh;
     background: var(--mainBackgroundColour);
 }
+.overlay{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100vw;
+    height: max-content;
+    background: var(--mainBackgroundColour);
+}
 video{
     width: 100% !important;
     height: 100% !important;
 }
+#qr-shaded-region, video{
+    border-radius: 10px;
+}
 select.smallSelect{
     width: 40.2%;
     display: inline;
+}
+input.smallInput{
+    width: 34.6%;
+    display: inline;
+}
+.content{
+    padding-bottom: 5%;
 }
 @media (min-width: 600px) {
     .content{

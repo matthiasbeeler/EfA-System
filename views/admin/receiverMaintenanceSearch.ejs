@@ -17,17 +17,17 @@
         </div>
 
         <div class="toptitle title">
-            <%-result[0].fullName%>
+            <%-receiverData[0].fullName%>
         </div>
         <div class="button buttonImage"
-            onclick="window.location = '/admin/receiverMaintenance/<%-result[0].id%>/edit/'"><img
+            onclick="window.location = '/admin/receiverMaintenance/<%-receiverData[0].id%>/edit/'"><img
                 src="/images/svg/edit.svg" alt="">Bearbeiten</div>
         <div class="infoBlock">
 
             <div class="infoName">Telefonnummer
             </div>
             <div class="info">
-                <%-result[0].phonenumber%>
+                <%-receiverData[0].phonenumber%>
             </div>
         </div>
         <div class="infoBlock">
@@ -35,7 +35,7 @@
             <div class="infoName">Name
             </div>
             <div class="info">
-                <%-result[0].fullName%>
+                <%-receiverData[0].fullName%>
             </div>
         </div>
         <div class="infoBlock">
@@ -43,7 +43,7 @@
             <div class="infoName">Ausweisnummer
             </div>
             <div class="info">
-                <%-result[0].passportNumber%>
+                <%-receiverData[0].passportNumber%>
             </div>
         </div>
         <div class="infoBlock">
@@ -51,7 +51,7 @@
             <div class="infoName">Aufenthaltsstatus
             </div>
             <div class="info">
-                <%-result[0].passportType%>
+                <%-receiverData[0].passportType%>
             </div>
         </div>
         <div class="infoBlock">
@@ -59,7 +59,7 @@
             <div class="infoName">Geburtsdatum
             </div>
             <div class="info">
-                <%-result[0].birthdate%>
+                <%-receiverData[0].birthdate%>
             </div>
         </div>
         <div class="infoBlock">
@@ -67,7 +67,7 @@
             <div class="infoName">Geschlecht
             </div>
             <div class="info">
-                <%-result[0].gender%>
+                <%-receiverData[0].gender%>
             </div>
         </div>
 
@@ -76,7 +76,7 @@
             <div class="infoName">Zustätzliche Familienmitglieder
             </div>
             <div class="info">
-                <%-result[0].familyMembers%>
+                <%-receiverData[0].familyMembers%>
             </div>
         </div>
         <div class="infoBlock">
@@ -84,7 +84,7 @@
             <div class="infoName">Postleitzahl / Ort
             </div>
             <div class="info">
-                <%-result[0].postalCode%>
+                <%-receiverData[0].postalCode%>
             </div>
         </div>
 
@@ -93,7 +93,7 @@
             <div class="infoName">Karten-ID
             </div>
             <div class="info">
-                <%-result[0].cardId%>
+                <%-receiverData[0].cardId%>
             </div>
         </div>
 
@@ -102,7 +102,7 @@
             <div class="infoName">Timeslot
             </div>
             <div class="info">
-                <%-result[0].timeslot%>
+                <%-receiverData[0].timeslot%>
             </div>
         </div>
         <div class="infoBlock">
@@ -110,7 +110,7 @@
             <div class="infoName">Bezugsberechtigung
             </div>
             <div class="info">
-                <%-result[0].entitlement%>
+                <%-receiverData[0].entitlement%>
             </div>
         </div>
 
@@ -119,11 +119,11 @@
             <div class="infoName">Bemerkungen
             </div>
             <div class="info">
-                <%-result[0].comment%>
+                <%-receiverData[0].comment%>
             </div>
         </div>
 
-        <% if(result[0].blocked==0){%>
+        <% if(receiverData[0].blocked==0){%>
             <div class="infoBlock">
 
                 <div class="infoName">Nicht blockiert
@@ -136,7 +136,7 @@
                     </div>
                 </div>
                 <% }%>
-                    <% if(result[0].activeRegistration==1){%>
+                    <% if(receiverData[0].activeRegistration==1){%>
                         <div class="infoBlock">
 
                             <div class="infoName">Aktiv
@@ -149,13 +149,14 @@
                                 </div>
                             </div>
                             <% }%>
-                                <div class="button buttonImage"
-                                    onclick="window.location = '/admin/receiverMaintenance/<%-result[0].id%>/edit/'">
-                                    <img src="/images/svg/edit.svg" alt="">Bearbeiten</div>
-
+                            <div class="searchContent">
+                                <div class="titleBar"><div class="leftText">Uhrzeit</div><div class="centerSeperator"></div><div class="rightText">Datum</div></div>
+                            <% logResults.forEach(function(result) { %>
+                                <div class="searchElement"><div class="leftText text"><%-result.logTime%></div><div class="centerSeperator"></div><div class="rightText text"><%-result.date%></div></div>
+                            <% }); %> 
+                        </div>
 
     </div>
 </body>
-
 
 </html>

@@ -26,13 +26,27 @@ router.get("/", function (req, res, next) {
       true
     )
       return res.redirect("/admin");
+      try {
     database.query(
       `SELECT * FROM receivers WHERE id = ?`,[req.params.id],
       function (error, results, fields) {
         if (error) return res.redirect("/admin");
-        res.render("admin/receiverMaintenanceSearch", { result: results });
+        var receiverData = results
+        database.query(
+          `SELECT * FROM entryLogs WHERE id = ?`,[req.params.id],
+          function (error, results, fields) {
+            if (error) return res.redirect("/admin");
+            res.render("admin/receiverMaintenanceSearch", { logResults: results, receiverData: receiverData });
+          }
+        );
       }
     );
+    
+        
+  } catch (error) {
+        console.log(error)
+        return res.redirect("/admin/");
+  }
   });
 
   router.get("/:id/edit", function (req, res, next) {
@@ -41,6 +55,7 @@ router.get("/", function (req, res, next) {
       true
     )
       return res.redirect("/admin");
+      try{
     database.query(
       `SELECT * FROM receivers WHERE id = ?`,[req.params.id],
       function (error, results, fields) {
@@ -48,6 +63,10 @@ router.get("/", function (req, res, next) {
         res.render("admin/receiverMaintenanceEdit", { result: results });
       }
     );
+  } catch (error) {
+    console.log(error)
+    return res.redirect("/admin/");
+}
   });
   router.post("/:id/edit", function (req, res, next) {
     if (
@@ -55,6 +74,7 @@ router.get("/", function (req, res, next) {
         true
       )
         return res.redirect("/admin");
+        try{
         var phone = parsePhoneNumber(req.body.phonenumber, "CH");
       database.query(
         `SELECT * FROM receivers WHERE phonenumber = ? OR passportNumber = ?`,[phone.number, req.body.passportnumber],
@@ -86,6 +106,10 @@ router.get("/", function (req, res, next) {
           }
         }
       );
+    } catch (error) {
+      console.log(error)
+      if(!error) return res.json({ success: false});
+    }
     });
                 
 

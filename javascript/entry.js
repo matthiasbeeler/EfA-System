@@ -1,0 +1,34 @@
+exports.normal = function (req, res, database) {
+  try {
+    if (!req.body.id && !/^-?\d+$/.test(req.body.id)) return res.json({ success: false, message: "Die Eingabe wurde nicht angenommen" });
+    const date = new Date();
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
+    let currentDate = `${day}.${month}.${year}`;
+    const time = new Date().toLocaleString("de-CH", {
+      timeZone: "Europe/Zurich",
+    }).split(', ')[1]
+    database.query(`SELECT * FROM receivers WHERE  cardId = ?`,[req.body.id], function (error, results, fields) {
+      if(!results.length > 0){
+        return res.json({ success: false, message: "Diese Karte existiert im System nicht" });
+      }else{
+        var entitlement = results[0].entitlement;
+        var id = results[0].id;
+    database.query(`SELECT * FROM entryLogs WHERE  id = ?`,[id], function (error, results, fields) {
+      if(results.length > 0){
+        res.json({ success: false, message: "Karte wurde heute bereits eingetragen" });
+      }else{
+        database.query(`INSERT INTO entryLogs (id, logTime, entitlement, cardId, date)
+        VALUES (?, ?, ?, ?, ?)`,[id, time, entitlement, req.body.id, currentDate], function (error, results, fields) {
+          if(!error) return res.json({ success: true});
+        })
+      }
+    })
+  }
+  })
+  } catch (error) {
+    console.log(error)
+    res.json({ success: false, message: "Es gab einen Fehler" });
+  }
+};

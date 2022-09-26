@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Essen für Alle</title>
+  <link rel="apple-touch-icon" sizes="640x640" href="/images/efaLogo.png">
+  <script src="https://code.jquery.com/jquery-1.6.2.min.js"></script>
+  <link rel="stylesheet" href="/stylesheets/main.css">
+  <link rel="manifest" href="/manifest.json">
+</head>
+
+<body>
+  <div class="content">
+    <div class="topBtn" onclick="window.location = '/admin/entry/'">
+      <img src="/images/svg/arrowBack.svg" alt="">
+    </div>
+    <div class="toptitle title">
+      Manuelle Eingabe
+    </div>
+    <div class="infoBlock message">
+
+      </div>
+  </div>
+    <input type="number" name="cardId" placeholder="Karten-ID" class="smallInput" id="cardId">
+    <input type="number" name="" placeholder="Wiederholen" class="smallInput" id="cardId2">
+
+    <br>
+    <br>
+    <div class="button" onclick="submit()">Eintragen</div>
+
+
+    <div class="tick">
+      <img src="/images/svg/greenTick.svg" alt="">
+    </div>
+    <br>
+  </div>
+</body>
+
+</html>
+<script>
+  $('.message').hide()
+
+
+  function submit() {
+    $('.message').hide()
+    if($('#cardId').val() !== $('#cardId2').val()){ $('.message').html("Die ID's stimmen nicht überein"); return $('.message').show()};
+    $('.button').hide()
+    $('input').hide()
+    $.ajax({
+      url: '/admin/entry/',
+      type: 'POST',
+      cache: false,
+      data: {
+        id: $('#cardId').val()
+      },
+      success: function (data) {
+        console.log(data)
+        if (data.success == true) {
+          $('.button').hide();
+          $('.tick').show()
+          setTimeout(() => {
+            $('.tick').hide();
+            $('.button').show();
+            $('input').show()
+          }, 2000);
+        }
+        if (data.success == false) {
+          $(".button").show();
+          $('.message').show()
+          $('input').show()
+          $('.message').html(data.message)
+        }
+      },
+      error: function (jqXHR, textStatus, err) {
+        alert('text status ' + textStatus + ', err ' + err)
+        $(".button").show();
+        $('input').show()
+      }
+    });
+
+  }
+</script>
