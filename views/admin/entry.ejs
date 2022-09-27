@@ -76,6 +76,7 @@
   function scan() {
     $(".button").show();
     $('.specButton').hide()
+    $('.cross').hide()
     cardScanScanner.start({
       facingMode: "environment"
     }, config, cardScanSuccess);
@@ -100,6 +101,7 @@
             setTimeout(() => {
               $('.tick').hide();
               $('.button').show();
+              $('.specButton').hide();
               cardScanScanner.start({
                 facingMode: "environment"
               }, config, cardScanSuccess);
