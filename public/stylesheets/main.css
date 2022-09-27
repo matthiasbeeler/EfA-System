@@ -40,11 +40,11 @@ input, select, textarea{
     margin-left: 6.5%;
     background: none;
 }
-.tick{
+.tick, .cross{
     display: none;
     width: 100%;
 }
-.tick img{
+.tick img, .cross img{
     width: 90%;
     margin-left: 5%;
     margin-top: 10%;
