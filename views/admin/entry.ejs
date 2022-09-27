@@ -85,6 +85,7 @@
 
   function cardScanSuccess(decodedText, decodedResult) {
     $('.button').hide()
+    $('.message').hide()
     cardScanScanner.stop().then((ignore) => {
       $.ajax({
         url: '/admin/entry',
