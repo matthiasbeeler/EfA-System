@@ -1,5 +1,6 @@
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
+const { sendRegistrationMail } = require("./mailer");
 
 exports.login = function (request, response, database) {
   let username = request.body.username;
@@ -98,7 +99,9 @@ exports.register = function (request, response, database) {
             ],
             function (error, results, fields) {
               if (error) console.log(error);
+              sendRegistrationMail(email)
               return response.json({ success: true });
+
             }
           );
         }

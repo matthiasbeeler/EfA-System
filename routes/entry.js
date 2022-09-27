@@ -1,7 +1,6 @@
 var express = require('express');
 const { database } = require('../javascript/db');
 const jwt = require("jsonwebtoken");
-const { parsePhoneNumber } = require('libphonenumber-js');
 const { normal } = require('../javascript/entry');
 var router = express.Router();
 router.all(["*"], function (req, res, next) {
@@ -22,6 +21,10 @@ router.post('/', function(req, res){
 
 router.get('/cardForgotten', function(req, res){
   res.render('admin/cardForgotten')
+});
+
+router.post('/cardForgotten', function(req, res){
+  cardForgotten(req, res, database)
 });
 
 router.get('/manualEntry', function(req, res){
