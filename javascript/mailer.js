@@ -11,7 +11,7 @@ const transporter = nodemailer.createTransport({
 });
 
 exports.sendRegistrationMail = function (email) {
-  const filename = __dirname + "./mailTemplates/registrationConfirmation.ejs";
+  const filename = process.cwd() + "/mailTemplates/registrationConfirmation.ejs";
   ejs.renderFile(filename, (error, mailHTML) => {
     const mailOptions = {
       from: process.env.emailUserName, // Sender address
