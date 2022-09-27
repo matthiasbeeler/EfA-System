@@ -1,4 +1,5 @@
 var nodemailer = require("nodemailer");
+var ejs = require("ejs");
 const transporter = nodemailer.createTransport({
   host: "mail.nyv.ch",
   port: 587,
@@ -10,8 +11,8 @@ const transporter = nodemailer.createTransport({
 });
 
 exports.sendRegistrationMail = function (email) {
-  const filename = __dirname + "/mailTemplates/registrationConfirmation.ejs";
-  ejs.renderFile(filename, options, (error, mailHTML) => {
+  const filename = process.cwd() + "/mailTemplates/registrationConfirmation.ejs";
+  ejs.renderFile(filename, (error, mailHTML) => {
     const mailOptions = {
       from: process.env.emailUserName, // Sender address
       to: email, // List of recipients //email
