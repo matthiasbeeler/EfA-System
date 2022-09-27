@@ -46,6 +46,9 @@
         <div class="permissionElement entry" onclick="entry()">
             Eingangskontrolle
         </div>
+        <div class="permissionElement statistics" onclick="statistics()">
+            Statistik
+        </div>
         <div class="permissionElement accounts" onclick="accounts()">
             Accountverwaltung
         </div>
@@ -80,6 +83,12 @@
         if($('.receiverMaintenance').hasClass('granted')) return $('.receiverMaintenance').removeClass('granted');
         if(!$('.receiverMaintenance').hasClass('granted')) permissions.receiverMaintenance = true;
         if(!$('.receiverMaintenance').hasClass('granted')) return $('.receiverMaintenance').addClass('granted');
+    }
+    function statistics(){
+        if($('.statistics').hasClass('granted')) permissions.statistics = false;
+        if($('.statistics').hasClass('granted')) return $('.statistics').removeClass('granted');
+        if(!$('.statistics').hasClass('granted')) permissions.statistics = true;
+        if(!$('.statistics').hasClass('granted')) return $('.statistics').addClass('granted');
     }
     function entry(){
         if($('.entry').hasClass('granted')) permissions.entry = false;
