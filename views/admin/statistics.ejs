@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Essen für Alle</title>
+  <link rel="stylesheet" href="/stylesheets/main.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
+</head>
+<body>
+  <div class="content">
+    <div class="topBtn" onclick="window.location = '/admin/'">
+      <img src="/images/svg/ArrowBack.svg" alt="">
+    </div>
+
+    <div class="toptitle title">
+      <%-title%>
+    </div>
+
+    <select onchange="pickDate()" name="date" id="" class="date">
+      <option value="" selected disabled>Bitte Datum auswählen</option>
+      <option value="all">Allgemeine Statistik</option>
+    </select>
+
+  <div class="infoBlock stats">
+
+    <div class="infoName">Bezüger*innen
+    </div>
+    <br>
+    <div class="info statsNumber">
+      <%-receivers%>
+    </div>
+  </div>
+  <div class="infoBlock stats">
+
+    <div class="infoName">A - Bezüger*innen
+    </div>
+    <br>
+    <div class="info statsNumber">
+      <%-aReceivers%>
+    </div>
+  </div>
+  <div class="infoBlock stats">
+
+    <div class="infoName">B - Bezüger*innen
+    </div>
+    <br>
+    <div class="info statsNumber">
+      <%-bReceivers%>
+    </div>
+  </div>
+  <div class="infoBlock stats">
+    
+    <div class="infoName">Registrationen
+    </div>
+    <br>
+    <div class="info statsNumber">
+      <%-registrations%>
+    </div>
+  </div>
+
+</div>
+
+</body>
+
+</html>
+<script>
+var beforedate = new Date();
+var start = moment(new Date().setDate(beforedate.getDate()-30)), // Sept. 1st
+    end   = moment(new Date()), // Nov. 2nd
+    day   = 6;                    // Sunday
+var result = [];
+var current = start.clone();
+while (current.day(7 + day).isBefore(end)) {
+  result.push(current.clone());
+}
+var res = result.map(m => m.format('D.M.YYYY'));
+res.forEach(element => {
+  $('.date').append(`<option value="${element}">${element}</option>`)
+});
+
+function pickDate(){
+  if($('.date').val() == "all") return window.location = "/admin/statistics/";
+  return window.location = "/admin/statistics/"+$('.date').val()+"/"
+}
+</script>

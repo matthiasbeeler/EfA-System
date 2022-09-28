@@ -41,7 +41,11 @@ router.post("/", function (req, res, next) {
             return res.json({ success: false, receiverId: results[0].id });
           } 
         }else{
-
+          const date = new Date();
+          let day = date.getDate();
+          let month = date.getMonth() + 1;
+          let year = date.getFullYear();
+          let currentDate = `${day}.${month}.${year}`;
             if (req.body.id) {
               database.query(
                 "UPDATE receivers SET ? WHERE ?",
@@ -60,6 +64,7 @@ router.post("/", function (req, res, next) {
                     timeslot: req.body.timeslot,
                     comment: req.body.comment,
                     activeRegistration: 1,
+                    registrationDate: currentDate
                   },
                   { id: req.body.id },
                 ],
@@ -73,7 +78,7 @@ router.post("/", function (req, res, next) {
               if (cyrillicPattern.test(req.body.name))req.body.name = transliterate(req.body.name);
               var uuid = uuidv4();
               database.query(
-                "INSERT INTO receivers (id, phonenumber, passportType, birthdate, fullName, gender, familyMembers, postalCode, cardId, timeslot, entitlement, comment, activeRegistration) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                "INSERT INTO receivers (id, phonenumber, passportType, birthdate, fullName, gender, familyMembers, postalCode, cardId, timeslot, entitlement, comment, activeRegistration, registrationDate) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                 [
                   uuid,
                   phone.number,
@@ -88,6 +93,7 @@ router.post("/", function (req, res, next) {
                   req.body.entitlement,
                   req.body.comment,
                   1,
+                  currentDate
                 ],
                 function (error, results, fields) {
                   if (error) return res.json({ success: false });

@@ -43,7 +43,7 @@
                 <option value="L">L</option>
             </select>
             <input type="text" onchange="$(this).css('border', '2px solid white');" name="passportnumber" placeholder="Ausweisnummer" id="" oninvalid=" $(this).css('border', '2px solid red');" required>
-            <input type="text" onchange="$(this).css('border', '2px solid white');" name="birthdate" placeholder="Geburtsdatum" id="" onfocus="(this.type='date')" oninvalid=" $(this).css('border', '2px solid red');" required>
+            <input type="text" onchange="$(this).css('border', '2px solid white');" name="birthdate" format="DD.MM.YYYY" placeholder="Geburtsdatum" id="" onfocus="(this.type='date')" oninvalid=" $(this).css('border', '2px solid red');" required>
             <input type="text" onchange="$(this).css('border', '2px solid white');" name="name" placeholder="Vorname, Nachname" id="name" oninvalid=" $(this).css('border', '2px solid red');" required>
             <select name="gender" onchange="$(this).css('border', '2px solid white');" id="gender" oninvalid=" $(this).css('border', '2px solid red');" required>
                 <option value="" disabled selected>Geschlecht</option>

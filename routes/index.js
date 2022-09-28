@@ -19,7 +19,6 @@ router.all(["/", "/register"], function (req, res, next) {
 }
 setInterval(function () {
   database.query('SELECT 1');
-  console.log("heartbeat")
 }, 10000);
 
 })
