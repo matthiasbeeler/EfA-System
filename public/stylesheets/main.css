@@ -235,20 +235,21 @@ div.unblockButton{
 .permissionInfo{
     width: 83%;
 }
+
 .overlay{
     position: fixed;
     top: 0px;
     left: 0px;
     width: 100vw;
-    height: 100vh;
+    height: max-content;
     background: var(--mainBackgroundColour);
 }
-.overlaySmall{
+.overlayBig{
     position: fixed;
     top: 0px;
     left: 0px;
     width: 100vw;
-    height: max-content;
+    height: 100vh;
     background: var(--mainBackgroundColour);
 }
 video{
