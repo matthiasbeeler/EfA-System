@@ -43,7 +43,7 @@
                 <option value="L">L</option>
             </select>
             <input type="text" onchange="$(this).css('border', '2px solid white');" name="passportnumber" maxlength="20" placeholder="Ausweisnummer" id="" oninvalid=" $(this).css('border', '2px solid red');" required>
-            <input type="text" onchange="$(this).css('border', '2px solid white');" inputmode="decimal" name="birthdate" placeholder="Geburtsdatum DD.MM.YYY" required pattern="[0-9]{2}.[0-9]{2}.[0-9]{4}" oninvalid=" $(this).css('border', '2px solid red');" required>
+            <input type="date" onchange="$(this).css('border', '2px solid white');" data-placeholder="Geburtsdatum" inputmode="decimal" aria-required="true" name="birthdate" placeholder="Geburtsdatum DD.MM.YYY" required pattern="[0-9]{2}.[0-9]{2}.[0-9]{4}" oninvalid=" $(this).css('border', '2px solid red');" required>
             <input type="text" onchange="$(this).css('border', '2px solid white');" name="name" placeholder="Vorname, Nachname" id="name" oninvalid=" $(this).css('border', '2px solid red');" required>
             <select name="gender" onchange="$(this).css('border', '2px solid white');" id="gender" oninvalid=" $(this).css('border', '2px solid red');" required>
                 <option value="" disabled selected>Geschlecht</option>
@@ -93,6 +93,9 @@
         <div class="tick">
           <img src="/images/svg/greenTick.svg" alt="">
         </div>
+        <div class="loader">
+          <img src="/images/svg/loader.svg" alt="">
+        </div>
         <br>
     </div>
 </body>
@@ -100,6 +103,8 @@
 </html>
 <script src="/javascripts/qr.min.js"></script>
 <script>
+
+
       $('.message').hide()
       $('.preRegOverlay').hide()
       $('.cardScanOverlay').hide()
@@ -195,6 +200,10 @@
     $('.message').hide()
     $("#form").submit(function(e) {
         e.preventDefault();
+        $('form').hide();
+
+        $('.loader').show()
+
         $(".button").hide();
         $.ajax({
             url: '/admin/receiverRegistration/',
@@ -204,6 +213,8 @@
             success: function (data) {
                 console.log(data)
                 if (data.success == true) {
+                  $('.loader').hide()
+
                   $('form').hide();
                   $('.button').hide();
                   $('.tick').show()
@@ -213,14 +224,22 @@
                 }
                 if (data.success == false) {
                   if(data.receiverId){
+                    $('.loader').hide()
+
                     $(".button").show();
+                    $('form').show();
+
                     $('.message').show()
                     $('.message').html("Einzelne Bezügerdaten wurden bereits gefunden.")
-                    $('.message').append(`<div class="button" onclick="window.location = '/admin/receiverMaintenance/${data.receiverId}'">BezügerIn anzeigen</div>`)
+                    $('.message').append(`<div class="button" onclick="window.open('/admin/receiverMaintenance/${data.receiverId}', '_blank');">BezügerIn anzeigen</div>`)
                   }
+                  $('form').show();
+
                     $(".button").show();
                     $('.message').show()
                     $('.message').html(data.message)
+                    $('.loader').hide()
+
                 }
             },
             error: function (jqXHR, textStatus, err) {

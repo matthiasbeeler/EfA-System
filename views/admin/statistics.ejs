@@ -70,8 +70,10 @@
 </html>
 <script>
 var beforedate = new Date();
+var tomorrow = new Date();
+
 var start = moment(new Date().setDate(beforedate.getDate()-30)), // Sept. 1st
-    end   = moment(new Date()), // Nov. 2nd
+    end   = moment(new Date().setDate(tomorrow.getDate()+1)), // Nov. 2nd
     day   = 6;                    // Sunday
 var result = [];
 var current = start.clone();

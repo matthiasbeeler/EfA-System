@@ -1,7 +1,7 @@
 var express = require('express');
 const { database } = require('../javascript/db');
 const jwt = require("jsonwebtoken");
-const { normal } = require('../javascript/entry');
+const { normal, cardForgotten } = require('../javascript/entry');
 var router = express.Router();
 router.all(["*"], function (req, res, next) {
     try {

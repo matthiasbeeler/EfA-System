@@ -51,6 +51,7 @@
                 return $('.message').html("Bitte Bezugsberechtiung auswählen")
     }
     $('.button').hide()
+    $('#entitlement').hide()
         $.ajax({
             url: '/admin/entry/cardForgotten',
             type: 'POST',
@@ -62,14 +63,17 @@
               console.log(data)
               if (data.success == true) {
                 $('.button').hide();
-                $('.tick').show()
+                $('.tick').show();
                 setTimeout(() => {
                   $('.tick').hide();
                   $('.button').show();
+                  $('#entitlement').show()
+
                 }, 2000);
               }
               if (data.success == false) {
                 $(".button").show();
+                $('#entitlement').show()
                 $('.message').show()
                 $('.message').html(data.message)
               }
@@ -77,6 +81,7 @@
             error: function (jqXHR, textStatus, err) {
               alert('text status ' + textStatus + ', err ' + err)
               $(".button").show();
+              $('#entitlement').show()
             }
           });
 

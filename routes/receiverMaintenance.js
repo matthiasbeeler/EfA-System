@@ -84,11 +84,12 @@ router.get("/", function (req, res, next) {
             return res.json({ success: false, receiverId: results[0].id });
           }else{
             console.log(req.body.blocked)
-            database.query("UPDATE receivers SET phonenumber=?, passportType=?, birthdate=?, fullName=?, gender=?, familyMembers=?, postalCode=?, cardId=?, timeslot=?, entitlement=?, comment=?, blocked=? WHERE id = ?",
+            database.query("UPDATE receivers SET phonenumber=?, passportType=?, passportNumber=?, birthdate=?, fullName=?, gender=?, familyMembers=?, postalCode=?, cardId=?, timeslot=?, entitlement=?, comment=?, blocked=? WHERE id = ?",
             [
                 phone.number,
                 req.body.permit,
-                req.body.birthdate,
+                req.body.passportnumber.toUpperCase(),
+                req.body.birthdate.split("-").reverse().join("."),
                 req.body.name,
                 req.body.gender,
                 req.body.familymembers,
