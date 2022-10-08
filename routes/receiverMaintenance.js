@@ -90,7 +90,7 @@ router.get("/", function (req, res, next) {
                 req.body.permit,
                 req.body.passportnumber.toUpperCase(),
                 req.body.birthdate.split("-").reverse().join("."),
-                req.body.name.toUpperCase(),
+                req.body.name.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 req.body.gender,
                 req.body.familymembers,
                 req.body.postalcode,

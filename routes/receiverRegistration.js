@@ -55,7 +55,7 @@ router.post("/", function (req, res, next) {
                     passportType: req.body.permit,
                     passportNumber: req.body.passportnumber.toUpperCase(),
                     birthdate: req.body.birthdate.split("-").reverse().join("."),
-                    fullName: req.body.name.toUpperCase(),
+                    fullName: req.body.name.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                     gender: req.body.gender,
                     familyMembers: req.body.familymembers,
                     postalCode: req.body.postalcode,
