@@ -23,7 +23,7 @@ router.post("/preReg", function (req, res, next) {
 
 router.post("/", function (req, res, next) {
   try {
-    var phone = parsePhoneNumber(req.body.phonenumber, "CH");
+        var phone = parsePhoneNumber(req.body.phonenumber, "CH");
     database.query(
       "SELECT * FROM receivers WHERE phonenumber = ? OR passportNumber = ? OR fullName = ? AND birthdate = ? OR cardId = ?;",
       [
@@ -35,7 +35,7 @@ router.post("/", function (req, res, next) {
       ],
       function (error, results, fields) {
 
-        if (results[0]) {
+        if (results && results[0]) {
           if (results[0].id !== req.body.id) {
 
             return res.json({ success: false, receiverId: results[0].id });
@@ -47,13 +47,53 @@ router.post("/", function (req, res, next) {
           let year = date.getFullYear();
           let currentDate = `${day}.${month}.${year}`;
             if (req.body.id) {
+              var str = ""
+        var searchstr = "";
+        var passportNumber = "";
+      if(req.body.passportnumber){
+        if(req.body.id) req.params.id = req.body.id;
+          if(!req.body.id) req.params.id = "x"
+        if(typeof req.body.passportnumber == "string"){
+          str = str + "('"+req.params.id+"','"+req.body.passportnumber+"'),";
+          searchstr = searchstr + " zemisNr = '"+req.body.passportnumber+"' AND receiverId NOT LIKE '"+req.params.id+"' OR "
+          passportNumber = passportNumber + req.body.passportnumber;
+        }else{
+        req.body.passportnumber.forEach(element => {
+          
+          str = str + "('"+req.params.id+"','"+element+"'),"
+          searchstr = searchstr + " zemisNr = '"+element+"' AND receiverId NOT LIKE '"+req.params.id+"' OR "
+          passportNumber = passportNumber + element;
+        });
+      }
+        str = str.slice(0, str.length - 1)
+        searchstr = searchstr.slice(0, searchstr.length - 3)
+        var passportInsert =`INSERT INTO receiversZemis(receiverId, zemisNr) VALUES ${str};`
+      }else{
+        var passportInsert =`SELECT 1`;
+        var searchstr = "receiverId = 'x'"
+      }
+              database.query(
+                `SELECT * FROM receiversZemis WHERE ${searchstr};`,
+                function (error, results, fields) {
+                  if(error) console.log(error)
+                        if(error) return res.json({ success: false, message: "An error occured" });
+                  if(results[0]) return res.json({ success: false, receiverId: results[0].receiverId });
+                  database.query(
+                    `DELETE FROM receiversZemis WHERE receiverId = ?;`,[req.params.id],
+                    function (error, results, fields) {})
+                    database.query(
+                      `${passportInsert};`,
+                      function (error, results, fields) {
+                        if(error) console.log(error)
+                        if(error) return res.json({ success: false, message: "An error occured" });
+                        console.log(passportNumber)
               database.query(
                 "UPDATE receivers SET ? WHERE ?",
                 [
                   {
                     phonenumber: phone.number,
                     passportType: req.body.permit,
-                    passportNumber: req.body.passportnumber.toUpperCase(),
+                    passportNumber: passportNumber,
                     birthdate: req.body.birthdate.split("-").reverse().join("."),
                     fullName: req.body.name.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                     gender: req.body.gender,
@@ -73,16 +113,54 @@ router.post("/", function (req, res, next) {
                   if (!error) return res.json({ success: true });
                 }
               );
+                      })
+                    })
             } else {
               const cyrillicPattern = /^\p{Script=Cyrillic}+$/u;
               if (cyrillicPattern.test(req.body.name))req.body.name = transliterate(req.body.name);
               var uuid = uuidv4();
+              var str = ""
+        var searchstr = "";
+        var passportNumber = "";
+      if(req.body.passportnumber){
+        req.params.id = uuid;
+        if(typeof req.body.passportnumber == "string"){
+          str = str + "('"+req.params.id+"','"+req.body.passportnumber+"'),";
+          searchstr = searchstr + " zemisNr = '"+req.body.passportnumber+"' AND receiverId NOT LIKE '"+req.params.id+"' OR "
+          passportNumber = passportNumber + req.body.passportnumber;
+        }else{
+        req.body.passportnumber.forEach(element => {
+          
+          str = str + "('"+req.params.id+"','"+element+"'),"
+          searchstr = searchstr + " zemisNr = '"+element+"' AND receiverId NOT LIKE '"+req.params.id+"' OR "
+          passportNumber = passportNumber + element;
+        });
+      }
+        str = str.slice(0, str.length - 1)
+        searchstr = searchstr.slice(0, searchstr.length - 3)
+        var passportInsert =`INSERT INTO receiversZemis(receiverId, zemisNr) VALUES ${str};`
+      }else{
+        var passportInsert =`SELECT 1`;
+        var searchstr = "receiverId = 'x'"
+      }
               database.query(
-                "INSERT INTO receivers (id, phonenumber, passportType, birthdate, fullName, gender, familyMembers, postalCode, cardId, timeslot, entitlement, comment, activeRegistration, registrationDate) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                `SELECT * FROM receiversZemis WHERE ${searchstr};`,
+                function (error, results, fields) {
+                  if(error) console.log(error)
+                        if(error) return res.json({ success: false, message: "An error occured" });
+                  if(results[0]) return res.json({ success: false, receiverId: results[0].receiverId });
+                    database.query(
+                      `${passportInsert};`,
+                      function (error, results, fields) {
+                        if(error) console.log(error)
+                        if(error) return res.json({ success: false, message: "An error occured" });
+              database.query(
+                "INSERT INTO receivers (id, phonenumber,passportNumber, passportType, birthdate, fullName, gender, familyMembers, postalCode, cardId, timeslot, entitlement, comment, activeRegistration, registrationDate) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                 [
                   uuid,
                   phone.number,
                   req.body.permit,
+                  passportNumber,
                   req.body.birthdate.split("-").reverse().join("."),
                   req.body.name,
                   req.body.gender,
@@ -100,6 +178,8 @@ router.post("/", function (req, res, next) {
                   if (!error) return res.json({ success: true });
                 }
               );
+                      })
+                    })
           }
         }
       }

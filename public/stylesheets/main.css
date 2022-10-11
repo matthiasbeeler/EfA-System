@@ -61,7 +61,7 @@ select{
 ::-webkit-calendar-picker-indicator {
 	filter: invert(1);
 }
-.button{
+.button, .removeZemis{
     background: var(--mainBtnColour);
     width:  calc(87% + 4px);
     padding: 2%;
@@ -78,6 +78,10 @@ select{
 div.button{
     width:  calc(83% + 4px);
     padding: 2%;
+}
+div.removeZemis{
+    padding: 0px;
+    width:  calc(87% + 4px);
 }
 .topBtn{
     display: flex;

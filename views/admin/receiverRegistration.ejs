@@ -43,6 +43,12 @@
                 <option value="L">L</option>
             </select>
             <input type="text" onchange="$(this).css('border', '2px solid white');" name="passportnumber" maxlength="20" placeholder="Ausweisnummer" id="" oninvalid=" $(this).css('border', '2px solid red');" required>
+            <div class="zemis">
+              <div class="inputContainer">
+
+              </div>
+              <div class="removeZemis" onclick="addZemis()">Zemis hinzufügen</div>
+            </div>
             <input type="date" onchange="$(this).css('border', '2px solid white');" data-placeholder="Geburtsdatum" inputmode="decimal" aria-required="true" name="birthdate" placeholder="Geburtsdatum DD.MM.YYY" required pattern="[0-9]{2}.[0-9]{2}.[0-9]{4}" oninvalid=" $(this).css('border', '2px solid red');" required>
             <input type="text" onchange="$(this).css('border', '2px solid white');" name="name" placeholder="Vorname, Nachname" id="name" oninvalid=" $(this).css('border', '2px solid red');" required>
             <select name="gender" onchange="$(this).css('border', '2px solid white');" id="gender" oninvalid=" $(this).css('border', '2px solid red');" required>
@@ -63,8 +69,9 @@
                 <option value="7">7</option>
                 <option value="8">8</option>
                 <option value="9">9</option>
-                <option value="10">9</option>
-                <option value="11">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
 
             </select>
             <input type="text" name="postalcode" onchange="$(this).css('border', '2px solid white');" placeholder="Postleitzahl" id="postalCode" required oninvalid=" $(this).css('border', '2px solid red');">
@@ -104,7 +111,13 @@
 <script src="/javascripts/qr.min.js"></script>
 <script>
 
-
+function addZemis(){
+      var obj = `<div><input type="text" value="" onchange="$(this).css('border', '2px solid white');" maxlength="20" name="passportnumber" placeholder="Ausweisnummer" id="" oninvalid=" $(this).css('border', '2px solid red');" required><div class="removeZemis" onclick="removeZemis(this)">L&ouml;schen</div></br></div>`;
+      $('.inputContainer').append(obj)
+    };
+    function removeZemis(that){
+      $(that).parent().remove()
+    }
       $('.message').hide()
       $('.preRegOverlay').hide()
       $('.cardScanOverlay').hide()

@@ -38,13 +38,11 @@
                 <%-receiverData[0].fullName%>
             </div>
         </div>
-        <div class="infoBlock">
+        <div class="infoBlock zemis">
 
-            <div class="infoName">Ausweisnummer
+            <div class="infoName">Zemisnummern
             </div>
-            <div class="info">
-                <%-receiverData[0].passportNumber%>
-            </div>
+            
         </div>
         <div class="infoBlock">
 
@@ -79,6 +77,7 @@
                 <%-receiverData[0].familyMembers%>
             </div>
         </div>
+        
         <div class="infoBlock">
 
             <div class="infoName">Postleitzahl / Ort
@@ -164,3 +163,12 @@
 </body>
 
 </html>
+<script>
+    var array = <%-zemisData%>
+    array.forEach(element => {
+        var obj = `<div class="info ">
+                ${element.zemisNr}
+            </div>`;
+            $('.zemis').append(obj)
+    });
+</script>

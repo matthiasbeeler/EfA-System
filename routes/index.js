@@ -3,7 +3,13 @@ const { login, register } = require('../javascript/auth');
 const { database } = require('../javascript/db');
 const jwt = require("jsonwebtoken");
 var router = express.Router();
-
+var bouncer = require ("express-bouncer")(300000, 9000000, 7);
+ 
+bouncer.whitelist.push ("127.0.0.1");
+bouncer.blocked = function (req, res, next, remaining)
+{
+    res.json({success: false, message: "Es wurden zu viele Anfragen gesendet. Bitte warte " + Math.round(remaining / 1000 / 60) + " Minuten"});
+};
 router.all(["/", "/register"], function (req, res, next) {
   try {
   if(req.cookies.Auth){
@@ -26,8 +32,8 @@ router.get('/', function(req, res, next) {
   res.render('public/login');
 });
 
-router.post('/', function(req, res, next) {
-  login(req, res, database)
+router.post('/',bouncer.block, function(req, res, next) {
+  login(req, res, database,bouncer)
 });
 
 

@@ -2,7 +2,7 @@ const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 const { sendRegistrationMail } = require("./mailer");
 
-exports.login = function (request, response, database) {
+exports.login = function (request, response, database, bouncer) {
   let username = request.body.username;
   let password = request.body.password;
   if (username && password) {
@@ -33,6 +33,7 @@ exports.login = function (request, response, database) {
             httpOnly: false,
             overwrite: true,
           });
+          bouncer.reset(request);
           return response.json({ success: true });
         } else {
           return response.json({
