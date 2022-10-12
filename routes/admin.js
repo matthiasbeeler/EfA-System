@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 const jwt = require("jsonwebtoken");
 const { database } = require("../javascript/db");
+const { forgotPassword } = require("../javascript/mailer");
 
 router.all(["*"], function (req, res, next) {
   try {
@@ -51,6 +52,36 @@ router.get("/accounts/:username", function (req, res, next) {
 
 }
 });
+
+router.post("/accounts/resetPassword", function (request, response, next) {
+  try {
+  database.query(
+    "SELECT * FROM adminAccounts WHERE username=?",
+    [
+      request.body.username,
+    ],
+    function (err, results, fields) {
+      if (results.length > 0){
+        const reset_token = jwt.sign({ username: results[0].username, email: results[0].email }, process.env.jwtSecret, {expiresIn: '20m'})
+        forgotPassword(results[0].email, reset_token, results[0].name)
+        if(!err) return response.json({success: true})
+        if(err) console.log(err)
+        if(err) return response.json({success: false})
+      }else{
+        if(!err) return response.json({success: true})
+        if(err) console.log(err)
+        if(err) return response.json({success: false})
+
+      }
+      })
+      
+    
+  } catch (error) {
+    console.log(error)
+    if(err) return response.json({success: false, message: error})
+  }
+})
+
 
 router.post("/accounts/save", function (req, res, next) {
   try {

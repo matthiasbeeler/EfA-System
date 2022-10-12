@@ -54,6 +54,7 @@
         </div>
     </div>
     </div>
+    <div onclick="resetPassword()" class="button actionButton buttonImage resetBtn"><img src="/images/svg/passwordReset.svg" alt="">Passwort zurücksetzen</div>
         <div class="button unblockButton actionButton buttonImage" style="display: none;" onclick="unblock()"><img src="/images/svg/tick.svg" alt="">Freigeben</div>
             <div class="button blockButton actionButton buttonImage" style="display: none;" onclick="block()"><img src="/images/svg/block.svg" alt="">Sperren</div>
     <div class="button buttonImage" onclick="save()"><img src="/images/svg/save.svg" alt=""> Speichern</div>
@@ -130,6 +131,34 @@
                 }
                 if (data.success == false) {
                     $(".button").show();
+                    $('.message').show()
+                    $('.message').html(data.message)
+                }
+            },
+            error: function (jqXHR, textStatus, err) {
+                alert('text status ' + textStatus + ', err ' + err)
+                $(".button").show();
+            }
+        });
+    }
+    function resetPassword(){
+        $(".resetBtn").hide();
+        $.ajax({
+            url: '/admin/accounts/resetPassword',
+            type: 'POST',
+            cache: false,
+            data: {
+                username: "<%-result[0].username%>"
+            },
+            success: function (data) {
+                if (data.success == true) {
+                    $('.resetBtn').css('background', "#0A4500")
+                    $('.resetBtn').html("E-Mail versendet")
+                    $('.resetBtn').attr("onclick", "")
+                    $(".resetBtn").show();
+                }
+                if (data.success == false) {
+                    $(".resetBtn").show();
                     $('.message').show()
                     $('.message').html(data.message)
                 }

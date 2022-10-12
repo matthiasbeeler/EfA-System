@@ -10,7 +10,7 @@ exports.login = function (request, response, database, bouncer) {
     if (username.includes("@")) var searchVal = "email";
     database.query(
       `SELECT * FROM adminAccounts WHERE  ${searchVal} = ? AND password = ?`,
-      [username, crypto.createHash("sha256").update(password).digest("hex")],
+      [username, crypto.createHash("sha256").update(password + process.env.salt).digest("hex")],
       function (error, results, fields) {
         if (error) throw error;
         if (results.length > 0) {
@@ -96,7 +96,7 @@ exports.register = function (request, response, database) {
               username,
               email,
               name,
-              crypto.createHash("sha256").update(password).digest("hex"),
+              crypto.createHash("sha256").update(password + process.env.salt).digest("hex"),
               JSON.stringify(permissions),
             ],
             function (error, results, fields) {
@@ -116,3 +116,40 @@ exports.register = function (request, response, database) {
     });
   }
 };
+
+
+exports.resetPassword = function(request,response,database){
+  try {
+  if (request.body.password !== request.body.passwordCheck)
+      return response.json({ success: false, message: "Passwords don't match" });
+      var test = new RegExp(
+        "(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})"
+      );
+
+      if (!test.test(request.body.password))
+      return response.json({
+        success: false,
+        message: "Please make sure that your password meats the criteria",
+      });
+      jwt.verify(request.body.token, process.env.jwtSecret,(err,result)=>{
+        if(err) console.log(err)
+        if(err) return res.json({ success: false, message: "Token invalid" })
+    })
+
+      var tokenData = jwt.verify(request.body.token, process.env.jwtSecret);
+      database.query(
+        "UPDATE adminAccounts SET password = ? WHERE email = ? AND username = ?",
+        [
+          crypto.createHash("sha256").update(request.body.password + process.env.salt).digest("hex"),
+          tokenData.email, tokenData.username
+        ],
+        function (err, results, fields) {
+          if(!err) return response.json({success: true})
+          if(err) console.log(err)
+          if(err) return response.json({success: false})
+        })
+  } catch (error) {
+    if(error) console.log(err)
+          if(error) return response.json({success: false})
+  }
+    }

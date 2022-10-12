@@ -39,3 +39,22 @@ exports.sendRegistrationMail = function (email) {
   });
  
 };
+
+exports.forgotPassword = function (email, verificationKey, name) {
+  const filename = process.cwd() + "/mailTemplates/passwordReset.ejs";
+  ejs.renderFile(filename,{url: "https://admin.essenfueralle.org/resetPassword/"+verificationKey, name: name}, (error, mailHTML) => {
+    const mailOptions = {
+      from: process.env.emailUserName, // Sender address
+      to: email, // List of recipients //email
+      replyTo: "it@essenfueralle.org",
+      subject: "Essen für Alle Password zurücksetzung", // Subject line
+      html: mailHTML,
+    };
+    transporter.sendMail(mailOptions, (err, response) => {
+        if (err) {
+          console.log(err);
+        }
+      });
+  });
+ 
+};
