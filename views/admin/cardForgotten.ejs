@@ -21,11 +21,14 @@
       Karte vergessen
     </div>
     <br>
-    <select name="entitlement" id="entitlement" onchange="$(this).css('border', '2px solid white');"  id="" oninvalid=" $(this).css('border', '2px solid red');" required>
+    <div class="entitlement">
+      <select name="entitlement" id="entitlement" onchange="$(this).css('border', '2px solid white');"  id="" oninvalid=" $(this).css('border', '2px solid red');" required>
         <option value="" disabled selected>Berechtigung</option>
         <option value="A">A</option>
         <option value="B">B</option>
     </select>
+    </div>
+    
     <br>
     <br>
     <div class="button buttonImage" onclick="submit()">Eintragen</div>
@@ -68,6 +71,11 @@
                   $('.tick').hide();
                   $('.button').show();
                   $('#entitlement').show()
+                  $(".entitlement").html(`<select name="entitlement" id="entitlement" onchange="$(this).css('border', '2px solid white');"  id="" oninvalid=" $(this).css('border', '2px solid red');" required>
+        <option value="" disabled selected>Berechtigung</option>
+        <option value="A">A</option>
+        <option value="B">B</option>
+    </select>`);
 
                 }, 2000);
               }

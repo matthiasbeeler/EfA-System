@@ -31,7 +31,8 @@ router.get("/", function (req, res, next) {
       `SELECT * FROM receivers WHERE id = ?`,[req.params.id],
       function (error, results, fields) {
         if (error) return res.redirect("/admin");
-        var receiverData = results
+        var receiverData = results;
+        
         database.query(
           `SELECT * FROM receiversZemis WHERE receiverId = ?`,[req.params.id],
           function (error, results, fields) {
@@ -65,6 +66,7 @@ router.get("/", function (req, res, next) {
       `SELECT * FROM receivers WHERE id = ?`,[req.params.id],
       function (error, results, fields) {
         var receiverResults = results;
+        if(!receiverResults[0].birthdate) receiverResults[0].birthdate = "xx.xx.xxxx"
         database.query(
           `SELECT * FROM receiversZemis WHERE receiverId = ?`,[req.params.id],
           function (error, results, fields) {

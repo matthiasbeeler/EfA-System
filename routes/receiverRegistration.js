@@ -17,7 +17,7 @@ router.post("/preReg", function (req, res, next) {
   );
 } catch (error) {
   console.log(error)
-  if(!error) return res.json({ success: false});
+  if(error) return res.json({ success: false});
 }
 });
 
@@ -109,6 +109,7 @@ router.post("/", function (req, res, next) {
                   { id: req.body.id },
                 ],
                 function (error, results, fields) {
+                  if (error) console.log(error)
                   if (error) return res.json({ success: false });
                   if (!error) return res.json({ success: true });
                 }
@@ -155,7 +156,7 @@ router.post("/", function (req, res, next) {
                         if(error) console.log(error)
                         if(error) return res.json({ success: false, message: "An error occured" });
               database.query(
-                "INSERT INTO receivers (id, phonenumber,passportNumber, passportType, birthdate, fullName, gender, familyMembers, postalCode, cardId, timeslot, entitlement, comment, activeRegistration, registrationDate) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                "INSERT INTO receivers (id, phonenumber,passportNumber, passportType, birthdate, fullName, gender, familyMembers, postalCode, cardId, timeslot, entitlement, comment, activeRegistration, registrationDate) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                 [
                   uuid,
                   phone.number,
@@ -174,6 +175,7 @@ router.post("/", function (req, res, next) {
                   currentDate
                 ],
                 function (error, results, fields) {
+                  if (error) console.log(error)
                   if (error) return res.json({ success: false });
                   if (!error) return res.json({ success: true });
                 }

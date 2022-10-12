@@ -37,8 +37,24 @@
                 <option value="N">N</option>
                 <option value="L">L</option>
         </select>
-        <input type="number" name="people" id=" " placeholder="<%-text[6].text%>" required=""
-          oninvalid=" $(this).css('border', '2px solid red');">
+
+          <select name="people" onchange="$(this).css('border', '2px solid white');" id="familyMembers" oninvalid=" $(this).css('border', '2px solid red');" required>
+            <option value="" disabled selected><%-text[6].text%></option>
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+
+        </select>
         <input type="text" name="house" onChange="validte(this)" class="house" id=" " placeholder="<%-text[7].text%>"
           required="" list="plz">
         <p class="house_p"><%-text[8].text%></p>
