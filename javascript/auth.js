@@ -89,6 +89,7 @@ exports.register = function (request, response, database) {
           permissions.accounts = false;
           permissions.blocked = true;
           permissions.statistics = false;
+          permissions.print = false;
           database.query(
             ` INSERT INTO adminAccounts (username, email, name, password, permissions)
           VALUES (?, ?, ?, ?, ?)`,

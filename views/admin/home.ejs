@@ -43,6 +43,12 @@
             <img src="/images/svg/adminUser.svg" alt="">
         </div>
         <%}%>
+        <% if(permissions.print){%>
+            <div class="receiverRegistration tile button" onclick="window.location = '/admin/print'">
+                <div class="title">Print cards</div>
+                <img src="/images/svg/print.svg" alt="">
+            </div>
+            <%}%>
     </div>
 </div>
 </body>

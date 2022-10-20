@@ -12,6 +12,7 @@ var receiverRegistration = require('./routes/receiverRegistration');
 var receiverMaintenance = require('./routes/receiverMaintenance');
 var entry = require('./routes/entry');
 var statistics = require('./routes/statistics');
+var print = require('./routes/print');
 
 var app = express();
 
@@ -34,6 +35,7 @@ app.use('/admin/receiverRegistration', receiverRegistration);
 app.use('/admin/receiverMaintenance', receiverMaintenance);
 app.use('/admin/entry', entry);
 app.use('/admin/statistics', statistics);
+app.use('/admin/print', print);
 
 
 // catch 404 and forward to error handler

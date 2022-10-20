@@ -1,9 +1,9 @@
 :root {
-    --mainInfoColour: #1A101B;
-    --mainBtnColour: #5D495F;
+    --mainInfoColour: #10101b;
+    --mainBtnColour: #484364;
     --mainTextColour: #FFFFFF;
     --mainBorderColour: #FFFFFF;
-    --mainBackgroundColour: #2E1F2F;
+    --mainBackgroundColour: #211f2f;
     --unblockBtnColour: #0A4500;
     --blockBtnColour: #681A1A;
   }
@@ -281,8 +281,16 @@ input.smallInput{
     font-size: xx-large;
 }
 .loader{
+    position: absolute;
+    left: 50%;
+    top:50%;
+    transform: translate(-50%,-50%);
+}
+.loader img{
+    width: 80%;
+    margin-left: 10%;
     animation: rotate 3s linear forwards infinite;
-
+   
 }
 @keyframes rotate {
     to {
@@ -312,4 +320,8 @@ input[type="date"]:valid::before { display: none }
 .infoBlock.message.entryMessage{
     font-size: xx-large;
     font-weight: bolder;
+}
+*{
+    transition: all .1s linear;
+
 }

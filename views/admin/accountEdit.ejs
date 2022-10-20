@@ -52,6 +52,9 @@
         <div class="permissionElement accounts" onclick="accounts()">
             Accountverwaltung
         </div>
+        <div class="permissionElement print" onclick="print()">
+            Kartendruck
+        </div>
     </div>
     </div>
     <div onclick="resetPassword()" class="button actionButton buttonImage resetBtn"><img src="/images/svg/passwordReset.svg" alt="">Passwort zurücksetzen</div>
@@ -68,6 +71,7 @@
     var permissions = <%-result[0].permissions%>;
     if(permissions.receiverRegistration == true) $('.receiverRegistration').addClass('granted')
     if(permissions.receiverMaintenance == true) $('.receiverMaintenance').addClass('granted')
+    if(permissions.print == true) $('.print').addClass('granted')
     if(permissions.entry == true) $('.entry').addClass('granted')
     if(permissions.accounts == true) $('.accounts').addClass('granted')
     if(permissions.blocked == true) $('.unblockButton').show()
@@ -79,6 +83,12 @@
         if($('.receiverRegistration').hasClass('granted')) return $('.receiverRegistration').removeClass('granted');
         if(!$('.receiverRegistration').hasClass('granted')) permissions.receiverRegistration = true;
         if(!$('.receiverRegistration').hasClass('granted')) return $('.receiverRegistration').addClass('granted');
+    }
+    function print(){
+        if($('.print').hasClass('granted')) permissions.print = false;
+        if($('.print').hasClass('granted')) return $('.print').removeClass('granted');
+        if(!$('.print').hasClass('granted')) permissions.print = true;
+        if(!$('.print').hasClass('granted')) return $('.print').addClass('granted');
     }
     function receiverMaintenance(){
         if($('.receiverMaintenance').hasClass('granted')) permissions.receiverMaintenance = false;
