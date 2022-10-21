@@ -136,3 +136,8 @@
     position: absolute;
     margin: 2%;
   }
+
+  footer{
+    padding: 2%;
+    background: lightgray;
+  }
