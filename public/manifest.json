@@ -6,8 +6,8 @@
 "description": "Admin System for Essen für Alle",
 "lang": "de",
 "dir": "auto",
-"theme_color": "#2E1F2F",
-"background_color": "#2E1F2F",
+"theme_color": "#211f2f",
+"background_color": "#211f2f",
 "orientation": "any",
 "icons": [
     {
