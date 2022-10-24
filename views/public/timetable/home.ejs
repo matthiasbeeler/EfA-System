@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Essen für Alle</title>
+    <link rel="apple-touch-icon" sizes="640x640" href="/images/efaLogo.png">
+    <script src="https://code.jquery.com/jquery-1.6.2.min.js"></script>
+    <link rel="stylesheet" href="/stylesheets/timetable.css">
+    <link rel="manifest" href="/manifest.json">
+</head>
+
+<body>
+    <div class="content timetableContent">
+        <h1 class="centerSiteTitle">Essen für Alle Schichtplan</h1>
+        <form>
+            <div class="seperator"></div>
+            <h2 class="smallTitle">
+                29.10.2022
+            </h2>
+            <h2 class="smallTitle">
+                Freie Schichten: 12
+            </h2>
+            <div class="message infoBlock" style="display: none;">
+                <div class="info"></div>
+            </div>
+            <input type="text" name="name" placeholder="1. Dein Name" id="name" required>
+            <input type="email" name="email" placeholder="2. Deine E-Mail Adresse" id="email" required>
+            <h2 class="smallTitle">Wie möchtest du helfen?</h2>
+            <select name="shiftType" onchange="$('form').submit()" id="shiftType" required>
+                <option value="" selected disabled>3. Fick dich is chnü</option>
+                <option value="">Test</option>
+
+            </select>
+        </form>
+        <div class="button" onclick="$('form').submit()" style="display: none;">Weiter</div>
+        <br>
+        <div class="buttonContainer">
+            <div class="innerButtonContainer">
+                <div class="timetableLink">
+                    <img src="/images/svg/timetable/otherWeek.svg" alt="">
+                </div>
+                <div class="timetableLink">
+                    <img src="/images/svg/timetable/signOut.svg" alt="">
+                </div>
+                <div class="timetableLink">
+                    <img src="/images/svg/timetable/support.svg" alt="">
+                </div>
+                <div class="timetableLink">
+                    <img src="/images/svg/timetable/overview.svg" alt="">
+                </div>
+            </div>
+        </div>
+        <div id="timetableLoader" class=" loader lds-ripple"><div></div><div></div></div>
+    </div>
+    <%- include('../../footer'); -%>
+
+</body>
+
+</html>
+<script>
+    $('.loader').hide()
+    function sub() {
+        $('form').submit();
+        $('.button').css('display', 'block')
+    };
+    $("form").submit(function(e) {
+        e.preventDefault();
+        if(!$("#name").val() || !$('#email')) return $(".button").show();
+        $("form").hide();
+        $('.buttonContainer').hide()
+        $('.centerSiteTitle').hide()
+        $('.button').hide()
+        $('.loader').show()
+
+        $.ajax({
+            url: '/timetable',
+            type: 'POST',
+            cache: false,
+            data: $('form').serializeArray(),
+            success: function (data) {
+                if (data.success == true) {
+                    window.location = "/timetable/chooseTime/";
+                }
+                if (data.success == false) {
+                    $("form").show();
+                    $('.buttonContainer').show()
+                    $('.centerSiteTitle').show()
+                    $('.loader').hide()
+                    $('.message').show()
+                    $('.message').html(data.message)
+                }
+            },
+            error: function (jqXHR, textStatus, err) {
+                $("form").show();
+                    $('.buttonContainer').show()
+                    $('.centerSiteTitle').show()
+                    $('.loader').hide()
+                    $('.message').show()
+                    $('.message').html("Es gab einen Fehler ("+err+")")            }
+        });
+    })
+</script>

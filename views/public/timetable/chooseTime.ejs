@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Essen für Alle</title>
+    <link rel="apple-touch-icon" sizes="640x640" href="/images/efaLogo.png">
+    <script src="https://code.jquery.com/jquery-1.6.2.min.js"></script>
+    <link rel="stylesheet" href="/stylesheets/timetable.css">
+    <link rel="manifest" href="/manifest.json">
+</head>
+
+<body>
+    <div class="content timetableContent">
+        <h1 class="centerSiteTitle">Wann hast du Zeit?</h1>
+        <form>
+            <div class="seperator"></div>
+            <label class="container-checkbox">One
+                <input type="checkbox" checked="checked">
+
+            <input type="text" name="name" placeholder="1. Dein Name" id="" required>
+            <input type="email" name="email" placeholder="2. Deine E-Mail Adresse" id="" required>
+            <h2 class="smallTitle">Was möchtest du machen?</h2>
+            <select name="shiftType" id="">
+                <option value="" selected disabled>3. Drück mich fest</option>
+                <option value="">Test</option>
+
+            </select>
+        </form>
+        <div class="button" onclick="$('form').submit()" style="display: none;">Weiter</div>
+        <br>
+    </div>
+    <%- include('../../footer'); -%>
+
+</body>
+<style>
+    
+</style>
+</html>
+<script>
+    $("form").submit(function(e) {
+        e.preventDefault();
+        $(".button").hide();
+        $.ajax({
+            url: '/',
+            type: 'POST',
+            cache: false,
+            data: $('form').serializeArray(),
+            success: function (data) {
+                if (data.success == true) {
+                    window.location = "/admin/";
+                }
+                if (data.success == false) {
+                    $(".button").show();
+                    $('.message').show()
+                    $('.message').html(data.message)
+                }
+            },
+            error: function (jqXHR, textStatus, err) {
+                alert('text status ' + textStatus + ', err ' + err)
+                $(".button").show();
+            }
+        });
+    })
+</script>

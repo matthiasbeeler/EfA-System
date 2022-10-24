@@ -77,7 +77,14 @@
             <input type="text" name="postalcode" onchange="$(this).css('border', '2px solid white');" placeholder="Postleitzahl" id="postalCode" required oninvalid=" $(this).css('border', '2px solid red');">
             <div class="button buttonImage" onchange="$(this).css('border', '2px solid white');" onclick="cardScan()"><img src="/images/svg/qrScan.svg" alt="">Karte einscannen</div>
             <input type="number" max="9999999" onchange="$(this).css('border', '2px solid white');" name="cardid" id="cardID" placeholder="Karten-ID" id="" required oninvalid=" $(this).css('border', '2px solid red');">
-            <select name="entitlement" id="entitlement" onchange="$(this).css('border', '2px solid white');" class="smallSelect" id="" oninvalid=" $(this).css('border', '2px solid red');" required>
+            <div class="entitlementInfo infoBlock" style="display: none;">
+              <div class="info">
+                Bitte überprüfe deine Eingaben: <br>
+                Bei 5 oder mehr Personen: B <br>
+                Bei 4 oder weniger Personen: A
+              </div>
+          </div>
+            <select name="entitlement" id="entitlement" onchange="entitlementSelect(this)" class="smallSelect" id="" oninvalid=" $(this).css('border', '2px solid red');" required>
                 <option value="" disabled selected>Berechtigung</option>
                 <option value="A">A</option>
                 <option value="B">B</option>
@@ -111,7 +118,17 @@
 </html>
 <script src="/javascripts/qr.min.js"></script>
 <script>
-
+function entitlementSelect(){
+  $('.entitlementInfo').hide()
+  $('#entitlement').css('border', '2px solid white');
+  if(!$('#familyMembers').val()) return;
+  if($('#entitlement').val() == "B" && Number($('#familyMembers').val())+1 >=  5) return true;
+  if($('#entitlement').val() == "A" && Number($('#familyMembers').val())+1 <=  4) return true;
+  $('#entitlement').css('border', '2px solid red');
+  $('#entitlement').val('');
+  $('.entitlementInfo').show();
+  return false;
+}
 function addZemis(){
       var obj = `<div><input type="text" value="" onchange="$(this).css('border', '2px solid white');" maxlength="20" name="passportnumber" placeholder="Ausweis- oder Zemisnummer" id="" oninvalid=" $(this).css('border', '2px solid red');" required><div class="removeZemis" onclick="removeZemis(this)">L&ouml;schen</div></br></div>`;
       $('.inputContainer').append(obj)
@@ -214,6 +231,7 @@ function addZemis(){
     $('.message').hide()
     $("#form").submit(function(e) {
         e.preventDefault();
+      if(!entitlementSelect()) return;
         $('form').hide();
 
         $('.loader').show()

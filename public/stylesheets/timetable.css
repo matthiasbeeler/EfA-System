@@ -1,0 +1,420 @@
+:root {
+    --mainInfoColour: #d1d1d1;
+    --mainBtnColour: #B2BAFD;
+    --mainTextColour: #000000;
+    --mainBorderColour: #000000;
+    --mainBackgroundColour: #ececec;
+    --unblockBtnColour: #0A4500;
+    --blockBtnColour: #681A1A;
+    --mainInputBackgroundColour: #d1d1d1;
+  }
+*{
+    font-family: sans-serif;
+    color: var(--mainTextColour);
+    font-size: x-large;
+    font-weight: bold;
+}
+select option{
+    background-color: var(--mainBackgroundColour);
+    color: var(--mainTextColour);
+}
+body, html{
+    padding: 0px;
+    margin: 0px;
+    background: var(--mainBackgroundColour);
+}
+.centerSiteTitle{
+    width: 100%;
+    text-align: center;
+    font-size: xx-large;
+}
+.centerText{
+    text-align: center;
+    width: 100%;
+}
+input, select, textarea{
+    padding: 2%;
+    margin-top: 3%;
+    padding-top: 3%;
+    padding-bottom: 3%;
+    width: 83%;
+    border-radius: 10px;
+    margin-left: 6.5%;
+    border: none;
+    background: var(--mainInputBackgroundColour);
+}
+.tick, .cross{
+    display: none;
+    width: 100%;
+}
+.tick img, .cross img{
+    width: 90%;
+    margin-left: 5%;
+    margin-top: 10%;
+}
+select{
+    width: 87%;
+}
+::placeholder{
+    color: var(--mainTextColour);
+}
+*:focus {
+    outline: none;
+}
+::-webkit-calendar-picker-indicator {
+	filter: invert(1);
+}
+.button, .removeZemis{
+    background: var(--mainBtnColour);
+    width:  calc(87% + 4px);
+    padding: 2%;
+    margin-top: 3%;
+    border-radius: 10px;
+    margin-left: 6.5%;
+    border: none;
+    cursor:pointer;
+    font-size: x-large;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+div.button{
+    width:  calc(83% + 4px);
+    padding: 2%;
+}
+div.removeZemis{
+    padding: 0px;
+    width:  calc(87% + 4px);
+}
+.topBtn{
+    display: flex;
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+    background: var(--mainBtnColour);
+    cursor:pointer;
+    width: 10%;
+    aspect-ratio: 1 / 1;
+    margin-left: 2vw;
+    margin-top: 2vw;
+    display: inline-flex;
+}
+.topBtn img{
+    width: 52%;
+    height: auto;
+}
+.buttonImage img{
+    margin-right: 2%;
+    height: 71%;
+    width: auto;
+}
+.buttonImage{
+    font-size: x-large;
+}
+.preRegBtn.button{
+    width: 52%;
+    margin-top: 2vw;
+    display: inline-flex;
+    float: right;
+    margin-right: 6.5%;
+}
+.buttonRight.button{
+    margin-top: 2vw;
+    margin-right: 6.5%;
+    margin-left: auto;
+}
+div.actionButton{
+    width: max-content;
+    white-space: nowrap;
+}
+div.blockButton{
+    background: var(--blockBtnColour);
+}
+div.unblockButton{
+    background: var(--unblockBtnColour);
+}
+.infoBlock{
+    background: var(--mainInfoColour);
+    width: max-content;
+    padding: 2%;
+    border-radius: 10px;
+    margin-left: 6.5%;
+    margin-top: 3%;
+    max-width: 83%;
+}
+.infoBlock .infoName{
+    font-weight: bold;
+    font-size: larger;
+}
+.infoBlock .info{
+    font-size: larger;
+}
+.searchContent{
+    margin-top: 3%;
+    border-radius: 10px 10px 0px 0px;
+    background: var(--mainInfoColour);
+    padding-bottom: 10%;
+}
+.searchContent .titleBar{
+    display: inline-flex;
+    width:  calc(83% + 4px);
+    padding: 2%;
+    margin-top: 3%;
+    border-radius: 10px;
+    margin-left: 6.5%;
+    border: none;
+    cursor:pointer;
+    font-size: x-large;
+}
+.searchContent .leftText{
+    width: 46%;
+    max-width: 46%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.searchContent .rightText{
+    width: 40%;
+    max-width: 40%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.searchContent .centerSeperator{
+    padding-left: 1%;
+    padding-top: 5%;
+    border-radius: 10px;
+    margin-right: 2%;
+    background: var(--mainBtnColour);
+}
+.searchContent .searchElement .centerSeperator{
+    background: var(--mainInfoColour);
+}
+.searchContent *{
+    font-size: x-large;
+}
+.searchContent .searchElement{
+    background: var(--mainBtnColour);
+    display: inline-flex;
+    width:  calc(83% + 4px);
+    padding: 2%;
+    padding-top: 3%;
+    padding-bottom: 3%;
+    margin-top: 3%;
+    border-radius: 10px;
+    margin-left: 6.5%;
+    border: none;
+    cursor:pointer;
+    font-size: x-large;
+}
+.tile .title{
+    font-size: xx-large;
+    width: 100%;
+}
+.smallTitle{
+    width: 100%;
+    text-align: center;
+}
+.toptitle.title{
+    font-size: xx-large;
+    width: 60%;
+    display: inline-flex;
+    max-width: 60%;
+    margin-left: 5%;
+    font-weight: bold;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    margin-top: 2vw;
+}
+.tile{
+    display: block;
+}
+.tile img{
+    margin-top: 2%;
+    padding: 4%;
+}
+.permissionElement{
+    color: #9A0000;
+    font-size: larger;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+}
+.permissionElement.granted{
+    color: #009a08;
+}
+.permissionInfo{
+    width: 83%;
+}
+
+.overlay{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100vw;
+    height: max-content;
+    background: var(--mainBackgroundColour);
+}
+.overlayBig{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100vw;
+    height: 100vh;
+    background: var(--mainBackgroundColour);
+}
+video{
+    width: 100% !important;
+    height: 100% !important;
+}
+#qr-shaded-region, video{
+    border-radius: 10px;
+}
+select.smallSelect{
+    width: 40.2%;
+    display: inline;
+}
+input.smallInput{
+    width: 34.6%;
+    display: inline;
+}
+.content{
+    padding-bottom: 5%;
+    min-height: 100vh;
+}
+.stats .title{
+    font-size: larger;
+}
+.stats .statsNumber{
+    font-size: xx-large;
+}
+
+@keyframes rotate {
+    to {
+        transform: rotate(360deg);
+    }
+}
+@media (min-width: 600px) {
+    .content{
+        width: 40%;
+        margin-left: 30%;
+    }
+    footer{
+        width: 34%;
+    }
+    
+}
+
+
+
+input[type="date"]::before { 
+    content: attr(data-placeholder);
+    width: 100%;
+}
+
+/* hide our custom/fake placeholder text when in focus to show the default
+ * 'mm/dd/yyyy' value and when valid to show the users' date of birth value.
+ */
+input[type="date"]:focus::before,
+input[type="date"]:valid::before { display: none }
+
+.infoBlock.message.entryMessage{
+    font-size: xx-large;
+    font-weight: bolder;
+}
+*{
+    transition: all .1s linear;
+
+}
+footer{
+    background: var(--mainInfoColour);
+    padding: 3%;
+    border-radius: 10px 10px 0px 0px;
+}
+.seperator{
+    background: var(--mainInputBackgroundColour);
+    padding: .5%;
+    width: 86%;
+    margin-left: 6.5%;
+    border-radius: 10px;
+}
+
+.timetableLink img{
+    width: 100%;
+}
+.timetableLink{
+    display: inline-block;
+    width: 48%;
+    aspect-ratio: 1/1;
+}
+.timetableLink:nth-of-type(1){
+    margin: 0px 1% 1% 0px;
+}
+.timetableLink:nth-of-type(2){
+    margin: 0px 0px 1% 1%;
+}
+.timetableLink:nth-of-type(3){
+    margin: 1% 1% 0px 0px ;
+}
+.timetableLink:nth-of-type(4){
+    margin: 1% 0px 0px 1%  ;
+}
+.buttonContainer{
+    width: 100%;
+}
+.innerButtonContainer{
+    width: 87%;
+    margin-left: 6.5%;
+}
+
+
+ .loader {
+    display: inline-block;
+    position: fixed !important;
+    width: 80px;
+    height: 80px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+  }
+  .lds-ripple div {
+    position: absolute;
+    border: 4px solid rgb(0, 0, 0);
+    opacity: 1;
+    border-radius: 50%;
+    animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+  }
+  .lds-ripple div:nth-child(2) {
+    animation-delay: -0.5s;
+  }
+  @keyframes lds-ripple {
+    0% {
+      top: 36px;
+      left: 36px;
+      width: 0;
+      height: 0;
+      opacity: 0;
+    }
+    4.9% {
+      top: 36px;
+      left: 36px;
+      width: 0;
+      height: 0;
+      opacity: 0;
+    }
+    5% {
+      top: 36px;
+      left: 36px;
+      width: 0;
+      height: 0;
+      opacity: 1;
+    }
+    100% {
+      top: 0px;
+      left: 0px;
+      width: 72px;
+      height: 72px;
+      opacity: 0;
+    }
+  }
+  
