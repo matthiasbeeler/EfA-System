@@ -9,42 +9,45 @@
     <link rel="apple-touch-icon" sizes="640x640" href="/images/efaLogo.png">
     <script src="https://code.jquery.com/jquery-1.6.2.min.js"></script>
     <link rel="stylesheet" href="/stylesheets/timetable.css">
-    <link rel="manifest" href="/manifest.json">
+    <link rel="manifest" href="/timetableManifest.json">
 </head>
 
 <body>
     <div class="content timetableContent">
-        <h1 class="centerSiteTitle">Wann hast du Zeit?</h1>
+        <div class="topBtn" onclick="window.location = '/timetable/'">
+            <img src="/images/svg/ArrowBack.svg" alt="">
+        </div>
+        <h1 class="centerSiteTitle">Wann hast du Zeit <%=volunteerName%>?</h1>
+
         <form>
             <div class="seperator"></div>
-            <label class="container-checkbox">One
-                <input type="checkbox" checked="checked">
+            <br>
+        <h2 class="smallTitle"><%=shiftName%></h2>
+<br>
+            <% results.forEach(function(element) { %>
+                <input type="checkbox" id="<%= element.smallShiftId %>" class="checkbox" name="timeCheck" value="<%=element.smallShiftId %>">
+            <label for="<%= element.smallShiftId %>"><%= element.shiftTime %></label><br>
+            <br>
+        <% }); %> 
+            
 
-            <input type="text" name="name" placeholder="1. Dein Name" id="" required>
-            <input type="email" name="email" placeholder="2. Deine E-Mail Adresse" id="" required>
-            <h2 class="smallTitle">Was möchtest du machen?</h2>
-            <select name="shiftType" id="">
-                <option value="" selected disabled>3. Drück mich fest</option>
-                <option value="">Test</option>
-
-            </select>
+            
         </form>
-        <div class="button" onclick="$('form').submit()" style="display: none;">Weiter</div>
+        <div class="button" onclick="$('form').submit()">Weiter</div>
         <br>
     </div>
     <%- include('../../footer'); -%>
 
 </body>
-<style>
-    
-</style>
 </html>
 <script>
     $("form").submit(function(e) {
         e.preventDefault();
+        if($('form').serializeArray() == "") return $('label').css('color', "rgb(180, 0, 0)")
         $(".button").hide();
+
         $.ajax({
-            url: '/',
+            url: '/timetable/chooseTime/',
             type: 'POST',
             cache: false,
             data: $('form').serializeArray(),

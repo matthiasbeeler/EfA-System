@@ -1,13 +1,75 @@
-var express = require('express');
-const { database } = require('../javascript/db');
+var express = require("express");
+const { database } = require("../javascript/db");
+const moment = require("moment");
 const jwt = require("jsonwebtoken");
-const { parsePhoneNumber } = require('libphonenumber-js');
+const { parsePhoneNumber } = require("libphonenumber-js");
 var router = express.Router();
 
 router.get("/", function (req, res) {
-    res.render('public/timetable/home')
-})
+  var beforedate = new Date();
+  var tomorrow = new Date();
+
+  var start = moment(new Date().setDate(beforedate.getDate() - 2)), // Sept. 1st
+    end = moment(new Date().setDate(tomorrow.getDate() + 30)), // Nov. 2nd
+    day = 6; // Sunday
+  var result = [];
+  var current = start.clone();
+  while (current.day(7 + day).isBefore(end)) {
+    result.push(current.clone());
+  }
+  var result = result.map((m) => m.format("DD.MM.YYYY"));
+  if (req.session.shiftDate == undefined) req.session.shiftDate = result[0];
+  if (!result.includes(req.session.shiftDate))
+    req.session.shiftDate = result[0];
+  database.query(
+    "SELECT * FROM volunteerShifts WHERE date = ?;",
+    [req.session.shiftDate],
+    function (error, results, fields) {
+        var freeShifts = 0;
+        results.forEach(element => {
+            element.shifts.forEach(element => {
+                element.shifts.forEach(element => {
+                freeShifts = freeShifts + element.freeSpots;
+            });
+        });
+
+        });
+      res.render("public/timetable/home", {results: results, freeShifts: freeShifts});
+    }
+  );
+});
+router.post("/", function (req, res) {
+    req.session.shiftId = req.body.shiftType;
+    req.session.volunteerName = req.body.name;
+    req.session.volunteerEmail = req.body.email;
+    return res.json({success: true})
+  });
 router.get("/chooseTime", function (req, res) {
-    res.render('public/timetable/chooseTime')
-})
+    var beforedate = new Date();
+  var tomorrow = new Date();
+
+  var start = moment(new Date().setDate(beforedate.getDate() - 2)), // Sept. 1st
+    end = moment(new Date().setDate(tomorrow.getDate() + 30)), // Nov. 2nd
+    day = 6; // Sunday
+  var result = [];
+  var current = start.clone();
+  while (current.day(7 + day).isBefore(end)) {
+    result.push(current.clone());
+  }
+  var result = result.map((m) => m.format("DD.MM.YYYY"));
+  if (req.session.shiftDate == undefined) req.session.shiftDate = result[0];
+  if (!result.includes(req.session.shiftDate))
+    req.session.shiftDate = result[0];
+    database.query(
+        "SELECT * FROM volunteerShifts WHERE date = ?;",
+        [req.session.shiftDate],
+        function (error, results, fields) {
+            var shift = "";
+          results[0].shifts.forEach(element => {
+              if(element.id == req.session.shiftId) shift = element;
+            });
+            return res.render("public/timetable/chooseTime", {results: shift.shifts, shiftName: shift.shiftName, volunteerName: req.session.volunteerName});
+        }
+      );
+});
 module.exports = router;

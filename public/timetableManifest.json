@@ -1,0 +1,19 @@
+{
+    "name": "Essen für Alle Schichtplan",
+    "short_name": "Schichtplan",
+    "start_url": "https://admin.essenfueralle.org/timetable",
+    "display": "standalone",
+    "description": "Timetable for Essen für Alle",
+    "lang": "de",
+    "dir": "auto",
+    "theme_color": "#ececec",
+    "background_color": "#ececec",
+    "orientation": "any",
+    "icons": [
+        {
+            "src": "/images/efaLogo.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        }]
+    }

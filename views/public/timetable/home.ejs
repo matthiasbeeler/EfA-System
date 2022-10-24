@@ -9,7 +9,7 @@
     <link rel="apple-touch-icon" sizes="640x640" href="/images/efaLogo.png">
     <script src="https://code.jquery.com/jquery-1.6.2.min.js"></script>
     <link rel="stylesheet" href="/stylesheets/timetable.css">
-    <link rel="manifest" href="/manifest.json">
+    <link rel="manifest" href="/timetableManifest.json">
 </head>
 
 <body>
@@ -21,7 +21,7 @@
                 29.10.2022
             </h2>
             <h2 class="smallTitle">
-                Freie Schichten: 12
+                Freie Schichten: <%=freeShifts%>
             </h2>
             <div class="message infoBlock" style="display: none;">
                 <div class="info"></div>
@@ -30,9 +30,10 @@
             <input type="email" name="email" placeholder="2. Deine E-Mail Adresse" id="email" required>
             <h2 class="smallTitle">Wie möchtest du helfen?</h2>
             <select name="shiftType" onchange="$('form').submit()" id="shiftType" required>
-                <option value="" selected disabled>3. Fick dich is chnü</option>
-                <option value="">Test</option>
-
+                <option value="" selected disabled>3. Drück mich fest</option>
+                <% results[0].shifts.forEach(function(element) { %>
+                        <option value="<%= element.id %>"><%= element.shiftName %></option>
+                <% }); %> 
             </select>
         </form>
         <div class="button" onclick="$('form').submit()" style="display: none;">Weiter</div>
@@ -61,6 +62,13 @@
 
 </html>
 <script>
+    var usedNames = {};
+$("select > option").each(function () {
+  if(usedNames[this.text]) {
+     $(this).remove();
+ } else {
+     usedNames[this.text] = this.value;
+ }});
     $('.loader').hide()
     function sub() {
         $('form').submit();

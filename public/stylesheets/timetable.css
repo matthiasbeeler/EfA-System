@@ -43,6 +43,9 @@ input, select, textarea{
     border: none;
     background: var(--mainInputBackgroundColour);
 }
+input[type="checkbox"]{
+    width: unset;
+}
 .tick, .cross{
     display: none;
     width: 100%;
