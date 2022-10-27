@@ -32,7 +32,16 @@
             <select name="shiftType" onchange="$('form').submit()" id="shiftType" required>
                 <option value="" selected disabled>3. <%= __('press me')%></option>
                 <% results[0].shifts.forEach(function(element) { %>
+                    <% var stop = 1; %>
+                    <% elment.shifts.forEach(function(element) { %>
+                        <% if(element.freeSpots > 0) stop = 0;%>
+                        <% }; %> 
+                        <% if(stop == 0){ %>
+
                         <option value="<%= element.id %>"><%= element.shiftName %></option>
+                        <% }; %> 
+
+                        
                 <% }); %> 
             </select>
         </form>
