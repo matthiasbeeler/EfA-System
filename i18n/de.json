@@ -1,12 +1,13 @@
 {
-    "timetable": "Schichtplan",
-    "free shifts": "Freie Schichten",
-    "name": "Name",
-    "email address": "E-Mail Adresse",
-    "What do you want to do": "Wie würdest du gerne helfen?",
-    "press me": "Drück mich fest!",
-    "When are you free": "Wann hast du Zeit",
+	"timetable": "Schichtplan",
+	"free shifts": "Freie Schichten",
+	"name": "Name",
+	"email address": "E-Mail Adresse",
+	"What do you want to do": "Wie würdest du gerne helfen?",
+	"press me": "Drück mich fest!",
+	"When are you free": "Wann hast du Zeit",
 	"on the": "am",
 	"contiune": "Weiter",
-    "Our location in Seewen SZ": "Unser Standort in Seewen SZ"
+	"Our location in Seewen SZ": "Unser Standort in Seewen SZ",
+	"At the moment, there aren't any free posts available for the selected date. Thank you for you help.": "Momentan gibt es am ausgewählten Datum keine freien Schichten. Vielen Dank für deine Unterstützung."
 }
