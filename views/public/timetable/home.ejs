@@ -35,7 +35,7 @@
                     <% var stop = 1; %>
                     <% elment.shifts.forEach(function(element) { %>
                         <% if(element.freeSpots > 0) stop = 0;%>
-                        <% }; %> 
+                        <% }); %> 
                         <% if(stop == 0){ %>
 
                         <option value="<%= element.id %>"><%= element.shiftName %></option>
