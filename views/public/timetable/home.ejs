@@ -109,8 +109,9 @@ $("select > option").each(function () {
         $('.buttonContainer').hide()
         $('.centerSiteTitle').hide()
         $('.button').hide()
+        $('.locationContainer').hide()
         $('.loader').show()
-
+        
         $.ajax({
             url: '/timetable',
             type: 'POST',
@@ -127,6 +128,7 @@ $("select > option").each(function () {
                     $('.loader').hide()
                     $('.message').show()
                     $('.message').html(data.message)
+                    $('.locationContainer').show()
                 }
             },
             error: function (jqXHR, textStatus, err) {
@@ -135,7 +137,8 @@ $("select > option").each(function () {
                     $('.centerSiteTitle').show()
                     $('.loader').hide()
                     $('.message').show()
-                    $('.message').html("Es gab einen Fehler ("+err+")")            }
+                    $('.locationContainer').show()
+          }
         });
     })
 </script>
