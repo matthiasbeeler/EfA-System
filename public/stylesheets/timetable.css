@@ -58,6 +58,10 @@ input[type="checkbox"]{
 select{
     width: 87%;
 }
+.locationContainer{
+    width: 87%;
+    margin-left: 6.5%;
+}
 ::placeholder{
     color: var(--mainTextColour);
 }
@@ -420,6 +424,20 @@ footer{
     }
     footer{
         width: 34%;
+        margin-left: 30%;
+    }
+    .timetableLink{
+        width: 47.4%;
+    }
+}
+@media (min-width: 1000px) {
+    .content{
+        width: 30%;
+        margin-left: 35%;
+    }
+    footer{
+        width: 24%;
+        margin-left: 35%;
     }
     .timetableLink{
         width: 47.4%;
