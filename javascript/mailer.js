@@ -99,3 +99,26 @@ exports.timetableRegistration = function (request, timeArray,volunteerId,shiftNa
 })
  
 };
+
+
+exports.supportRequest = function (request, res) {
+  const filename = process.cwd() + "/mailTemplates/supportRequest.ejs";
+  ejs.renderFile(filename,{request: request}, (error, mailHTML) => {
+    const mailOptions = {
+      from: process.env.emailUserName, // Sender address
+      to: "matthias@essenfueralle.org", // List of recipients //email
+      replyTo: request.body.email,
+      subject: "Essen für Alle Support Anfrage", // Subject line
+      html: mailHTML,
+    };
+    transporter.sendMail(mailOptions, (err, response) => {
+        if (!err) {
+          res.json({success: true})
+        }else{
+          res.json({success: false})
+
+        }
+      });
+  });
+ 
+};

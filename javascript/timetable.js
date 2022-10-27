@@ -33,7 +33,6 @@ exports.register = function (request, response, database) {
           [`%${request.session.volunteerName}%`,`%${request.session.volunteerEmail}%`],
           function (error, results, fields) {
             if(results.length > 0){
-              console.log(results)
               var stopProcess = 0;
               timeArray.forEach((ele) => {
                 if (ele == 0) return;
@@ -63,8 +62,10 @@ exports.register = function (request, response, database) {
               timeArray.forEach((ele) => {
                 if (ele == 0) return;
                 if(dateData[ele]) stopProcess = 1;
-                dateData[ele] = {
-                  "shiftName":shiftName
+                console.log(ele)
+                dateData[request.session.shiftDate] = {}
+                dateData[request.session.shiftDate][ele] = {
+                    "shiftName":shiftName
                 }
               })
               var uuid = uuidv4();

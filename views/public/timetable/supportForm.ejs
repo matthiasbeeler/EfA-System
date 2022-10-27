@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Essen für Alle</title>
+    <link rel="apple-touch-icon" sizes="640x640" href="/images/efaLogo.png">
+    <script src="https://code.jquery.com/jquery-1.6.2.min.js"></script>
+    <link rel="stylesheet" href="/stylesheets/timetable.css">
+    <link rel="manifest" href="/timetableManifest.json">
+</head>
+
+<body>
+    <div class="content timetableContent">
+        <div class="topBtn" onclick="window.location = '/timetable/'">
+            <img src="/images/svg/ArrowBack.svg" alt="">
+        </div>
+        <h1 class="centerSiteTitle"><%= __('Support')%></h1>
+        <form>
+            <h1 class="errorMsg message" style="display: none;"><%= __('An error occured. Please try again in a couple of minutes.')%></h1>
+
+            <input type="text" name="name" placeholder="1. <%= __('name')%>" id="name" required>
+            <input type="email" name="email" placeholder="2. <%= __('email address')%>" id="email" required>
+            <textarea placeholder="3. <%= __('Your request')%>" name="message" id="" cols="30" rows="6"></textarea>
+            <div class="button" onclick="$('form').submit()"><%= __('Submit')%></div>
+
+        </form>
+        <br>
+        <div class="success" style="opacity: 0;display: none;">
+            <h2 class="smallTitle"><%= __('Your support request was sent successfully')%></h2>
+        <img src="/images/svg/timetable/timetableTick.svg" class="timetableTick" alt="">
+        </div>
+        <div id="timetableLoader" class=" loader lds-ripple"><div></div><div></div></div>
+    </div>
+    <%- include('../../footer'); -%>
+
+</body>
+
+</html>
+<script>
+    var usedNames = {};
+$("select > option").each(function () {
+  if(usedNames[this.text]) {
+     $(this).remove();
+ } else {
+     usedNames[this.text] = this.value;
+ }});
+    $('.loader').hide()
+    function sub() {
+        $('form').submit();
+        $('.button').css('display', 'block')
+    };
+    $("form").submit(function(e) {
+        e.preventDefault();
+        if(!$("#name").val() || !$('#email')) return $(".button").show();
+        $("form").hide();
+        $('.buttonContainer').hide()
+        $('.centerSiteTitle').hide()
+        $('.button').hide()
+        $('.loader').show()
+
+        $.ajax({
+            url: '/timetable/support',
+            type: 'POST',
+            cache: false,
+            data: $('form').serializeArray(),
+            success: function (data) {
+                if (data.success == true) {
+                    $('.loader').hide()
+        $('.success').show()
+        $('.success').css('opacity',"1")
+
+    }
+                if (data.success == false) {
+                    $("form").show();
+                    $('.buttonContainer').show()
+                    $('.centerSiteTitle').show()
+                    $('.loader').hide()
+                    $('.message').show()
+                }
+            },
+            error: function (jqXHR, textStatus, err) {
+                $("form").show();
+                    $('.buttonContainer').show()
+                    $('.centerSiteTitle').show()
+                    $('.loader').hide()
+                    $('.message').show()
+                }
+        });
+    })
+</script>

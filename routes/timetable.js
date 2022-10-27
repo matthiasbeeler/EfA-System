@@ -6,6 +6,7 @@ const { parsePhoneNumber } = require("libphonenumber-js");
 const { register } = require("../javascript/timetable");
 var router = express.Router();
 const bwipjs = require('bwip-js');
+const { supportRequest } = require("../javascript/mailer");
 
 router.get("/", function (req, res) {
   var beforedate = new Date();
@@ -99,4 +100,11 @@ return res.render('public/timetable/registrationSuccess', { qrCode: "data:image/
     }
 });
 })
+
+router.get("/support", function (req, res) {
+ res.render('public/timetable/supportForm')
+})
+router.post("/support", function (req, res) {
+  supportRequest(req,res)
+ })
 module.exports = router;

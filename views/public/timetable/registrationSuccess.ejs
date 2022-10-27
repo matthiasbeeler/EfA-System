@@ -28,47 +28,17 @@
             <img src="<%=qrCode%>" class="timetableQrCode">
             <a href="<%=qrCode%>" download="EssenFuerAlleQrCode" class="qrCodeDownloadButton button">Download QR-Code</a>
         <br>
-        <div id="timetableLoader" style="display: none;" class=" loader lds-ripple"><div></div><div></div></div>
+        <br>
+        <div class="locationContainer">
+            <h2 class="smallTitle">
+                <%= __('Our location in Seewen SZ')%>
+            </h2>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d809.4404135147449!2d8.628603349693703!3d47.03310909746644!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x478551e30b1d66c3%3A0x6a00307b01827127!2sSteinbislin%209%2C%206423%20Seewen%20SZ%2C%20Switzerland!5e0!3m2!1sen!2suk!4v1666864261641!5m2!1sen!2suk" style="border:0;width:100%;aspect-ratio: 2/1;border-radius: 10px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+        </div>
 
     </div>
     <%- include('../../footer'); -%>
 
 </body>
 </html>
-<script>
-    $("form").submit(function(e) {
-        e.preventDefault();
-        if($('form').serializeArray() == "") return $('label').css('color', "rgb(180, 0, 0)")
-        $("form").hide();
-        $('.buttonContainer').hide()
-        $('.centerSiteTitle').hide()
-        $('.button').hide()
-        $('.loader').show()
-        $.ajax({
-            url: '/timetable/chooseTime/',
-            type: 'POST',
-            cache: false,
-            data: $('form').serializeArray(),
-            success: function (data) {
-                console.log(data.array)
-                if (data.success == true) {
-                    window.location = "/admin/";
-                    $("form").show();
-        $('.buttonContainer').show()
-        $('.centerSiteTitle').show()
-        $('.button').show()
-        $('.loader').hide()
-                }
-                if (data.success == false) {
-                    $(".button").show();
-                    $('.message').show()
-                    $('.message').html(data.message)
-                }
-            },
-            error: function (jqXHR, textStatus, err) {
-                alert('text status ' + textStatus + ', err ' + err)
-                $(".button").show();
-            }
-        });
-    })
-</script>
