@@ -15,12 +15,16 @@
 <body>
     <div class="content timetableContent">
         <h1 class="centerSiteTitle">Essen für Alle <%= __('timetable')%></h1>
-        <form>
-            <div class="seperator"></div>
+        <div class="seperator"></div>
             <h2 class="smallTitle">
                 29.10.2022
             </h2>
-            <h2 class="smallTitle">
+            <h2 class="smallTitle noFreeShifts" style="display: none;">
+                Momentan gibt es am ausgewählten Datum keine freien Schichten. Vielen Dank für deine Unterstützung.
+            </h2>
+        <form>
+            
+            <h2 class="smallTitle shiftTitle">
                 <%= __('free shifts')%>: <%=freeShifts%>
             </h2>
             <div class="message infoBlock" style="display: none;">
@@ -45,6 +49,13 @@
                 <% }); %> 
             </select>
         </form>
+        <script>
+            if(document.querySelectorAll('option').length==1){
+                $('form').hide()
+                $('.shiftTitle').hide()
+                $('.noFreeShifts').show()
+            }
+        </script>
         <div class="button" onclick="$('form').submit()" style="display: none;"><%= __('contiune')%></div>
         <br>
         <div class="buttonContainer">
