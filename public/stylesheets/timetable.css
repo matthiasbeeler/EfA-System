@@ -434,7 +434,7 @@ footer{
     image-rendering: pixelated;
     width: 50%;
     aspect-ratio: 1/1;
-    outline: 7px solid var(--mainBtnColour);
+    border: 7px solid var(--mainBtnColour);
     border-radius: 10px;
     margin-left: calc(25% - 7px);
 }
