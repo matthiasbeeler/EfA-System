@@ -18,6 +18,7 @@
             <img src="/images/svg/ArrowBack.svg" alt="">
         </div>
         <h1 class="centerSiteTitle"><%= __('When are you free')%> <%=volunteerName%>?</h1>
+        <h1 class="errorMsg message" style="display: none;"><%= __('An error occured. Please try again in a couple of minutes.')%></h1>
 
         <form>
             <div class="seperator"></div>
@@ -29,7 +30,7 @@
                 <input type="checkbox" id="<%= element.smallShiftId %>" class="checkbox" name="timeCheck" value="<%=element.smallShiftId %>">
             <label for="<%= element.smallShiftId %>"><%= element.shiftTime %></label><br>
             <br>
-            <% } %> 
+            <% }; %> 
         <% }); %> 
             
 
@@ -53,30 +54,34 @@
         $('.centerSiteTitle').hide()
         $('.button').hide()
         $('.loader').show()
+        $('.topBtn').hide()
         $.ajax({
             url: '/timetable/chooseTime/',
             type: 'POST',
             cache: false,
             data: $('form').serializeArray(),
             success: function (data) {
-                console.log(data.array)
                 if (data.success == true) {
-                    window.location = "/admin/";
+                    window.location = "/timetable/registrationSuccess/"+data.volunteerId;
+                }
+                if (data.success == false) {
+                    $('.message').show()
                     $("form").show();
         $('.buttonContainer').show()
         $('.centerSiteTitle').show()
         $('.button').show()
         $('.loader').hide()
-                }
-                if (data.success == false) {
-                    $(".button").show();
-                    $('.message').show()
-                    $('.message').html(data.message)
+        $('.topBtn').show()
                 }
             },
             error: function (jqXHR, textStatus, err) {
-                alert('text status ' + textStatus + ', err ' + err)
-                $(".button").show();
+                $('.message').show()
+                    $("form").show();
+        $('.buttonContainer').show()
+        $('.centerSiteTitle').show()
+        $('.button').show()
+        $('.loader').hide()
+        $('.topBtn').show()
             }
         });
     })

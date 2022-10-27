@@ -7,6 +7,7 @@
     --unblockBtnColour: #0A4500;
     --blockBtnColour: #681A1A;
     --mainInputBackgroundColour: #d1d1d1;
+    --mainErrorColour: rgb(255, 159, 159);
   }
 *{
     font-family: sans-serif;
@@ -142,6 +143,15 @@ div.unblockButton{
 }
 .infoBlock{
     background: var(--mainInfoColour);
+    width: max-content;
+    padding: 2%;
+    border-radius: 10px;
+    margin-left: 6.5%;
+    margin-top: 3%;
+    max-width: 83%;
+}
+.errorMsg{
+    background: var(--mainErrorColour);
     width: max-content;
     padding: 2%;
     border-radius: 10px;
@@ -416,7 +426,24 @@ footer{
     }
   }
   
-
+  .timetableTick{
+    width: 30%;
+    margin-left: 35%;
+  }
+.timetableQrCode{
+    image-rendering: pixelated;
+    width: 50%;
+    aspect-ratio: 1/1;
+    outline: 7px solid var(--mainBtnColour);
+    border-radius: 10px;
+    margin-left: calc(25% - 7px);
+}
+.qrCodeDownloadButton{
+    width: 49%;
+    margin-left: calc(22%);
+    text-decoration: none;
+    font-size: large;
+}
 @media (min-width: 600px) {
     .content{
         width: 40%;

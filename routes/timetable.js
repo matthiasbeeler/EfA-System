@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const { parsePhoneNumber } = require("libphonenumber-js");
 const { register } = require("../javascript/timetable");
 var router = express.Router();
+const bwipjs = require('bwip-js');
 
 router.get("/", function (req, res) {
   var beforedate = new Date();
@@ -77,5 +78,25 @@ router.get("/chooseTime", function (req, res) {
 });
 router.post("/chooseTime", function (req, res) {
   register(req, res, database)
+})
+router.get("/registrationSuccess/:volunteerId", function (req, res) {
+  bwipjs.toBuffer({
+    bcid:        'qrcode',       // Barcode type
+    text:         `{"type":"volunteer", "id":"${req.params.volunteerId}"}`,    // Text to encode
+    scale:       3,   
+    includetext: true,            // Show human-readable text
+    textxalign:  'center',
+    backgroundcolor: "ececec",
+    padding: 3,
+}, function (err, png) {
+    if (err) {
+        console.log(err)
+    } else {
+        const imgBase64 = png.toString("base64");
+        if(!req.session.shiftName || !req.session.shiftDate || !req.session.volunteerName) return res.redirect('/timetable')
+return res.render('public/timetable/registrationSuccess', { qrCode: "data:image/png;base64,"+imgBase64, session: req.session });
+
+    }
+});
 })
 module.exports = router;
