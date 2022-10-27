@@ -3,13 +3,14 @@ const { database } = require("../javascript/db");
 const moment = require("moment");
 const jwt = require("jsonwebtoken");
 const { parsePhoneNumber } = require("libphonenumber-js");
+const { register } = require("../javascript/timetable");
 var router = express.Router();
 
 router.get("/", function (req, res) {
   var beforedate = new Date();
   var tomorrow = new Date();
 
-  var start = moment(new Date().setDate(beforedate.getDate() - 2)), // Sept. 1st
+  var start = moment(new Date().setDate(beforedate.getDate() - 7)), // Sept. 1st
     end = moment(new Date().setDate(tomorrow.getDate() + 30)), // Nov. 2nd
     day = 6; // Sunday
   var result = [];
@@ -48,7 +49,7 @@ router.get("/chooseTime", function (req, res) {
     var beforedate = new Date();
   var tomorrow = new Date();
 
-  var start = moment(new Date().setDate(beforedate.getDate() - 2)), // Sept. 1st
+  var start = moment(new Date().setDate(beforedate.getDate() - 7)), // Sept. 1st
     end = moment(new Date().setDate(tomorrow.getDate() + 30)), // Nov. 2nd
     day = 6; // Sunday
   var result = [];
@@ -57,7 +58,7 @@ router.get("/chooseTime", function (req, res) {
     result.push(current.clone());
   }
   var result = result.map((m) => m.format("DD.MM.YYYY"));
-  if (req.session.shiftDate == undefined) req.session.shiftDate = result[0];
+  if (req.session.shiftDate == undefined || !result.includes(req.session.shiftDate)) req.session.shiftDate = result[0];
   if (!result.includes(req.session.shiftDate))
     req.session.shiftDate = result[0];
     database.query(
@@ -68,8 +69,13 @@ router.get("/chooseTime", function (req, res) {
           results[0].shifts.forEach(element => {
               if(element.id == req.session.shiftId) shift = element;
             });
-            return res.render("public/timetable/chooseTime", {results: shift.shifts, shiftName: shift.shiftName, volunteerName: req.session.volunteerName});
+
+            if(!shift.shifts) return res.redirect('/timetable')
+            return res.render("public/timetable/chooseTime", {results: shift.shifts, shiftName: shift.shiftName,shiftDate: req.session.shiftDate, volunteerName: req.session.volunteerName});
         }
       );
 });
+router.post("/chooseTime", function (req, res) {
+  register(req, res, database)
+})
 module.exports = router;

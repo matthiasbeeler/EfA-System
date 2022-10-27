@@ -6,6 +6,7 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
+    "bwip-js": "^3.1.0",
     "cookie-parser": "~1.4.4",
     "crypto": "^1.0.1",
     "debug": "~2.6.9",
@@ -15,6 +16,8 @@
     "express-bouncer": "^0.2.0",
     "express-session": "^1.17.3",
     "http-errors": "~1.6.3",
+    "i18n": "^0.15.1",
+    "i18next": "^22.0.2",
     "jsonwebtoken": "^8.5.1",
     "libphonenumber-js": "^1.10.13",
     "moment": "^2.29.4",

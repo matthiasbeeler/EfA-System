@@ -58,3 +58,44 @@ exports.forgotPassword = function (email, verificationKey, name) {
   });
  
 };
+
+exports.timetableRegistration = function (request, timeArray,volunteerId,shiftName) {
+  request.session.shiftName = shiftName
+  const bwipjs = require('bwip-js');
+  const filename = process.cwd() + "/mailTemplates/timetableRegistration.ejs";
+  var timeFullArray = [];
+  timeArray.forEach(element => {
+    var splitTime = element.split('-')
+    timeFullArray.push(splitTime[0], splitTime[1])
+  });
+  var shiftDuration = timeFullArray[0] +" - "+ timeFullArray[timeFullArray.length-1];
+  bwipjs.toBuffer({
+    bcid:        'qrcode',       // Barcode type
+    text:         `{"type":"volunteer", "id":"${volunteerId}"}`,    // Text to encode
+    scale:       6,   
+                  // Bar height, in millimeters
+    includetext: true,            // Show human-readable text
+    textxalign:  'center',
+    backgroundcolor: "FFFFFF",
+    padding: 2,     // Always good to set this
+}, function (err, png) {
+  const qrCode = "data:image/png;base64,"+png.toString("base64");
+
+  ejs.renderFile(filename,{shiftDuration: shiftDuration, request: request, qrCode: qrCode, qrUrl: "https://admin.essenfueralle.org/timetable/showQR/volunteer/"+volunteerId}, (error, mailHTML) => {
+    if(error) return console.log(error);
+    const mailOptions = {
+      from: process.env.emailUserName, // Sender address
+      to: request.session.volunteerEmail, // List of recipients //email
+      replyTo: "fwkoordi@essenfueralle.org",
+      subject: "Essen für Alle Schichtplan", // Subject line
+      html: mailHTML,
+    };
+    transporter.sendMail(mailOptions, (err, response) => {
+        if (err) {
+          console.log(err);
+        }
+      });
+  });
+})
+ 
+};

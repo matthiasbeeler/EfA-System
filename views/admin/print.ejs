@@ -1142,7 +1142,7 @@
                     var entitlement = "A"
                     if (countNum > 5) var entitlement = "B"
 
-                    new QRCode(document.querySelector(`.${qrContainers[countNum]}`), { text: String(`{"id":"${startId + countNum}", "timeslot":"${timeslot}", "entitlement": "${entitlement}", "location":"sz"}`), correctLevel: QRCode.CorrectLevel.L });
+                    new QRCode(document.querySelector(`.${qrContainers[countNum]}`), { text: String(`{"type":"card","id":"${startId + countNum}", "timeslot":"${timeslot}", "entitlement": "${entitlement}", "location":"sz"}`), correctLevel: QRCode.CorrectLevel.L });
                     $(`.${numContainers[countNum]}`).html(startId + countNum)
                     countNum++;
                 });

@@ -17,24 +17,28 @@
         <div class="topBtn" onclick="window.location = '/timetable/'">
             <img src="/images/svg/ArrowBack.svg" alt="">
         </div>
-        <h1 class="centerSiteTitle">Wann hast du Zeit <%=volunteerName%>?</h1>
+        <h1 class="centerSiteTitle"><%= __('When are you free')%> <%=volunteerName%>?</h1>
 
         <form>
             <div class="seperator"></div>
             <br>
-        <h2 class="smallTitle"><%=shiftName%></h2>
+        <h2 class="smallTitle"><%=shiftName%> <%= __('on the')%> <%=shiftDate%></h2>
 <br>
             <% results.forEach(function(element) { %>
+                <% if(element.freeSpots >= 1) { %>
                 <input type="checkbox" id="<%= element.smallShiftId %>" class="checkbox" name="timeCheck" value="<%=element.smallShiftId %>">
             <label for="<%= element.smallShiftId %>"><%= element.shiftTime %></label><br>
             <br>
+            <% } %> 
         <% }); %> 
             
 
             
         </form>
-        <div class="button" onclick="$('form').submit()">Weiter</div>
+        <div class="button" onclick="$('form').submit()"><%= __('contiune')%></div>
         <br>
+        <div id="timetableLoader" style="display: none;" class=" loader lds-ripple"><div></div><div></div></div>
+
     </div>
     <%- include('../../footer'); -%>
 
@@ -44,16 +48,25 @@
     $("form").submit(function(e) {
         e.preventDefault();
         if($('form').serializeArray() == "") return $('label').css('color', "rgb(180, 0, 0)")
-        $(".button").hide();
-
+        $("form").hide();
+        $('.buttonContainer').hide()
+        $('.centerSiteTitle').hide()
+        $('.button').hide()
+        $('.loader').show()
         $.ajax({
             url: '/timetable/chooseTime/',
             type: 'POST',
             cache: false,
             data: $('form').serializeArray(),
             success: function (data) {
+                console.log(data.array)
                 if (data.success == true) {
                     window.location = "/admin/";
+                    $("form").show();
+        $('.buttonContainer').show()
+        $('.centerSiteTitle').show()
+        $('.button').show()
+        $('.loader').hide()
                 }
                 if (data.success == false) {
                     $(".button").show();

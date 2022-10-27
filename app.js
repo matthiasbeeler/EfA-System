@@ -15,8 +15,11 @@ var entry = require('./routes/entry');
 var statistics = require('./routes/statistics');
 var print = require('./routes/print');
 var timetable = require('./routes/timetable');
+const i18n = require('./javascript/i18n');
+
 
 var app = express();
+app.use(i18n);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

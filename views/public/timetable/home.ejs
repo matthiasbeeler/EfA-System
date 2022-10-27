@@ -14,29 +14,29 @@
 
 <body>
     <div class="content timetableContent">
-        <h1 class="centerSiteTitle">Essen für Alle Schichtplan</h1>
+        <h1 class="centerSiteTitle">Essen für Alle <%= __('timetable')%></h1>
         <form>
             <div class="seperator"></div>
             <h2 class="smallTitle">
                 29.10.2022
             </h2>
             <h2 class="smallTitle">
-                Freie Schichten: <%=freeShifts%>
+                <%= __('free shifts')%>: <%=freeShifts%>
             </h2>
             <div class="message infoBlock" style="display: none;">
                 <div class="info"></div>
             </div>
-            <input type="text" name="name" placeholder="1. Dein Name" id="name" required>
-            <input type="email" name="email" placeholder="2. Deine E-Mail Adresse" id="email" required>
-            <h2 class="smallTitle">Wie möchtest du helfen?</h2>
+            <input type="text" name="name" placeholder="1. <%= __('name')%>" id="name" required>
+            <input type="email" name="email" placeholder="2. <%= __('email address')%>" id="email" required>
+            <h2 class="smallTitle"><%= __('What do you want to do')%></h2>
             <select name="shiftType" onchange="$('form').submit()" id="shiftType" required>
-                <option value="" selected disabled>3. Drück mich fest</option>
+                <option value="" selected disabled>3. <%= __('press me')%></option>
                 <% results[0].shifts.forEach(function(element) { %>
                         <option value="<%= element.id %>"><%= element.shiftName %></option>
                 <% }); %> 
             </select>
         </form>
-        <div class="button" onclick="$('form').submit()" style="display: none;">Weiter</div>
+        <div class="button" onclick="$('form').submit()" style="display: none;"><%= __('contiune')%></div>
         <br>
         <div class="buttonContainer">
             <div class="innerButtonContainer">
