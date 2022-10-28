@@ -4,7 +4,7 @@
     --mainTextColour: #000000;
     --mainBorderColour: #000000;
     --mainBackgroundColour: #ececec;
-    --unblockBtnColour: #0A4500;
+    --unblockBtnColour: #7dcc6f;
     --blockBtnColour: #ffa0a0;
     --mainInputBackgroundColour: #d1d1d1;
     --mainErrorColour: rgb(255, 159, 159);
@@ -186,16 +186,13 @@ div.unblockButton{
 .searchContent .leftText{
     width: 46%;
     max-width: 46%;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
+    word-wrap: break-word;
+
 }
 .searchContent .rightText{
     width: 40%;
     max-width: 40%;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
+    word-wrap: break-word;
 }
 .searchContent .centerSeperator{
     padding-left: 1%;
@@ -307,6 +304,9 @@ input.smallInput{
 }
 .timetableContent div.redSearchElement{
     background: var(--blockBtnColour);
+}
+.timetableContent div.greenSearchElement{
+    background: var(--unblockBtnColour);
 }
 
 @keyframes rotate {

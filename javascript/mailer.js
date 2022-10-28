@@ -122,3 +122,23 @@ exports.supportRequest = function (request, res) {
   });
  
 };
+
+exports.signOutEmail = function (request, res) {
+  const filename = process.cwd() + "/mailTemplates/timetableSignOut.ejs";
+  ejs.renderFile(filename,{request: request, shiftDuration: request.session.shiftTime}, (error, mailHTML) => {
+    const mailOptions = {
+      from: process.env.emailUserName, // Sender address
+      to: request.session.volunteerEmail, // List of recipients //email
+      replyTo: "fwkoordi@essenfueralle.org",
+      subject: "Essen für Alle Abmeldung", // Subject line
+      html: mailHTML,
+    };
+    transporter.sendMail(mailOptions, (err, response) => {
+        if (!err) {
+        }else{
+          console.log(err)
+        }
+      });
+  });
+ 
+};

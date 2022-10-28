@@ -3,7 +3,7 @@ const { database } = require("../javascript/db");
 const moment = require("moment");
 const jwt = require("jsonwebtoken");
 const { parsePhoneNumber } = require("libphonenumber-js");
-const { register, searchSignOut } = require("../javascript/timetable");
+const { register, searchSignOut, signOut } = require("../javascript/timetable");
 var router = express.Router();
 const bwipjs = require("bwip-js");
 const { supportRequest } = require("../javascript/mailer");
@@ -190,5 +190,7 @@ router.get("/signOut/", function (req, res) {
 router.post("/signOut/search/", function (req, res) {
   searchSignOut(req, res, database)
 })
-
+router.post("/signOut/", function (req, res) {
+  signOut(req, res, database)
+})
 module.exports = router;
