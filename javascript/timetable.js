@@ -92,3 +92,18 @@ exports.register = function (request, response, database) {
     if(error) return response.json({success: false})
   }
 };
+
+exports.searchSignOut = function(request, response, database){
+  database.query(
+    "SELECT * FROM volunteers WHERE name LIKE ? AND email = ?;",
+    [`%${request.body.name}%`,request.body.email],
+    function (error, results, fields) {
+      if (!results.length > 0){
+        response.json({success: false, data: results})
+
+      }else{
+        response.json({success: true, data: results})
+
+      }
+    })
+}

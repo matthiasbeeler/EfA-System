@@ -16,5 +16,12 @@
 	"Support": "Support",
 	"Your request": "Dein Anliegen",
 	"Submit": "Absenden",
-	"Your support request was sent successfully": "Deine Support-Anfrage wurde erfolgreich abgesendet."
+	"Your support request was sent successfully": "Deine Support-Anfrage wurde erfolgreich abgesendet.",
+	"Sign Out": "Abmelden",
+	"No entries with these details have been found.": "Es wurden keine Einträge mit diesen Eingaben gefunden.",
+	"Search": "Suchen",
+	"Shiftname": "Schicht",
+	"Shifttime": "Uhrzeit",
+	"Please chose a date": "Bitte wähle ein Datum",
+	"This date is not yet available. Please try again in a couple of minutes.": "Dieses Datum ist noch nicht verfügbar. Bitte versuche es in ein Paar Minuten erneut."
 }

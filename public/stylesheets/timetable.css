@@ -5,7 +5,7 @@
     --mainBorderColour: #000000;
     --mainBackgroundColour: #ececec;
     --unblockBtnColour: #0A4500;
-    --blockBtnColour: #681A1A;
+    --blockBtnColour: #ffa0a0;
     --mainInputBackgroundColour: #d1d1d1;
     --mainErrorColour: rgb(255, 159, 159);
   }
@@ -304,6 +304,9 @@ input.smallInput{
 }
 .stats .statsNumber{
     font-size: xx-large;
+}
+.timetableContent div.redSearchElement{
+    background: var(--blockBtnColour);
 }
 
 @keyframes rotate {

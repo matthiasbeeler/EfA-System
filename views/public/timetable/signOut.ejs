@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Essen für Alle</title>
+    <link rel="apple-touch-icon" sizes="640x640" href="/images/efaLogo.png">
+    <script src="https://code.jquery.com/jquery-1.6.2.min.js"></script>
+    <link rel="stylesheet" href="/stylesheets/timetable.css">
+    <link rel="manifest" href="/timetableManifest.json">
+</head>
+
+<body>
+    <div class="content timetableContent">
+        <div class="topBtn" onclick="window.location = '/timetable/'">
+            <img src="/images/svg/ArrowBackBlack.svg" alt="">
+        </div>
+        <h1 class="centerSiteTitle"><%= __('Sign Out')%></h1>
+        <h2 class="smallTitle">
+            <%=shiftDate%>
+        </h2>
+        <h1 class="errorMsg message" style="display: none;">
+            <%= __('No entries with these details have been found.')%>
+        </h1>
+        <div class="seperator"></div>
+            
+        <form>
+            
+            <input type="text" name="name" placeholder="1. <%= __('name')%>" id="name" required>
+            <input type="email" name="email" placeholder="2. <%= __('email address')%>" id="email" required>
+            <div class="button" onclick="$('form').submit()"><%= __('Search')%></div>
+
+        </form>
+        <div class="searchContent">
+            <div class="titleBar"><div class="leftText"><%= __('Shiftname')%></div><div class="centerSeperator"></div><div class="rightText"><%= __('Shifttime')%></div></div>
+                
+
+        </div>
+        
+        <br>
+        
+        
+    </div>
+    <%- include('../../footer'); -%>
+
+</body>
+
+</html>
+<script>
+
+    $("form").submit(function(e) {
+        e.preventDefault();
+        if(!$("#name").val() || !$('#email')) return $(".button").show();
+        $('.message').hide()
+        $('.searchContent').html(`            <div class="titleBar"><div class="leftText"><%= __('Shiftname')%></div><div class="centerSeperator"></div><div class="rightText"><%= __('Shifttime')%></div></div>
+`)
+
+        
+        $.ajax({
+            url: '/timetable/signOut/search',
+            type: 'POST',
+            cache: false,
+            data: $('form').serializeArray(),
+            success: function (data) {
+                if (data.success == true) {
+                   var arr = data.data[0].shifts["<%=shiftDate%>"]
+                   var array = Object.keys(arr)
+                   array.forEach(element => {
+                   var obj = `<div class="searchElement redSearchElement"><div class="leftText text">${arr[element].shiftName}</div><div class="centerSeperator"></div><div class="rightText text">${element}</div><div class="emailText text" style="display: none;"></div><img src="/images/svg/delete.svg" alt=""></div>`
+                    $('.searchContent').append(obj)
+                });
+                   
+                }
+                if (data.success == false) {
+                    $('.message').show()
+                }
+            },
+            error: function (jqXHR, textStatus, err) {
+
+                    $('.message').show()
+          }
+        });
+    })
+</script>
