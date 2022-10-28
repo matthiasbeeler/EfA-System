@@ -37,7 +37,7 @@ router.get("/", function (req, res) {
         });
 
         });
-      res.render("public/timetable/home", {results: results, freeShifts: freeShifts});
+      res.render("public/timetable/home", {results: results, freeShifts: freeShifts, shiftDate: req.session.shiftDate});
     }
   );
 });
@@ -107,4 +107,44 @@ router.get("/support", function (req, res) {
 router.post("/support", function (req, res) {
   supportRequest(req,res)
  })
+ router.get('/otherWeek/', function(req, res){
+  var beforedate = new Date();
+  var tomorrow = new Date();
+
+  var start = moment(new Date().setDate(beforedate.getDate() - 7)), // Sept. 1st
+    end = moment(new Date().setDate(tomorrow.getDate() + 21)), // Nov. 2nd
+    day = 6; // Sunday
+  var result = [];
+  var current = start.clone();
+  while (current.day(7 + day).isBefore(end)) {
+    result.push(current.clone());
+  }
+  var result = result.map((m) => m.format("DD.MM.YYYY"));
+  res.render('public/timetable/otherWeek', {dates: result})
+ })
+ router.post('/chooseDate/', function(req, res){
+  var beforedate = new Date();
+  var tomorrow = new Date();
+
+  var start = moment(new Date().setDate(beforedate.getDate() - 7)), // Sept. 1st
+    end = moment(new Date().setDate(tomorrow.getDate() + 21)), // Nov. 2nd
+    day = 6; // Sunday
+  var result = [];
+  var current = start.clone();
+  while (current.day(7 + day).isBefore(end)) {
+    result.push(current.clone());
+  }
+  var result = result.map((m) => m.format("DD.MM.YYYY"));
+  if(!result.includes(req.body.date)) return res.json({success: false})
+  database.query(
+    "SELECT * FROM volunteerShifts WHERE date = ?;",
+    [req.body.date],
+    function (error, results, fields) {
+      if(!results.length > 0) return res.json({success: false, message: "NA"})
+      req.session.shiftDate = req.body.date;
+  return res.json({success: true})
+    })
+  
+ })
+ 
 module.exports = router;

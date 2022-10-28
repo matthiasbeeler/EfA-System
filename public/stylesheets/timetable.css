@@ -444,6 +444,13 @@ footer{
     text-decoration: none;
     font-size: large;
 }
+.innerButtonContainer a{
+    text-decoration: none;
+}
+.chooseDate div.button{
+    width: fit-content;
+    margin-left: unset;
+}
 @media (min-width: 600px) {
     .content{
         width: 40%;
