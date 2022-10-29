@@ -29,28 +29,37 @@
             <%= __('An error occured. Please try again in a couple of minutes.')%>
         </h1>
         <div class="seperator"></div>
-            
+
         <form>
-            
+
             <input type="text" name="name" placeholder="1. <%= __('name')%>" id="name" required>
             <input type="email" name="email" placeholder="2. <%= __('email address')%>" id="email" required>
             <div class="button" onclick="$('form').submit()"><%= __('Search')%></div>
 
         </form>
         <div class="searchContent">
-            <div class="titleBar"><div class="leftText"><%= __('Shiftname')%></div><div class="centerSeperator"></div><div class="rightText"><%= __('Shifttime')%></div></div>
-                
+            <div class="titleBar">
+                <div class="leftText"><%= __('Shiftname')%></div>
+                <div class="centerSeperator"></div>
+                <div class="rightText"><%= __('Shifttime')%></div>
+            </div>
+
 
         </div>
         <div class="success" style="opacity: 0;display: none;">
             <h2 class="smallTitle"><%= __('You were signed out successfully')%></h2>
-        <img src="/images/svg/timetable/timetableTick.svg" class="timetableTick" alt="">
+            <img src="/images/svg/timetable/timetableTick.svg" class="timetableTick" alt="">
+            <div class="button successButton" onclick="hideSuccess()">
+                <%= __('Do you want to sign out from more shifts?')%></div>
         </div>
-        <div id="timetableLoader" class=" loader lds-ripple" style="display: none;"><div></div><div></div></div>
+        <div id="timetableLoader" class=" loader lds-ripple" style="display: none;">
+            <div></div>
+            <div></div>
+        </div>
 
         <br>
-        
-        
+
+
     </div>
     <%- include('../../footer'); -%>
 
@@ -58,12 +67,25 @@
 
 </html>
 <script>
-    function remove(id){
-        $(`#${id}`).attr("onclick", `removeSubmit('${$("#"+id+" .leftText").html()}', '${$("#"+id+" .rightText").html()}')`)
+    function hideSuccess() {
+        $('.success').hide()
+        $('.success').css('opacity', "0")
+        $("form").show();
+        $('.buttonContainer, .dateTitle, .seperator').show()
+        $('.centerSiteTitle').show()
+        $('.searchContent').show()
+        $('.button').show()
+        $('.loader').hide()
+    }
+
+    function remove(id) {
+        $(`#${id}`).attr("onclick",
+            `removeSubmit('${$("#"+id+" .leftText").html()}', '${$("#"+id+" .rightText").html()}','${id}')`)
         $(`#${id}`).html("<%= __('Press again to sign out')%>");
         $(`#${id}`).toggleClass('greenSearchElement')
     }
-    function removeSubmit(shiftType, shiftTime){
+
+    function removeSubmit(shiftType, shiftTime, id) {
         $("form").hide();
         $('.buttonContainer').hide()
         $('.centerSiteTitle').hide()
@@ -82,36 +104,39 @@
             },
             success: function (data) {
                 if (data.success == true) {
-                   $('.loader').hide()
-        $('.success').show()
-        $('.success').css('opacity',"1")
-                   
+                    $('.loader').hide()
+
+                    $('.success').show()
+                    
+                    $('.success').css('opacity', "1")
+                    $('#' + id).remove()
+                    if($('.searchElement').length > 0) $('.successButton').show()
                 }
                 if (data.success == false) {
                     $('.delMessage').show()
                     $("form").show();
-        $('.buttonContainer, .dateTitle, .seperator').show()
-        $('.centerSiteTitle').show()
-        $('.searchContent').show()
-        $('.button').show()
-        $('.loader').hide()
+                    $('.buttonContainer, .dateTitle, .seperator').show()
+                    $('.centerSiteTitle').show()
+                    $('.searchContent').show()
+                    $('.button').show()
+                    $('.loader').hide()
                 }
             },
             error: function (jqXHR, textStatus, err) {
 
-                    $('.message').show()
-          }
+                $('.message').show()
+            }
         });
     }
 
-    $("form").submit(function(e) {
+    $("form").submit(function (e) {
         e.preventDefault();
-        if(!$("#name").val() || !$('#email')) return $(".button").show();
+        if (!$("#name").val() || !$('#email')) return $(".button").show();
         $('.message').hide()
         $('.searchContent').html(`            <div class="titleBar"><div class="leftText"><%= __('Shiftname')%></div><div class="centerSeperator"></div><div class="rightText"><%= __('Shifttime')%></div></div>
 `)
 
-        
+
         $.ajax({
             url: '/timetable/signOut/search',
             type: 'POST',
@@ -119,15 +144,16 @@
             data: $('form').serializeArray(),
             success: function (data) {
                 if (data.success == true) {
-                   var arr = data.data[0].shifts["<%=shiftDate%>"]
-                   var array = Object.keys(arr)
-                   var i = 0;
-                   array.forEach(element => {
-                   var obj = `<div class="searchElement redSearchElement" id="searchElement${i}" onclick="remove('searchElement${i}')"><div class="leftText text">${arr[element].shiftName}</div><div class="centerSeperator"></div><div class="rightText text">${element}</div><div class="emailText text" style="display: none;"></div><img src="/images/svg/delete.svg" alt=""></div>`
-                   i++; 
-                   $('.searchContent').append(obj)
-                });
-                   
+                    var arr = data.data[0].shifts["<%=shiftDate%>"]
+                    var array = Object.keys(arr)
+                    var i = 0;
+                    array.forEach(element => {
+                        var obj =
+                            `<div class="searchElement redSearchElement" id="searchElement${i}" onclick="remove('searchElement${i}')"><div class="leftText text">${arr[element].shiftName}</div><div class="centerSeperator"></div><div class="rightText text">${element}</div><div class="emailText text" style="display: none;"></div><img src="/images/svg/delete.svg" alt=""></div>`
+                        i++;
+                        $('.searchContent').append(obj)
+                    });
+
                 }
                 if (data.success == false) {
                     $('.message').show()
@@ -135,8 +161,8 @@
             },
             error: function (jqXHR, textStatus, err) {
 
-                    $('.message').show()
-          }
+                $('.message').show()
+            }
         });
     })
 </script>
