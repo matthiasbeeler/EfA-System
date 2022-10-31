@@ -49,6 +49,10 @@
         <div class="permissionElement statistics" onclick="statistics()">
             Statistik
         </div>
+        <div class="permissionElement volunteers" onclick="volunteers()">
+            Freiwilligenverwaltung
+        </div>
+        
         <div class="permissionElement accounts" onclick="accounts()">
             Accountverwaltung
         </div>
@@ -77,12 +81,19 @@
     if(permissions.blocked == true) $('.unblockButton').show()
     if(permissions.blocked == false) $('.blockButton').show()
     if(permissions.statistics == true) $('.statistics').addClass('granted')
-
+    if(permissions.volunteers == true) $('.volunteers').addClass('granted')
+    
     function receiverRegistration(){
         if($('.receiverRegistration').hasClass('granted')) permissions.receiverRegistration = false;
         if($('.receiverRegistration').hasClass('granted')) return $('.receiverRegistration').removeClass('granted');
         if(!$('.receiverRegistration').hasClass('granted')) permissions.receiverRegistration = true;
         if(!$('.receiverRegistration').hasClass('granted')) return $('.receiverRegistration').addClass('granted');
+    }
+    function volunteers(){
+        if($('.volunteers').hasClass('granted')) permissions.volunteers = false;
+        if($('.volunteers').hasClass('granted')) return $('.volunteers').removeClass('granted');
+        if(!$('.volunteers').hasClass('granted')) permissions.volunteers = true;
+        if(!$('.volunteers').hasClass('granted')) return $('.volunteers').addClass('granted');
     }
     function print(){
         if($('.print').hasClass('granted')) permissions.print = false;

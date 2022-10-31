@@ -39,8 +39,8 @@ exports.register = function (request, response, database) {
               var stopProcess = 0;
               timeArray.forEach((ele) => {
                 if (ele == 0) return;
-                if (results[0].shifts[request.session.shiftDate][ele])
-                  stopProcess = 1;
+                if(!results[0].shifts[request.session.shiftDate]) results[0].shifts[request.session.shiftDate] = {};
+                if (results[0].shifts[request.session.shiftDate][ele]) stopProcess = 1;
                 results[0].shifts[request.session.shiftDate][ele] = {
                   shiftName: shiftName,
                 };

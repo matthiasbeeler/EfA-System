@@ -37,6 +37,12 @@
                 <img src="/images/svg/statistics.svg" alt="">
             </div>
             <%}%>
+            <% if(permissions.volunteers){%>
+                <div class="receiverRegistration tile button" onclick="window.location = '/admin/volunteers'">
+                    <div class="title">Freiwilligenverwaltung</div>
+                    <img src="/images/svg/volunteers.svg" alt="">
+                </div>
+                <%}%>
         <% if(permissions.accounts){%>
         <div class="receiverRegistration tile button" onclick="window.location = '/admin/accounts'">
             <div class="title">Accountverwaltung</div>

@@ -15,6 +15,7 @@ var entry = require('./routes/entry');
 var statistics = require('./routes/statistics');
 var print = require('./routes/print');
 var timetable = require('./routes/timetable');
+var volunteers = require('./routes/volunteers');
 const i18n = require('./javascript/i18n');
 
 
@@ -48,6 +49,7 @@ app.use('/admin/receiverMaintenance', receiverMaintenance);
 app.use('/admin/entry', entry);
 app.use('/admin/statistics', statistics);
 app.use('/admin/print', print);
+app.use('/admin/volunteers', volunteers);
 app.use('/timetable', timetable);
 
 
