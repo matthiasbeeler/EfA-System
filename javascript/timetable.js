@@ -1,5 +1,6 @@
 const { v4: uuidv4 } = require("uuid");
 const { timetableRegistration, signOutEmail } = require("./mailer");
+const moment = require("moment");
 
 exports.register = function (request, response, database) {
   try {
@@ -129,6 +130,23 @@ exports.register = function (request, response, database) {
 };
 
 exports.searchSignOut = function (request, response, database) {
+  try {
+  var beforedate = new Date();
+  var tomorrow = new Date();
+
+  var start = moment(new Date().setDate(beforedate.getDate() - 7)), // Sept. 1st
+    end = moment(new Date().setDate(tomorrow.getDate() + 21)), // Nov. 2nd
+    day = 6; // Sunday
+  var result = [];
+  var current = start.clone();
+  while (current.day(7 + day).isBefore(end)) {
+    result.push(current.clone());
+  }
+  var result = result.map((m) => m.format("DD.MM.YYYY"));
+  if(request.body.date){
+    if (result.includes(request.body.date)) request.session.shiftDate = request.body.date;
+  }
+  
   database.query(
     "SELECT * FROM volunteers WHERE name LIKE ? AND email = ?;",
     [`%${request.body.name}%`, request.body.email],
@@ -142,6 +160,11 @@ exports.searchSignOut = function (request, response, database) {
       }
     }
   );
+  
+    
+} catch (error) {
+    console.log(error)
+}
 };
 
 exports.signOut = function (request, response, database) {

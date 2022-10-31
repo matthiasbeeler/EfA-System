@@ -1,0 +1,10 @@
+<form action="/timetable/signOut/search" method="post">
+    <input type="text" id="name" name="name">
+<input type="email" id="email" name="email">
+</form>
+<script>
+    const params = new URLSearchParams(location.search);
+    document.querySelector('#name').value = params.get('name');
+    document.querySelector('#email').value = params.get('email');
+    document.querySelector('form').submit()
+</script>

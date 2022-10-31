@@ -193,4 +193,8 @@ router.post("/signOut/search/", function (req, res) {
 router.post("/signOut/", function (req, res) {
   signOut(req, res, database)
 })
+
+router.get("/signOutEmail", function (req, res) {
+  res.render('public/timetable/signOutEmail')
+})
 module.exports = router;

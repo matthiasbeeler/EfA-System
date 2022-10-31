@@ -34,8 +34,9 @@
 
             <input type="text" name="name" placeholder="1. <%= __('name')%>" id="name" required>
             <input type="email" name="email" placeholder="2. <%= __('email address')%>" id="email" required>
+            <input type="text" name="date" id="date" style="display: none;">
             <div class="button" onclick="$('form').submit()"><%= __('Search')%></div>
-
+            <input id="submitButton" type="submit" value="" style="display: none;">
         </form>
         <div class="searchContent">
             <div class="titleBar">
@@ -49,7 +50,7 @@
         <div class="success" style="opacity: 0;display: none;">
             <h2 class="smallTitle"><%= __('You were signed out successfully')%></h2>
             <img src="/images/svg/timetable/timetableTick.svg" class="timetableTick" alt="">
-            <div class="button successButton" onclick="hideSuccess()">
+            <div class="button successButton" id="subBtn" onclick="hideSuccess()">
                 <%= __('Do you want to sign out from more shifts?')%></div>
         </div>
         <div id="timetableLoader" class=" loader lds-ripple" style="display: none;">
@@ -67,6 +68,7 @@
 
 </html>
 <script>
+   
     function hideSuccess() {
         $('.success').hide()
         $('.success').css('opacity', "0")
@@ -145,6 +147,7 @@
             success: function (data) {
                 if (data.success == true) {
                     var arr = data.data[0].shifts["<%=shiftDate%>"]
+                    if(params.get('date')) arr = data.data[0].shifts[params.get('date')]
                     var array = Object.keys(arr)
                     var i = 0;
                     array.forEach(element => {
@@ -165,4 +168,10 @@
             }
         });
     })
+    const params = new URLSearchParams(location.search);
+    document.querySelector('#name').value = params.get('name');
+    document.querySelector('#email').value = params.get('email');
+    document.querySelector('#date').value = params.get('date');
+    if(params.get('date')) $('.dateTitle').html(params.get('date'))
+    if(params.get('email')) $('#submitButton').click()
 </script>
