@@ -17,19 +17,41 @@
         <div class="topBtn" onclick="window.location = '/admin/'">
             <img src="/images/svg/ArrowBack.svg" alt="">
         </div>
-        <div class="button buttonImage checkinBtn" onclick="checkinScan()"><img src="/images/svg/qrScan.svg"
-                alt="">Check-in</div>
-        <div class="overlay preRegOverlay overlayBig">
-            <div id="preRegReader"
-                style="margin-top: 10%;margin-left: 6.5%; overflow: hidden;width: 87%; height: fit-content; position: relative; padding: 0px; border-radius: 10px;">
+
+  <div class="overlay checkInScanOverlay overlayBig">
+    <div id="checkInScanReader" style="margin-top: 10%;margin-left: 6.5%; overflow: hidden;width: 87%; height: fit-content; position: relative; padding: 0px; border-radius: 10px;"></div>
+    <div class="button" onclick="hideCheckInScanScanner()">Abbrechen</div>
+  </div>
+        <div class="button buttonImage preRegBtn" onchange="$(this).css('border', '2px solid white');" onclick="checkInScan()"><img src="/images/svg/qrScan.svg" alt="">Check-in</div>
+            <div class="checkInOverlay">
+                <center>
+                <div class="checkInOverlayInner infoBlock successInner">
+                    <img src="/images/svg/greenTick.svg" alt="Green tick">
+                    <div class="infoName">
+                    ${volunteerName}
+                    </div>
+                    <div class="info searchContent">
+                        <div class="searchElement" ><div class="leftText text">${shiftTime}</div><div class="centerSeperator"></div><div class="rightText text">${shiftType}</div></div>
+                        <div class="searchElement" ><div class="leftText text">${shiftTime}</div><div class="centerSeperator"></div><div class="rightText text">${shiftType}</div></div>
+
+                    </div>
+                    <div class="button" onclick="$(this).parent().parent().parent().hide()">Ausblenden</div>
+                </div>
+                <div class="checkInOverlayInner infoBlock errorInner">
+                    <img src="/images/svg/redCross.svg" alt="Red cross">
+                    <div class="infoName">
+                        Es wurden keine Daten gefunden.
+                        </div>
+                    <div class="button" onclick="$(this).parent().parent().parent().hide()">Ausblenden</div>
+
+                </div>
+            </center>
             </div>
-            <div class="button" onclick="hideCheckinScanner()">Abbrechen</div>
-        </div>
         <div class="tick">
-            <img src="/images/svg/greenTick.svg" alt="">
+          <img src="/images/svg/greenTick.svg" alt="">
         </div>
         <div class="loader">
-            <img src="/images/svg/loader.svg" alt="">
+          <img src="/images/svg/loader.svg" alt="">
         </div>
         <br>
     </div>
@@ -39,23 +61,23 @@
 </html>
 <script src="/javascripts/qr.min.js"></script>
 <script>
-    $('.message').hide()
-    $('.preRegOverlay').hide()
-    $('.cardScanOverlay').hide()
 
-    function hideCheckinScanner() {
-        $('.preRegOverlay').hide();
-        checkin.stop();
-    }
+      $('.message').hide()
+      $('.checkInScanOverlay').hide()
 
-    function checkinScan() {
-        checkin.start({
-            facingMode: "environment"
-        }, config, preRegScanSuccess);
-        $('.preRegOverlay').show()
-    }
-    const checkin = new Html5Qrcode("preRegReader");
-    const cardScanScanner = new Html5Qrcode("cardScanReader");
+
+  function hideCheckInScanScanner() {
+    $('.checkInScanOverlay').hide();
+    checkInScanScanner.stop();
+  }
+  function checkInScan(){
+    checkInScanScanner.start({
+    facingMode: "environment"
+  }, config, checkInScanSuccess);
+  $('.checkInScanOverlay').show()
+  }
+
+    const checkInScanScanner = new Html5Qrcode("checkInScanReader");
   const config = {
     fps: 30,
     qrbox: {
@@ -63,4 +85,92 @@
       height: 200
     },
   };
+  
+
+  function checkInScanSuccess(decodedText, decodedResult) {
+    checkInScanScanner.stop()
+      $('.checkInScanOverlay').hide();
+      console.log(JSON.parse(decodedText).id)
+      $.ajax({
+            url: '/admin/volunteers/checkIn',
+            type: 'POST',
+            cache: false,
+            data: {
+              id: JSON.parse(decodedText).id
+            },
+            success: function (data) {
+                console.log(data)
+                if(data.success == true){
+                    $('.checkInOverlay, .checkInOverlay .successInner').show();
+                    $('.checkInOverlay .successInner .infoName').html(data.name);
+                    $('.checkInOverlay .successInner .searchContent').html("");
+                    var array = Object.keys(data.dateData)
+                    var i = 0;
+                    array.forEach(element => {
+                        var obj =
+                            `<div class="searchElement" ><div class="leftText text">${element}</div><div class="centerSeperator"></div><div class="rightText text">${data.dateData[element].shiftName}</div></div>`
+                        i++;
+                        $('.checkInOverlay .successInner .searchContent').append(obj)
+                    });
+                }
+                if(data.success == false){
+                    $('.checkInOverlay, .checkInOverlay .errorInner').show();
+                }
+            }
+        })
+  }
+
+
+    $('.message').hide()
+    $("#form").submit(function(e) {
+        e.preventDefault();
+      if(!entitlementSelect()) return;
+        $('form').hide();
+
+        $('.loader').show()
+
+        $(".button").hide();
+        $.ajax({
+            url: '/admin/receiverRegistration/',
+            type: 'POST',
+            cache: false,
+            data: $('form').serializeArray(),
+            success: function (data) {
+                console.log(data)
+                if (data.success == true) {
+                  $('.loader').hide()
+
+                  $('form').hide();
+                  $('.button').hide();
+                  $('.tick').show()
+                  setTimeout(() => {
+                    window.location.href = "/admin/";
+                  }, 1000);
+                }
+                if (data.success == false) {
+                  if(data.receiverId){
+                    $('.loader').hide()
+
+                    $(".button").show();
+                    $('form').show();
+
+                    $('.message').show()
+                    $('.message').html("Einzelne Bezügerdaten wurden bereits gefunden.")
+                    $('.message').append(`<div class="button" onclick="window.open('/admin/receiverMaintenance/${data.receiverId}', '_blank');">BezügerIn anzeigen</div>`)
+                  }
+                  $('form').show();
+
+                    $(".button").show();
+                    $('.message').show()
+                    $('.message').html(data.message)
+                    $('.loader').hide()
+
+                }
+            },
+            error: function (jqXHR, textStatus, err) {
+                alert('text status ' + textStatus + ', err ' + err)
+                $(".button").show();
+            }
+        });
+    })
 </script>

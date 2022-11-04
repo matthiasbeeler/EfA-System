@@ -146,6 +146,8 @@ div.unblockButton{
 .infoBlock .info{
     font-size: larger;
 }
+
+
 .searchContent{
     margin-top: 3%;
     border-radius: 10px 10px 0px 0px;
@@ -219,6 +221,48 @@ div.unblockButton{
     overflow: hidden;
     white-space: nowrap;
     margin-top: 2vw;
+}
+.checkInOverlay{
+    width: 100%;
+    max-height: 100vh;
+    max-width: 100vw;
+    height: 100%;
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    background-color: rgba(0, 0, 0, 0.425);
+    display: none;
+}
+.checkInOverlayInner{
+    margin: 0px;
+    width: 80%;
+    border-radius: 10px;
+    margin-top: 5%;
+    display: none;
+}
+.checkInOverlayInner .searchContent .searchElement{
+    margin-left: 0px;
+    width: 96%;
+    cursor: unset;
+}
+.checkInOverlayInner .searchContent .searchElement *{
+    font-size: large;
+
+}
+
+.checkInOverlayInner .searchContent .searchElement .leftText{
+    width: 40%;
+}
+.checkInOverlayInner .searchContent .searchElement .rightText{
+    width: unset;
+    max-width: unset;
+
+}
+.checkInOverlayInner .button{
+    margin-left: 0px;
+}
+.checkInOverlayInner img{
+    width: 50%;
 }
 .tile{
     display: block;
