@@ -32,13 +32,7 @@
         <![endif]-->
         
       <!--[if !mso]><!-->
-        <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
-<link href="https://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700" rel="stylesheet" type="text/css">
-<link href="https://fonts.googleapis.com/css?family=Cabin:400,700" rel="stylesheet" type="text/css">
         <style type="text/css">
-          @import url(https://fonts.googleapis.com/css?family=Roboto:400,700);
-@import url(https://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700);
-@import url(https://fonts.googleapis.com/css?family=Cabin:400,700);
         </style>
       <!--<![endif]-->
 
@@ -87,7 +81,7 @@
 
           ul, li, ol {
             font-size: 11px;
-            font-family: Ubuntu, Helvetica, Arial;
+            font-family:sans-serif;
           }
 
           a {
@@ -153,7 +147,7 @@
             <tr>
               <td align="left" style="font-size:0px;padding:15px 15px 15px 15px;word-break:break-word;">
                 
-      <div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:1.5;text-align:left;color:#000000;"><p style="font-size: 11px; font-family: Ubuntu, Helvetica, Arial; text-align: center;"><strong><span style="font-family: Roboto, Tahoma, sans-serif; font-size: 30px;">Essen f&uuml;r Alle</span></strong></p></div>
+      <div style="font-family:sans-serif;font-size:13px;line-height:1.5;text-align:left;color:#000000;"><p style="font-size: 11px; font-family:sans-serif; text-align: center;"><strong><span style="font-family: Roboto, Tahoma, sans-serif; font-size: 30px;">Essen f&uuml;r Alle</span></strong></p></div>
     
               </td>
             </tr>
@@ -161,7 +155,7 @@
             <tr>
               <td align="left" style="font-size:0px;padding:15px 15px 15px 15px;word-break:break-word;">
                 
-      <div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:1.5;text-align:left;color:#000000;"><p style="font-size: 11px; font-family: Ubuntu, Helvetica, Arial;"><span style="font-size: 14px;">Hallo <%=request.session.volunteerName%></span><br><span style="font-size: 14px;">Deine Anmeldung f&uuml;r den <strong><%=request.session.shiftDate%>&nbsp;</strong>f&uuml;r die Schicht <strong><%=request.session.shiftName%> </strong>von <strong><%=shiftDuration%>&nbsp;</strong> Uhr war erfolgreich.</span></p></div>
+      <div style="font-family:sans-serif;font-size:13px;line-height:1.5;text-align:left;color:#000000;"><p style="font-size: 11px; font-family:sans-serif;"><span style="font-size: 14px;">Hallo <%=request.session.volunteerName%></span><br><span style="font-size: 14px;">Deine Anmeldung f&uuml;r den <strong><%=request.session.shiftDate%>&nbsp;</strong>f&uuml;r die Schicht <strong><%=request.session.shiftName%> </strong>von <strong><%=shiftDuration%>&nbsp;</strong> Uhr war erfolgreich.</span></p></div>
     
               </td>
             </tr>
@@ -169,7 +163,7 @@
             <tr>
               <td align="left" style="font-size:0px;padding:15px 15px 15px 15px;word-break:break-word;">
                 
-      <div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:1.5;text-align:left;color:#000000;"><p style="font-size: 11px; font-family: Ubuntu, Helvetica, Arial; text-align: center;">Dies ist dein pers&ouml;nlicher QR-Code. Bitte zeige ihn vor, sobald du helfen kommst.</p></div>
+      <div style="font-family:sans-serif;font-size:13px;line-height:1.5;text-align:left;color:#000000;"><p style="font-size: 11px; font-family:sans-serif; text-align: center;">Dies ist dein pers&ouml;nlicher QR-Code. Bitte zeige ihn vor, sobald du helfen kommst.</p></div>
     
               </td>
             </tr>
@@ -182,7 +176,9 @@
           <tr>
             <td style="width:580px;">
               <center>
-      <img alt="<%qrUrl%>" height="auto" style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:30%;font-size:13px;"src="<%-qrCode%>" width="580">
+      <img alt="Der QR-Code konnte nicht geladen werden. Bitte drücke auf den folgenden Link." height="auto" style="font-family:sans-serif;border:0;display:block;outline:none;text-decoration:none;height:auto;width:30%;font-size:13px;"src="<%-qrCode%>" width="580">
+      <br>
+      <p style="font-size: 9px; font-family: sans-serif;"><a href="<%=qrUrl%>" target="_blank" rel="noopener" style="color: #0000EE;"><%=qrUrl%></a></p>
     </center>
             </td>
           </tr>
@@ -195,7 +191,7 @@
             <tr>
               <td align="left" style="font-size:0px;padding:15px 15px 15px 15px;word-break:break-word;">
                 
-      <div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:1.5;text-align:left;color:#000000;"><p style="font-size: 11px; font-family: Ubuntu, Helvetica, Arial;">Wir freuen uns, dich am <%=request.session.shiftDate%> an der Allmendstrasse 93, 8041 Z&uuml;rich zu begr&uuml;ssen.<br><br>Falls du nicht kommen kannst, bitten wir dich mit dem folgenden Link abzumelden.</p></div>
+      <div style="font-family:sans-serif;font-size:13px;line-height:1.5;text-align:left;color:#000000;"><p style="font-size: 11px; font-family:sans-serif;">Wir freuen uns, dich am <%=request.session.shiftDate%> an der Allmendstrasse 93, 8041 Z&uuml;rich zu begr&uuml;ssen.<br><br>Falls du nicht kommen kannst, bitten wir dich mit dem folgenden Link abzumelden.</p></div>
     
               </td>
             </tr>
@@ -219,7 +215,7 @@
             <tr>
               <td align="left" style="font-size:0px;padding:15px 15px 15px 15px;word-break:break-word;">
                 
-      <div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:1.5;text-align:left;color:#000000;"><p style="font-size: 11px; font-family: Ubuntu, Helvetica, Arial;">Falls du Fragen hast, darfst du uns gerne mit dem folgenden Link kontaktieren<br><a href="https://www.essenfueralle.org/schwyz" target="_blank" rel="noopener" style="color: #0000EE;">https://www.essenfueralle.org/schwyz</a></p></div>
+      <div style="font-family:sans-serif;font-size:13px;line-height:1.5;text-align:left;color:#000000;"><p style="font-size: 11px; font-family:sans-serif;">Falls du Fragen hast, darfst du uns gerne mit dem folgenden Link kontaktieren<br><a href="https://www.essenfueralle.org/schwyz" target="_blank" rel="noopener" style="color: #0000EE;">https://www.essenfueralle.org/schwyz</a></p></div>
     
               </td>
             </tr>
@@ -251,7 +247,7 @@
             <tr>
               <td style="font-size:0px;padding:10px 10px;padding-top:10px;word-break:break-word;">
                 
-      <p style="font-family: Ubuntu, Helvetica, Arial; border-top: solid 1px #000000; font-size: 1; margin: 0px auto; width: 100%;">
+      <p style="font-family:sans-serif; border-top: solid 1px #000000; font-size: 1; margin: 0px auto; width: 100%;">
       </p>
       
       <!--[if mso | IE]>
@@ -273,7 +269,7 @@
             <tr>
               <td align="left" style="font-size:0px;padding:15px 15px 15px 15px;word-break:break-word;">
                 
-      <div style="font-family:Ubuntu, Helvetica, Arial, sans-serif;font-size:13px;line-height:1.5;text-align:left;color:#000000;"><p style="font-size: 11px; font-family: Ubuntu, Helvetica, Arial;">Dies ist eine automatisch generierte E-Mail. Du hast diese erhalten, da du dich unter admin.essenfueralle.org angemeldet hast.</p></div>
+      <div style="font-family:sans-serif;font-size:13px;line-height:1.5;text-align:left;color:#000000;"><p style="font-size: 11px; font-family:sans-serif;">Dies ist eine automatisch generierte E-Mail. Du hast diese erhalten, da du dich unter admin.essenfueralle.org angemeldet hast.</p></div>
     
               </td>
             </tr>

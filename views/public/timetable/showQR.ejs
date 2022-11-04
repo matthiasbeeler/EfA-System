@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Essen für Alle</title>
+    <link rel="apple-touch-icon" sizes="640x640" href="/images/efaLogo.png">
+    <script src="https://code.jquery.com/jquery-1.6.2.min.js"></script>
+    <link rel="stylesheet" href="/stylesheets/timetable.css">
+    <link rel="manifest" href="/timetableManifest.json">
+    <meta name="theme-color" content="#ececec">
+</head>
+
+<body>
+    <div class="content timetableContent">
+<br>
+            <h2 class="smallTitle"><%= __('This is your personal QR-Code. Please show it to a coordinator, as soon as you get to us.')%></h2>
+            <img src="<%=qrCode%>" class="timetableQrCode">
+            <a href="<%=qrCode%>" download="EssenFuerAlleQrCode" class="qrCodeDownloadButton button">Download QR-Code</a>
+        <br>
+        <br>
+        <div class="locationContainer">
+            <h2 class="smallTitle">
+                <%= __('Our location in Seewen SZ')%>
+            </h2>
+            <iframe frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.openstreetmap.org/export/embed.html?bbox=8.627175092697145%2C47.0323435940105%2C8.630715608596804%2C47.03402181345981&amp;layer=mapnik&amp;marker=47.03318271033194%2C8.628945350646973" style="border:0;width:100%;aspect-ratio: 2/1;border-radius: 10px;"></iframe> 
+            Steinbislin 9 Seewen SZ <br>
+            <a href="https://w3w.co/slime.kitchens.sofa" target="_blank">///slime.kitchens.sofa</a>
+        </div>
+
+    </div>
+    <%- include('../../footer'); -%>
+
+</body>
+</html>

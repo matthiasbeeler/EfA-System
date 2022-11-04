@@ -443,8 +443,8 @@ footer{
     margin-left: calc(25% - 7px);
 }
 .qrCodeDownloadButton{
-    width: 49%;
-    margin-left: calc(22%);
+    width: 50%;
+    margin-left: 23%;
     text-decoration: none;
     font-size: large;
 }

@@ -197,4 +197,28 @@ router.post("/signOut/", function (req, res) {
 router.get("/signOutEmail", function (req, res) {
   res.render('public/timetable/signOutEmail')
 })
+router.get('/showQR/volunteer/:volunteerId', function(req, res){
+  bwipjs.toBuffer(
+    {
+      bcid: "qrcode", // Barcode type
+      text: `{"type":"volunteer", "id":"${req.params.volunteerId}"}`, // Text to encode
+      scale: 3,
+      includetext: true, // Show human-readable text
+      textxalign: "center",
+      backgroundcolor: "ececec",
+      padding: 3,
+    },
+    function (err, png) {
+      if (err) {
+        console.log(err);
+      } else {
+        const imgBase64 = png.toString("base64");
+       
+        return res.render("public/timetable/showQR", {
+          qrCode: "data:image/png;base64," + imgBase64,
+        });
+      }
+    }
+  );
+})
 module.exports = router;
