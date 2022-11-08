@@ -9,6 +9,17 @@ exports.register = function (request, response, database) {
     if (Array.isArray(request.body.timeCheck)) request.body.timeCheck.push("0");
     var timeArray = [];
     database.query(
+      "SELECT * FROM volunteers WHERE name LIKE ? AND email LIKE ?;",
+      [
+        `%${request.session.volunteerName}%`,
+        `%${request.session.volunteerEmail}%`,
+      ],
+      function (error, results, fields) {
+        var uuid = uuidv4();
+        if (results.length > 0) {
+          var uuid = results[0].id;
+        }
+    database.query(
       "SELECT shifts FROM volunteerShifts WHERE date = ?;",
       [request.session.shiftDate],
       function (error, results, fields) {
@@ -24,6 +35,8 @@ exports.register = function (request, response, database) {
               if (element.smallShiftId !== e) return;
               var endFreeSpots = element.freeSpots - 1;
               element.freeSpots = endFreeSpots;
+              element.volunteers[uuid] = false;
+              console.log(element)
               signedUpShifts.push(`${element.shiftTime}`);
               timeArray.push(element.shiftTime);
             });
@@ -85,7 +98,6 @@ exports.register = function (request, response, database) {
                   shiftName: shiftName,
                 };
               });
-              var uuid = uuidv4();
               database.query(
                 "INSERT INTO volunteers (`id`,`name`,`email`,`shifts`) VALUES(?,?,?,?)",
                 [
@@ -123,6 +135,8 @@ exports.register = function (request, response, database) {
         );
       }
     );
+  })
+
   } catch (error) {
     console.log(error);
     if (error) return response.json({ success: false });
@@ -193,6 +207,7 @@ exports.signOut = function (request, response, database) {
               element.shifts.forEach((detailShift) => {
                 if (detailShift.shiftTime !== request.body.shiftTime) return;
                 detailShift.freeSpots = Number(detailShift.freeSpots)+1;
+                delete detailShift.volunteers[volunteerId];
               });
             });
             var shiftData = results[0].shifts;
