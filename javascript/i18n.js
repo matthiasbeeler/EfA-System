@@ -19,6 +19,5 @@ module.exports = function(req, res, next) {
 //  res.local('__', res.__);
 
   var current_locale = i18n.getLocale();
-
   return next();
 };

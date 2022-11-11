@@ -9,6 +9,8 @@ const bwipjs = require("bwip-js");
 const { supportRequest } = require("../javascript/mailer");
 
 router.get("/", function (req, res) {
+  if(req.query.loc == "gr" || req.body.loc == "sz") req.session.location = req.query.loc;
+  if(!req.session.location) req.session.location = "sz"
   var beforedate = new Date();
   var tomorrow = new Date();
 
@@ -30,7 +32,7 @@ router.get("/", function (req, res) {
     function (error, results, fields) {
       var freeShifts = 0;
       results.forEach((element) => {
-        element.shifts.forEach((element) => {
+        element["shifts"+req.session.location].forEach((element) => {
           element.shifts.forEach((element) => {
             freeShifts = freeShifts + element.freeSpots;
           });
@@ -40,6 +42,7 @@ router.get("/", function (req, res) {
         results: results,
         freeShifts: freeShifts,
         shiftDate: req.session.shiftDate,
+        loc: req.session.location
       });
     }
   );
@@ -75,7 +78,7 @@ router.get("/chooseTime", function (req, res) {
     [req.session.shiftDate],
     function (error, results, fields) {
       var shift = "";
-      results[0].shifts.forEach((element) => {
+      results[0]["shifts"+req.session.location].forEach((element) => {
         if (element.id == req.session.shiftId) shift = element;
       });
 
@@ -85,6 +88,7 @@ router.get("/chooseTime", function (req, res) {
         shiftName: shift.shiftName,
         shiftDate: req.session.shiftDate,
         volunteerName: req.session.volunteerName,
+        loc: req.session.location
       });
     }
   );
@@ -117,6 +121,7 @@ router.get("/registrationSuccess/:volunteerId", function (req, res) {
         return res.render("public/timetable/registrationSuccess", {
           qrCode: "data:image/png;base64," + imgBase64,
           session: req.session,
+          loc: req.session.location
         });
       }
     }
