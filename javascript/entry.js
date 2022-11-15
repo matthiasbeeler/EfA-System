@@ -1,3 +1,5 @@
+const jwt = require("jsonwebtoken");
+
 exports.normal = function (req, res, database) {
   try {
     if (!req.body.id && !/^-?\d+$/.test(req.body.id))
@@ -38,9 +40,9 @@ exports.normal = function (req, res, database) {
                 });
               } else {
                 database.query(
-                  `INSERT INTO entryLogs (id, logTime, entitlement, cardId, date)
-        VALUES (?, ?, ?, ?, ?)`,
-                  [id, time, entitlement, req.body.id, currentDate],
+                  `INSERT INTO entryLogs (id, logTime, entitlement, cardId, date,logLocation)
+        VALUES (?, ?, ?, ?, ?,?)`,
+                  [id, time, entitlement, req.body.id, currentDate, jwt.verify(req.cookies.Auth, process.env.jwtSecret).location],
                   function (error, results, fields) {
                     if (!error) return res.json({ success: true });
                   }
@@ -76,9 +78,9 @@ exports.cardForgotten = function (req, res, database) {
       .split(", ")[1];
     var entitlement = req.body.entitlement;
     database.query(
-      `INSERT INTO entryLogs (id, logTime, entitlement, cardId, date)
-        VALUES (?, ?, ?, ?, ?)`,
-      [null, time, entitlement, null, currentDate],
+      `INSERT INTO entryLogs (id, logTime, entitlement, cardId, date, logLocation)
+        VALUES (?, ?, ?, ?, ?,?)`,
+      [null, time, entitlement, null, currentDate, jwt.verify(req.cookies.Auth, process.env.jwtSecret).location],
       function (error, results, fields) {
         if(error) console.log(error)
         if (!error) return res.json({ success: true });

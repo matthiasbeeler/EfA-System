@@ -10,7 +10,7 @@ const { supportRequest } = require("../javascript/mailer");
 
 router.get("/", function (req, res) {
   if(req.query.loc == "gr" || req.body.loc == "sz") req.session.location = req.query.loc;
-  if(!req.session.location) req.session.location = "sz"
+  if(!req.session.location) req.session.location = "sz";
   var beforedate = new Date();
   var tomorrow = new Date();
 
@@ -54,6 +54,8 @@ router.post("/", function (req, res) {
   return res.json({ success: true });
 });
 router.get("/chooseTime", function (req, res) {
+  if(req.query.loc == "gr" || req.body.loc == "sz") req.session.location = req.query.loc;
+  if(!req.session.location) req.session.location = "sz";
   var beforedate = new Date();
   var tomorrow = new Date();
 

@@ -19,12 +19,19 @@ exports.login = function (request, response, database, bouncer) {
             success: false,
             message: "Please contact an administrator to activate your account",
           });
+          console.log(results[0].permissions)
+          console.log(request.body.location)
+          if(!results[0].permissions[request.body.location]) return response.json({
+            success: false,
+            message: "Please contact an admin to give you permission to "+request.body.location,
+          })
           var token = jwt.sign(
             {
               username: results[0].username,
               email: results[0].email,
               permissions: results[0].permissions,
               loggedin: true,
+              location: request.body.location
             },
             process.env.jwtSecret
           );
@@ -89,6 +96,8 @@ exports.register = function (request, response, database) {
           permissions.accounts = false;
           permissions.blocked = true;
           permissions.statistics = false;
+          permissions.sz = false;
+          permissions.gr = false;
           permissions.print = false;
           database.query(
             ` INSERT INTO adminAccounts (username, email, name, password, permissions)

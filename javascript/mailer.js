@@ -59,7 +59,7 @@ exports.forgotPassword = function (email, verificationKey, name) {
  
 };
 
-exports.timetableRegistration = function (request, timeArray,volunteerId,shiftName) {
+exports.timetableRegistration = function (request, timeArray,volunteerId,shiftName,location) {
   request.session.shiftName = shiftName
   const bwipjs = require('bwip-js');
   const filename = process.cwd() + "/mailTemplates/timetableRegistration.ejs";
@@ -81,7 +81,7 @@ exports.timetableRegistration = function (request, timeArray,volunteerId,shiftNa
 }, function (err, png) {
   const qrCode = "data:image/png;base64,"+png.toString("base64");
 
-  ejs.renderFile(filename,{shiftDuration: shiftDuration, request: request, qrCode: qrCode, qrUrl: "https://admin.essenfueralle.org/timetable/showQR/volunteer/"+volunteerId}, (error, mailHTML) => {
+  ejs.renderFile(filename,{shiftDuration: shiftDuration, request: request, qrCode: qrCode, qrUrl: "https://admin.essenfueralle.org/timetable/showQR/volunteer/"+volunteerId, loc:location}, (error, mailHTML) => {
     if(error) return console.log(error);
     const mailOptions = {
       from: process.env.emailUserName, // Sender address

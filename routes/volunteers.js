@@ -17,6 +17,7 @@ router.all(["*"], function (req, res, next) {
   }
 });
 router.get("/", function (req, res) {
+  var location = jwt.verify(req.cookies.Auth, process.env.jwtSecret).location
   var beforedate = new Date();
   var tomorrow = new Date();
   var start = moment(new Date().setDate(beforedate.getDate() - 7)), // Sept. 1st
@@ -33,7 +34,7 @@ router.get("/", function (req, res) {
       var volunteerData = results;
       database.query("SELECT * FROM volunteerShifts WHERE date = ?;", [req.session.shiftDate], function (error, results, fields) {
         
-          res.render("admin/volunteers", {session: req.session, volunteerData: JSON.stringify(volunteerData), shiftData: JSON.stringify(results[0])})
+          res.render("admin/volunteers", {session: req.session, volunteerData: JSON.stringify(volunteerData), shiftData: JSON.stringify(results[0]), location: location})
       })
     })
 });
@@ -47,9 +48,9 @@ router.post('/checkIn', function(req, res){
         error: 2
       });
    const volunteerName = results[0].name;
-    if(!results[0].shifts["05.11.2022"]) return res.json({success: false, error: 3})
-    if(Object.keys(results[0].shifts["05.11.2022"]).length === 0) return res.json({success: false, error: 4})
-    res.json({success: true, name: volunteerName, dateData: results[0].shifts["05.11.2022"]})
+    if(!results[0].shifts[req.session.shiftDate]) return res.json({success: false, error: 3})
+    if(Object.keys(results[0].shifts[req.session.shiftDate]).length === 0) return res.json({success: false, error: 4})
+    res.json({success: true, name: volunteerName, dateData: results[0].shifts[req.session.shiftDate]})
   })
 })
 

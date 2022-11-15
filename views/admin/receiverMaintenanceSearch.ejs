@@ -112,7 +112,19 @@
                 <%-receiverData[0].entitlement%>
             </div>
         </div>
+        <div class="infoBlock">
 
+            <div class="infoName">Registrierungsstandort
+            </div>
+            <div class="info">
+                <% if(receiverData[0].registrationLocation == "gr"){%>
+                    Chur GR
+                    <%}%>
+                    <% if(receiverData[0].registrationLocation == "sz"){%>
+                        Seewen SZ
+                        <%}%>
+            </div>
+        </div>
         <div class="infoBlock">
 
             <div class="infoName">Bemerkungen

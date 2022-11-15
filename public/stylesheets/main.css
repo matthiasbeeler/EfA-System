@@ -120,6 +120,12 @@ div.removeZemis{
     margin-right: 6.5%;
     margin-left: auto;
 }
+
+.homeTitle{
+    position: absolute;
+    top: 2vw;
+    left: 10px;
+}
 div.actionButton{
     width: max-content;
     white-space: nowrap;

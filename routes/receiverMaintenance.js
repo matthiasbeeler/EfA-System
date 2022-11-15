@@ -3,7 +3,16 @@ const { database } = require('../javascript/db');
 const jwt = require("jsonwebtoken");
 const { parsePhoneNumber } = require('libphonenumber-js');
 var router = express.Router();
-
+router.all(["*"], function (req, res, next) {
+  try {
+    if (
+      jwt.verify(req.cookies.Auth, process.env.jwtSecret).permissions.receiverMaintenance == true)return next();
+    res.redirect("/");
+  } catch (error) {
+    console.log(error)
+    res.redirect("/");
+  }
+});
 
 router.get("/", function (req, res, next) {
     if (
@@ -136,7 +145,7 @@ router.get("/", function (req, res, next) {
                     function (error, results, fields) {
                       if(error) console.log(error)
                       if(error) return res.json({ success: false, message: "An error occured" });
-            database.query("UPDATE receivers SET phonenumber=?, passportType=?, passportNumber=?, birthdate=?, fullName=?, gender=?, familyMembers=?, postalCode=?, cardId=?, timeslot=?, entitlement=?, comment=?, blocked=? WHERE id = ?",
+            database.query("UPDATE receivers SET phonenumber=?, passportType=?, passportNumber=?, birthdate=?, fullName=?, gender=?, familyMembers=?, postalCode=?, cardId=?, timeslot=?, entitlement=?, comment=?, blocked=?,registrationLocation=? WHERE id = ?",
             [
                 phone.number,
                 req.body.permit,
@@ -151,7 +160,9 @@ router.get("/", function (req, res, next) {
                 req.body.entitlement,
                 req.body.comment,
                 req.body.blocked,
-                req.params.id
+                jwt.verify(req.cookies.Auth, process.env.jwtSecret).location,
+                req.params.id,
+
               ],              function (error, results, fields) {
                 if(error) console.log(error)
                       if(error) return res.json({ success: false, message: "An error occured" });

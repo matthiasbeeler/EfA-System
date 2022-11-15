@@ -4,7 +4,17 @@ var router = express.Router();
 const { v4: uuidv4 } = require("uuid");
 const { transliterate } = require("../javascript/transliterate");
 const { parsePhoneNumber } = require("libphonenumber-js");
-
+const jwt = require("jsonwebtoken");
+router.all(["*"], function (req, res, next) {
+  try {
+    if (
+      jwt.verify(req.cookies.Auth, process.env.jwtSecret).permissions.receiverRegistration == true)return next();
+    res.redirect("/");
+  } catch (error) {
+    console.log(error)
+    res.redirect("/");
+  }
+});
 router.post("/preReg", function (req, res, next) {
   try{
   database.query(
@@ -104,7 +114,8 @@ router.post("/", function (req, res, next) {
                     timeslot: req.body.timeslot,
                     comment: req.body.comment,
                     activeRegistration: 1,
-                    registrationDate: currentDate
+                    registrationDate: currentDate,
+                    registrationLocation: jwt.verify(req.cookies.Auth, process.env.jwtSecret).location
                   },
                   { id: req.body.id },
                 ],
@@ -156,7 +167,7 @@ router.post("/", function (req, res, next) {
                         if(error) console.log(error)
                         if(error) return res.json({ success: false, message: "An error occured" });
               database.query(
-                "INSERT INTO receivers (id, phonenumber,passportNumber, passportType, birthdate, fullName, gender, familyMembers, postalCode, cardId, timeslot, entitlement, comment, activeRegistration, registrationDate) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                "INSERT INTO receivers (id, phonenumber,passportNumber, passportType, birthdate, fullName, gender, familyMembers, postalCode, cardId, timeslot, entitlement, comment, activeRegistration, registrationDate, registrationLocation) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                 [
                   uuid,
                   phone.number,
@@ -172,7 +183,9 @@ router.post("/", function (req, res, next) {
                   req.body.entitlement,
                   req.body.comment,
                   1,
-                  currentDate
+                  currentDate,
+                  jwt.verify(req.cookies.Auth, process.env.jwtSecret).location
+
                 ],
                 function (error, results, fields) {
                   if (error) console.log(error)

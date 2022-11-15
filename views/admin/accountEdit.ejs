@@ -59,6 +59,15 @@
         <div class="permissionElement print" onclick="print()">
             Kartendruck
         </div>
+        <br>
+        <div class="infoName">Standorte
+        </div>
+        <div class="permissionElement sz" onclick="sz()">
+            Schwyz
+        </div>
+        <div class="permissionElement gr" onclick="gr()">
+            Chur
+        </div>
     </div>
     </div>
     <div onclick="resetPassword()" class="button actionButton buttonImage resetBtn"><img src="/images/svg/passwordReset.svg" alt="">Passwort zurücksetzen</div>
@@ -76,6 +85,8 @@
     if(permissions.receiverRegistration == true) $('.receiverRegistration').addClass('granted')
     if(permissions.receiverMaintenance == true) $('.receiverMaintenance').addClass('granted')
     if(permissions.print == true) $('.print').addClass('granted')
+    if(permissions.gr == true) $('.gr').addClass('granted')
+    if(permissions.sz == true) $('.sz').addClass('granted')
     if(permissions.entry == true) $('.entry').addClass('granted')
     if(permissions.accounts == true) $('.accounts').addClass('granted')
     if(permissions.blocked == true) $('.unblockButton').show()
@@ -94,6 +105,18 @@
         if($('.volunteers').hasClass('granted')) return $('.volunteers').removeClass('granted');
         if(!$('.volunteers').hasClass('granted')) permissions.volunteers = true;
         if(!$('.volunteers').hasClass('granted')) return $('.volunteers').addClass('granted');
+    }
+    function sz(){
+        if($('.sz').hasClass('granted')) permissions.sz = false;
+        if($('.sz').hasClass('granted')) return $('.sz').removeClass('granted');
+        if(!$('.sz').hasClass('granted')) permissions.sz = true;
+        if(!$('.sz').hasClass('granted')) return $('.sz').addClass('granted');
+    }
+    function gr(){
+        if($('.gr').hasClass('granted')) permissions.gr = false;
+        if($('.gr').hasClass('granted')) return $('.gr').removeClass('granted');
+        if(!$('.gr').hasClass('granted')) permissions.gr = true;
+        if(!$('.gr').hasClass('granted')) return $('.gr').addClass('granted');
     }
     function print(){
         if($('.print').hasClass('granted')) permissions.print = false;

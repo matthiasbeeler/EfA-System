@@ -14,7 +14,7 @@ router.all(["*"], function (req, res, next) {
   }
 });
 router.get("/", function (req, res, next) {
-  res.render("admin/home", {permissions: jwt.verify(req.cookies.Auth, process.env.jwtSecret).permissions});
+  res.render("admin/home", {permissions: jwt.verify(req.cookies.Auth, process.env.jwtSecret).permissions, location: jwt.verify(req.cookies.Auth, process.env.jwtSecret).location});
 });
 
 

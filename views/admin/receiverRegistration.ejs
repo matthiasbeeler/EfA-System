@@ -173,10 +173,8 @@ function addZemis(){
   
 
   function preRegScanSuccess(decodedText, decodedResult) {
-    console.log(decodedText)
     preReg.stop()
       $('.preRegOverlay').hide();
-      console.log(JSON.parse(decodedText).id)
       $.ajax({
             url: '/admin/receiverRegistration/preReg',
             type: 'POST',
@@ -185,7 +183,6 @@ function addZemis(){
               id: JSON.parse(decodedText).id
             },
             success: function (data) {
-              console.log(data)
                 if (data.success == true) {
                     var results = data.results[0];
                     $('#inputs').html(`<input type="text" name="id" placeholder="ReceiverId" required="" value="${results.id}" style="display: none;" readonly>`)
@@ -243,7 +240,7 @@ function addZemis(){
             cache: false,
             data: $('form').serializeArray(),
             success: function (data) {
-                console.log(data)
+              console.log(data)
                 if (data.success == true) {
                   $('.loader').hide()
 

@@ -20,10 +20,11 @@ exports.register = function (request, response, database) {
           var uuid = results[0].id;
         }
     database.query(
-      "SELECT shifts FROM volunteerShifts WHERE date = ?;",
+      "SELECT * FROM volunteerShifts WHERE date = ?;",
       [request.session.shiftDate],
       function (error, results, fields) {
-        var shiftJson = results[0].shifts;
+        console.log(error)
+        var shiftJson = results[0]["shifts"+request.session.location];
         var signedUpShifts = [];
         shiftName = "";
         request.body.timeCheck.forEach((e) => {
@@ -31,7 +32,8 @@ exports.register = function (request, response, database) {
           shiftJson.forEach((el) => {
             if (el.id !== request.session.shiftId) return;
             shiftName = el.shiftName;
-            el.shifts.forEach((element) => {
+            console.log(el)
+            el["shifts"].forEach((element) => {
               if (element.smallShiftId !== e) return;
               var endFreeSpots = element.freeSpots - 1;
               element.freeSpots = endFreeSpots;
@@ -53,22 +55,25 @@ exports.register = function (request, response, database) {
               var stopProcess = 0;
               timeArray.forEach((ele) => {
                 if (ele == 0) return;
+                console.log(ele)
+                if(results[0].shifts == null) results[0].shifts = {}
                 if(!results[0].shifts[request.session.shiftDate]) results[0].shifts[request.session.shiftDate] = {};
                 if (results[0].shifts[request.session.shiftDate][ele]) stopProcess = 1;
-                results[0].shifts[request.session.shiftDate][ele] = {
+                results[0]["shifts"][request.session.shiftDate][ele] = {
                   shiftName: shiftName,
+                  location: request.session.location
                 };
               });
               var volunteerId = results[0].id;
               if (stopProcess == 1) return response.json({ success: false });
               database.query(
                 "UPDATE volunteers SET shifts = ? WHERE id = ?;",
-                [JSON.stringify(results[0].shifts), results[0].id],
+                [JSON.stringify(results[0]["shifts"]), results[0].id],
                 function (error, results, fields) {
                   if (error) console.log(error);
                   if (error) return response.json({ success: false });
                   database.query(
-                    "UPDATE volunteerShifts SET shifts = ? WHERE date = ?;",
+                    "UPDATE volunteerShifts SET shifts"+request.session.location+" = ? WHERE date = ?;",
                     [JSON.stringify(shiftJson), request.session.shiftDate],
                     function (error, results, fields) {
                       if (error) console.log(error);
@@ -77,12 +82,14 @@ exports.register = function (request, response, database) {
                         request,
                         timeArray,
                         volunteerId,
-                        shiftName
+                        shiftName,
+                        request.session.location
                       );
                       if (!error)
                         return response.json({
                           success: true,
                           volunteerId: volunteerId,
+                          location: request.session.location
                         });
                     }
                   );
@@ -110,7 +117,7 @@ exports.register = function (request, response, database) {
                   if (error) console.log(error);
                   if (error) return response.json({ success: false });
                   database.query(
-                    "UPDATE volunteerShifts SET shifts = ? WHERE date = ?;",
+                    "UPDATE volunteerShifts SET shifts"+request.session.location+" = ? WHERE date = ?;",
                     [JSON.stringify(shiftJson), request.session.shiftDate],
                     function (error, results, fields) {
                       if (error) console.log(error);
@@ -191,10 +198,11 @@ exports.signOut = function (request, response, database) {
       if (!results.length > 0) {
         response.json({ success: false });
       } else {
+        var location =  results[0].shifts[request.session.shiftDate][request.body.shiftTime].location;
         delete results[0].shifts[request.session.shiftDate][
           request.body.shiftTime
         ];
-        var volunteerShifts = results[0].shifts;
+        var volunteerShifts = results[0]["shifts"+request.session.location];
         var volunteerId = results[0].id;
         database.query(
           "SELECT * FROM volunteerShifts WHERE date = ? ;",
@@ -202,15 +210,15 @@ exports.signOut = function (request, response, database) {
           function (error, results, fields) {
             if (error) console.log(error);
             if (error) return response.json({ success: false });
-            results[0].shifts.forEach((element) => {
+            results[0]["shifts"+location].forEach((element) => {
               if (element.shiftName !== request.body.shiftName) return;
-              element.shifts.forEach((detailShift) => {
+              element["shifts"].forEach((detailShift) => {
                 if (detailShift.shiftTime !== request.body.shiftTime) return;
                 detailShift.freeSpots = Number(detailShift.freeSpots)+1;
                 delete detailShift.volunteers[volunteerId];
               });
             });
-            var shiftData = results[0].shifts;
+            var shiftData = results[0]["shifts"+location];
             database.query(
               "UPDATE volunteers SET shifts = ? WHERE id = ?;",
               [JSON.stringify(volunteerShifts), volunteerId],
@@ -218,7 +226,7 @@ exports.signOut = function (request, response, database) {
                 if (error) console.log(error);
                 if (error) return response.json({ success: false });
                 database.query(
-                  "UPDATE volunteerShifts SET shifts = ? WHERE date = ?;",
+                  "UPDATE volunteerShifts SET shifts"+location+" = ? WHERE date = ?;",
                   [JSON.stringify(shiftData), `${request.session.shiftDate}`],
                   function (error, results, fields) {
                     if (error) console.log(error);
