@@ -119,7 +119,7 @@ $("select > option").each(function () {
     };
     $("form").submit(function(e) {
         e.preventDefault();
-        if(!$("#name").val() || !$('#email')) return $(".button").show();
+        if(!$("#name").val() || !$('#email').val()) return $(".button").show();
         $("form").hide();
         $('.buttonContainer').hide()
         $('.centerSiteTitle').hide()
