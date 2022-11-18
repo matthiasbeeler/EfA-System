@@ -103,6 +103,7 @@ exports.register = function (request, response, database) {
                 dateData[request.session.shiftDate] = {};
                 dateData[request.session.shiftDate][ele] = {
                   shiftName: shiftName,
+                  location: request.session.location
                 };
               });
               database.query(
