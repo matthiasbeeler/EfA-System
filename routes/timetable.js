@@ -8,24 +8,76 @@ var router = express.Router();
 const bwipjs = require("bwip-js");
 const { supportRequest } = require("../javascript/mailer");
 
-router.get("/", function (req, res) {
+function getThreeDatesSz (){
+  function isInThePast(date) {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return date < today;
+  }
+  
+ function getFirstMonth(){
+  var d = new Date();
+  var getTot = daysInMonth(d.getMonth()+1,d.getFullYear()); //Get total days in a month
+  var sat = new Array();   //Declaring array for inserting Saturdays
+  var firstSat = [];
+  for(var i=1;i<=getTot;i++){    //looping through days in month
+      var newDate = new Date(d.getFullYear(),d.getMonth(),i)
+      if(newDate.getDay()==6){   //if Saturday
+        if(i < 10) i = String(i)
+        sat.push(String(d.getFullYear())+"-"+String(d.getMonth()+1)+"-"+String(i));
+      }
+  
+  }
+  sat.forEach(function(element) {
+    if(!isInThePast(new Date(element)) && sat.indexOf(element) == 0 || !isInThePast(new Date(element)) && sat.indexOf(element) == 2) firstSat.push(element)
+   });
+  return firstSat;
+  function daysInMonth(month,year) {
+      return new Date(year, month, 0).getDate();
+  }
+ }
+ function getSecondMonth(){
+  var d = new Date();
+  var getTot = daysInMonth(d.getMonth()+2,d.getFullYear()); //Get total days in a month
+  var sat = new Array();   //Declaring array for inserting Saturdays
+  var secondSat = [];
+  for(var i=1;i<=getTot;i++){    //looping through days in month
+      var newDate = new Date(d.getFullYear(),d.getMonth()+1,i)
+      if(newDate.getDay()==6){   //if Saturday
+        if(i < 10) i = "0"+String(i)
+        
+        sat.push(String(d.getFullYear())+"-"+String(d.getMonth()+2)+"-"+String(i));
+      }
+  
+  }
+  sat.forEach(function(element) {
+    if(!isInThePast(new Date(element)) && sat.indexOf(element) == 0 || !isInThePast(new Date(element)) && sat.indexOf(element) == 2) secondSat.push(element)
+   });
+  return secondSat;
+  function daysInMonth(month,year) {
+      return new Date(year, month, 0).getDate();
+  }
+ }
+ var first = getFirstMonth()
+ var second = getSecondMonth()
+ var all = []
+ second.forEach(element => {
+  first.push(element)
+ });
+ first.forEach(element => {
+  var split = element.split('-')
+  all.push(split[2]+"."+split[1]+"."+split[0])
+ });
+ return all;
+}
+getThreeDatesSz()
+router.get("/",  function (req, res) {
+  dates = getThreeDatesSz()
+  setTimeout(() => {
+
   if(req.query.loc == "gr" || req.body.loc == "sz") req.session.location = req.query.loc;
   if(!req.session.location) req.session.location = "sz";
-  var beforedate = new Date();
-  var tomorrow = new Date();
-
-  var start = moment(new Date().setDate(beforedate.getDate() - 7)), // Sept. 1st
-    end = moment(new Date().setDate(tomorrow.getDate() + 30)), // Nov. 2nd
-    day = 6; // Sunday
-  var result = [];
-  var current = start.clone();
-  while (current.day(7 + day).isBefore(end)) {
-    result.push(current.clone());
-  }
-  var result = result.map((m) => m.format("DD.MM.YYYY"));
-  if (req.session.shiftDate == undefined) req.session.shiftDate = result[0];
-  if (!result.includes(req.session.shiftDate))
-    req.session.shiftDate = result[0];
+  if(!dates.includes(req.session.shiftDate)) req.session.shiftDate = dates[0]
   database.query(
     "SELECT * FROM volunteerShifts WHERE date = ?;",
     [req.session.shiftDate],
@@ -46,6 +98,8 @@ router.get("/", function (req, res) {
       });
     }
   );
+  
+}, 1000);
 });
 router.post("/", function (req, res) {
   req.session.shiftId = req.body.shiftType;
@@ -137,34 +191,12 @@ router.post("/support", function (req, res) {
   supportRequest(req, res);
 });
 router.get("/otherWeek/", function (req, res) {
-  var beforedate = new Date();
-  var tomorrow = new Date();
-
-  var start = moment(new Date().setDate(beforedate.getDate() - 7)), // Sept. 1st
-    end = moment(new Date().setDate(tomorrow.getDate() + 21)), // Nov. 2nd
-    day = 6; // Sunday
-  var result = [];
-  var current = start.clone();
-  while (current.day(7 + day).isBefore(end)) {
-    result.push(current.clone());
-  }
-  var result = result.map((m) => m.format("DD.MM.YYYY"));
-  res.render("public/timetable/otherWeek", { dates: result });
+  
+  res.render("public/timetable/otherWeek", { dates: getThreeDatesSz() });
 });
 router.post("/chooseDate/", function (req, res) {
-  var beforedate = new Date();
-  var tomorrow = new Date();
-
-  var start = moment(new Date().setDate(beforedate.getDate() - 7)), // Sept. 1st
-    end = moment(new Date().setDate(tomorrow.getDate() + 21)), // Nov. 2nd
-    day = 6; // Sunday
-  var result = [];
-  var current = start.clone();
-  while (current.day(7 + day).isBefore(end)) {
-    result.push(current.clone());
-  }
-  var result = result.map((m) => m.format("DD.MM.YYYY"));
-  if (!result.includes(req.body.date)) return res.json({ success: false });
+  
+  if (!getThreeDatesSz().includes(req.body.date)) return res.json({ success: false });
   database.query(
     "SELECT * FROM volunteerShifts WHERE date = ?;",
     [req.body.date],
