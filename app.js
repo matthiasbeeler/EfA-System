@@ -38,12 +38,27 @@ app.use(
   })
 );
 if (process.env.PORT == 4090) {
-  console.log("port")
   app.use(
     session({
+      secret: "REMOVED",
+      proxy: "true",
+      key: "Essen fuer Alle",
+      resave: false,
+      saveUninitialized: true,
       store: new MemcachedStore({
         hosts: ["127.0.0.1:11211"],
       }),
+    })
+  );
+
+}else{
+  app.use(
+    session({
+      secret: "REMOVED",
+      proxy: "true",
+      key: "Essen fuer Alle",
+      resave: false,
+      saveUninitialized: true,
     })
   );
 }
