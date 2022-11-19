@@ -32,8 +32,8 @@
             <div class="message infoBlock" style="display: none;">
                 <div class="info"></div>
             </div>
-            <input type="text" name="name" placeholder="1. <%= __('name')%>" id="name" required>
-            <input type="email" name="email" placeholder="2. <%= __('email address')%>" id="email" required>
+            <input type="text" name="name" value="<%=volName%>" placeholder="1. <%= __('name')%>" id="name" required>
+            <input type="email" name="email" value="<%=volEmail%>" placeholder="2. <%= __('email address')%>" id="email" required>
             <h2 class="smallTitle"><%= __('What do you want to do')%></h2>
             <select name="shiftType" onchange="$('form').submit()" id="shiftType" required>
                 <option value="" selected disabled>3. <%= __('press me')%></option>

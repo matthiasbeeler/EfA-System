@@ -11,6 +11,7 @@ const { supportRequest } = require("../javascript/mailer");
 function getThreeDatesSz (){
   function isInThePast(date) {
     const today = new Date();
+    today.setDate(today.getDate() + 1);
     today.setHours(0, 0, 0, 0);
     return date < today;
   }
@@ -90,11 +91,17 @@ router.get("/",  function (req, res) {
           });
         });
       });
+      var volEmail = "";
+      var volName = "";
+      if(req.session.volunteerEmail) volEmail = req.session.volunteerEmail;
+      if(req.session.volunteerName) volName = req.session.volunteerName;
       res.render("public/timetable/home", {
         results: results,
         freeShifts: freeShifts,
         shiftDate: req.session.shiftDate,
-        loc: req.session.location
+        loc: req.session.location,
+        volEmail: volEmail,
+        volName: volName
       });
     }
   );
