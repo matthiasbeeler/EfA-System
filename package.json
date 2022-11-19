@@ -27,6 +27,7 @@
     "nodemailer": "^6.7.8",
     "serve-favicon": "^2.5.0",
     "translatte": "^3.0.1",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "connect-memcached": "^1.0.0"
   }
 }
