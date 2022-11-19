@@ -5,6 +5,7 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 require("dotenv").config();
 var session = require("express-session");
+var MemcachedStore = require('connect-memcached')(session);
 
 var indexRouter = require("./routes/index");
 var adminRouter = require("./routes/admin");
