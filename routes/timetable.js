@@ -198,8 +198,18 @@ router.post("/support", function (req, res) {
   supportRequest(req, res);
 });
 router.get("/otherWeek/", function (req, res) {
-  
-  res.render("public/timetable/otherWeek", { dates: getThreeDatesSz() });
+  function getNextMonth(){
+    var currentDate = new Date()
+    if(currentDate.getMonth() == 11){
+        let nextMonth = new Date(currentDate.getFullYear() + 1, 0, 1);
+        return nextMonth.getUTCDate()+"."+nextMonth.getMonth()+"."+nextMonth.getFullYear()
+    } else {
+        let nextMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
+        return nextMonth.getUTCDate()+"."+nextMonth.getMonth()+"."+nextMonth.getFullYear()
+    }
+}
+var nextMonth = getNextMonth()
+  res.render("public/timetable/otherWeek", { dates: getThreeDatesSz(), nextMonth: nextMonth });
 });
 router.post("/chooseDate/", function (req, res) {
   
