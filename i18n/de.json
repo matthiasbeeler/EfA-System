@@ -28,6 +28,8 @@
 	"You were signed out successfully": "Du wurdest erfolgreich abgemeldet.",
 	"Do you want to sign out from more shifts?": "Do you want to sign out from more shifts?",
 	"Our location in Chur GR": "Unser Standort in Chur GR",
-	"More dates will be available after the end of this month.": "Weitere Daten werden nach Ende des Monats verfügbar."
+	"More dates will be available after the": "Weitere Daten werden ab dem",
+	"on": " verfügbar sein"
+
 
 }
