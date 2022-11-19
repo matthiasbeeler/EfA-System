@@ -38,6 +38,7 @@ app.use(
   })
 );
 if (process.env.PORT == 4090) {
+  console.log("port")
   app.use(
     session({
       store: new MemcachedStore({
