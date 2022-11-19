@@ -481,3 +481,17 @@ footer{
         width: 47.4%;
     }
 }
+
+.weekNotice *{
+    opacity: 0.3;
+}
+.weekNotice{
+    width: 90%;
+}
+.weekNotice h4{
+    margin-top: 2%;
+}
+.weekNotice img{
+    width: 20%;
+    height: auto;
+}
