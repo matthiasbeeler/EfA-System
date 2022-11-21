@@ -71,7 +71,6 @@ function getThreeDatesSz (){
  });
  return all;
 }
-getThreeDatesSz()
 router.get("/",  function (req, res) {
   dates = getThreeDatesSz()
   setTimeout(() => {
