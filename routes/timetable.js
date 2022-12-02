@@ -25,7 +25,9 @@ function getThreeDatesSz (){
       var newDate = new Date(d.getFullYear(),d.getMonth(),i)
       if(newDate.getDay()==6){   //if Saturday
         if(i < 10) i = "0"+String(i)
-        sat.push(String(d.getFullYear())+"-"+String(d.getMonth()+1)+"-"+String(i));
+        if(d.getMonth()+2 < 10){         sat.push(String(d.getFullYear())+"-0"+String(d.getMonth()+2)+"-"+String(i));
+      }else{sat.push(String(d.getFullYear())+"-"+String(d.getMonth()+2)+"-"+String(i));
+    }  
       }
   
   }
@@ -46,9 +48,10 @@ function getThreeDatesSz (){
       var newDate = new Date(d.getFullYear(),d.getMonth()+1,i)
       if(newDate.getDay()==6){   //if Saturday
         if(i < 10) i = "0"+String(i)
-        
-        sat.push(String(d.getFullYear())+"-"+String(d.getMonth()+2)+"-"+String(i));
-      }
+        if(d.getMonth()+2 < 10){         sat.push(String(d.getFullYear())+"-0"+String(d.getMonth()+2)+"-"+String(i));
+      }else{sat.push(String(d.getFullYear())+"-"+String(d.getMonth()+2)+"-"+String(i));
+    }  
+    }
   
   }
   sat.forEach(function(element) {
@@ -199,14 +202,13 @@ router.post("/support", function (req, res) {
 });
 router.get("/otherWeek/", function (req, res) {
   function getNextMonth(){
-    var currentDate = new Date()
-    if(currentDate.getMonth() == 11){
-        let nextMonth = new Date(currentDate.getFullYear() + 1, 0, 1);
-        return nextMonth.getUTCDate()+"."+nextMonth.getMonth()+"."+nextMonth.getFullYear()
-    } else {
-        let nextMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1);
-        return nextMonth.getUTCDate()+"."+nextMonth.getMonth()+"."+nextMonth.getFullYear()
-    }
+    var date = new Date();
+    console.log(date.getMonth()+1)
+    var lastDay = new Date(date.getFullYear(), date.getMonth()+1, 0);
+    if(lastDay.getMonth()+1 < 10){ return lastDay.getDate()+".0"+(lastDay.getMonth()+1)+"."+lastDay.getFullYear();
+  }else{return lastDay.getDate()+".0"+(lastDay.getMonth()+1)+"."+lastDay.getFullYear();
+}  
+    
 }
 var nextMonth = getNextMonth()
   res.render("public/timetable/otherWeek", { dates: getThreeDatesSz(), nextMonth: nextMonth });

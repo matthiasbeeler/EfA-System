@@ -33,8 +33,9 @@ function getThreeDatesSz (){
       var newDate = new Date(d.getFullYear(),d.getMonth(),i)
       if(newDate.getDay()==6){   //if Saturday
         if(i < 10) i = "0"+String(i)
-        sat.push(String(d.getFullYear())+"-"+String(d.getMonth()+1)+"-"+String(i));
-      }
+        if(d.getMonth()+2 < 10){         sat.push(String(d.getFullYear())+"-0"+String(d.getMonth()+1)+"-"+String(i));
+      }else{sat.push(String(d.getFullYear())+"-"+String(d.getMonth()+1)+"-"+String(i));
+    }        }
   
   }
   sat.forEach(function(element) {
@@ -55,8 +56,9 @@ function getThreeDatesSz (){
       if(newDate.getDay()==6){   //if Saturday
         if(i < 10) i = "0"+String(i)
         
-        sat.push(String(d.getFullYear())+"-"+String(d.getMonth()+2)+"-"+String(i));
-      }
+if(d.getMonth()+2 < 10){         sat.push(String(d.getFullYear())+"-0"+String(d.getMonth()+2)+"-"+String(i));
+      }else{sat.push(String(d.getFullYear())+"-"+String(d.getMonth()+2)+"-"+String(i));
+    }        }
   
   }
   sat.forEach(function(element) {
