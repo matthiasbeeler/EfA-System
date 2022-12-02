@@ -31,9 +31,10 @@ router.post("/preReg", function (req, res, next) {
 }
 });
 
-router.post("/", function (req, res, next) {
+router.post('/', function(req, res, next){
   try {
-        var phone = parsePhoneNumber(req.body.phonenumber, "CH");
+
+  var phone = parsePhoneNumber(req.body.phonenumber, "CH");
     database.query(
       "SELECT * FROM receivers WHERE phonenumber = ? OR passportNumber = ? OR fullName = ? AND birthdate = ? OR cardId = ?;",
       [
@@ -46,11 +47,30 @@ router.post("/", function (req, res, next) {
       function (error, results, fields) {
 
         if (results && results[0]) {
-          if (results[0].id !== req.body.id) {
 
+          if (results[0].id !== req.body.id && results[0].activeRegistration==1) {
             return res.json({ success: false, receiverId: results[0].id });
+          }else if(results[0].id !== req.body.id && results[0].activeRegistration==0){
+            database.query(
+              `DELETE FROM receivers WHERE id = ?;`,[results[0].id],
+              function (error, result, fields) {console.log("Deleted: "+ results[0].id); next()});
           } 
+        
         }else{
+          next()
+        }
+      
+      }
+    );
+  } catch (error) {
+    console.log(error);
+    if (error) return res.json({ success: false });
+  }
+})
+router.post("/", function (req, res, next) {
+  var phone = parsePhoneNumber(req.body.phonenumber, "CH");
+
+        
           const date = new Date();
           let day = date.getDate();
           let month = date.getMonth() + 1;
@@ -86,6 +106,7 @@ router.post("/", function (req, res, next) {
                 `SELECT * FROM receiversZemis WHERE ${searchstr};`,
                 function (error, results, fields) {
                   if(error) console.log(error)
+
                         if(error) return res.json({ success: false, message: "An error occured" });
                   if(results[0]) return res.json({ success: false, receiverId: results[0].receiverId });
                   database.query(
@@ -196,13 +217,7 @@ router.post("/", function (req, res, next) {
                       })
                     })
           }
-        }
-      }
-    );
-  } catch (error) {
-    console.log(error);
-    if (error) return res.json({ success: false });
-  }
+        
 });
 
 module.exports = router;

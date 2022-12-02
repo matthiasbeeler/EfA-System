@@ -145,7 +145,7 @@ router.get("/", function (req, res, next) {
                     function (error, results, fields) {
                       if(error) console.log(error)
                       if(error) return res.json({ success: false, message: "An error occured" });
-            database.query("UPDATE receivers SET phonenumber=?, passportType=?, passportNumber=?, birthdate=?, fullName=?, gender=?, familyMembers=?, postalCode=?, cardId=?, timeslot=?, entitlement=?, comment=?, blocked=?,registrationLocation=? WHERE id = ?",
+            database.query("UPDATE receivers SET phonenumber=?, passportType=?, passportNumber=?, birthdate=?, fullName=?, gender=?, familyMembers=?, postalCode=?, cardId=?, timeslot=?, entitlement=?, comment=?, blocked=?,activeRegistration=?,registrationLocation=? WHERE id = ?",
             [
                 phone.number,
                 req.body.permit,
@@ -160,6 +160,7 @@ router.get("/", function (req, res, next) {
                 req.body.entitlement,
                 req.body.comment,
                 req.body.blocked,
+                1,
                 jwt.verify(req.cookies.Auth, process.env.jwtSecret).location,
                 req.params.id,
 
