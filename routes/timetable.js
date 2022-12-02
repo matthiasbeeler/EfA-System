@@ -25,8 +25,8 @@ function getThreeDatesSz (){
       var newDate = new Date(d.getFullYear(),d.getMonth(),i)
       if(newDate.getDay()==6){   //if Saturday
         if(i < 10) i = "0"+String(i)
-        if(d.getMonth()+2 < 10){         sat.push(String(d.getFullYear())+"-0"+String(d.getMonth()+2)+"-"+String(i));
-      }else{sat.push(String(d.getFullYear())+"-"+String(d.getMonth()+2)+"-"+String(i));
+        if(d.getMonth()+2 < 10){         sat.push(String(d.getFullYear())+"-0"+String(d.getMonth()+1)+"-"+String(i));
+      }else{sat.push(String(d.getFullYear())+"-"+String(d.getMonth()+1)+"-"+String(i));
     }  
       }
   
@@ -48,8 +48,8 @@ function getThreeDatesSz (){
       var newDate = new Date(d.getFullYear(),d.getMonth()+1,i)
       if(newDate.getDay()==6){   //if Saturday
         if(i < 10) i = "0"+String(i)
-        if(d.getMonth()+2 < 10){         sat.push(String(d.getFullYear())+"-0"+String(d.getMonth()+2)+"-"+String(i));
-      }else{sat.push(String(d.getFullYear())+"-"+String(d.getMonth()+2)+"-"+String(i));
+        if(newDate.getMonth()+2 < 10){         sat.push(String(newDate.getFullYear())+"-0"+String(newDate.getMonth()+1)+"-"+String(i));
+      }else{sat.push(String(newDate.getFullYear())+"-"+String(newDate.getMonth()+1)+"-"+String(i));
     }  
     }
   
@@ -81,7 +81,7 @@ router.get("/",  function (req, res) {
   if(req.query.loc == "gr" || req.body.loc == "sz") req.session.location = req.query.loc;
   if(!req.session.location) req.session.location = "sz";
   if(!dates.includes(req.session.shiftDate)) req.session.shiftDate = dates[0]
-
+console.log(dates)
   database.query(
     "SELECT * FROM volunteerShifts WHERE date = ?;",
     [req.session.shiftDate],
@@ -206,7 +206,7 @@ router.get("/otherWeek/", function (req, res) {
     console.log(date.getMonth()+1)
     var lastDay = new Date(date.getFullYear(), date.getMonth()+1, 0);
     if(lastDay.getMonth()+1 < 10){ return lastDay.getDate()+".0"+(lastDay.getMonth()+1)+"."+lastDay.getFullYear();
-  }else{return lastDay.getDate()+".0"+(lastDay.getMonth()+1)+"."+lastDay.getFullYear();
+  }else{return lastDay.getDate()+"."+(lastDay.getMonth()+1)+"."+lastDay.getFullYear();
 }  
     
 }
