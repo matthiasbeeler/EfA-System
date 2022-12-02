@@ -32,7 +32,7 @@ function getThreeDatesSz (){
   for(var i=1;i<=getTot;i++){    //looping through days in month
       var newDate = new Date(d.getFullYear(),d.getMonth(),i)
       if(newDate.getDay()==6){   //if Saturday
-        if(i < 10) i = String(i)
+        if(i < 10) i = "0"+String(i)
         sat.push(String(d.getFullYear())+"-"+String(d.getMonth()+1)+"-"+String(i));
       }
   

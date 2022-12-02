@@ -24,7 +24,7 @@ function getThreeDatesSz (){
   for(var i=1;i<=getTot;i++){    //looping through days in month
       var newDate = new Date(d.getFullYear(),d.getMonth(),i)
       if(newDate.getDay()==6){   //if Saturday
-        if(i < 10) i = String(i)
+        if(i < 10) i = "0"+String(i)
         sat.push(String(d.getFullYear())+"-"+String(d.getMonth()+1)+"-"+String(i));
       }
   
@@ -78,6 +78,7 @@ router.get("/",  function (req, res) {
   if(req.query.loc == "gr" || req.body.loc == "sz") req.session.location = req.query.loc;
   if(!req.session.location) req.session.location = "sz";
   if(!dates.includes(req.session.shiftDate)) req.session.shiftDate = dates[0]
+
   database.query(
     "SELECT * FROM volunteerShifts WHERE date = ?;",
     [req.session.shiftDate],
