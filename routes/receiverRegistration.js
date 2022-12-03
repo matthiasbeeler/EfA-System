@@ -54,6 +54,9 @@ router.post('/', function(req, res, next){
             database.query(
               `DELETE FROM receivers WHERE id = ?;`,[results[0].id],
               function (error, result, fields) {console.log("Deleted: "+ results[0].id); next()});
+          }else{
+            next()
+
           } 
         
         }else{
