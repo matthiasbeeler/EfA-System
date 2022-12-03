@@ -192,8 +192,9 @@ router.post("/", function (req, res, next) {
                 [
                   uuid,
                   phone.number,
-                  req.body.permit,
                   passportNumber,
+                  req.body.permit,
+
                   req.body.birthdate.split("-").reverse().join("."),
                   req.body.name,
                   req.body.gender,
