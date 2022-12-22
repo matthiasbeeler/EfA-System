@@ -4,6 +4,7 @@ const { sendRegistrationMail } = require("./mailer");
 
 exports.login = function (request, response, database, bouncer) {
   let username = request.body.username;
+  username = username.trim().replace(/\s{2,}/g, ' ');
   let password = request.body.password;
   if (username && password) {
     var searchVal = "username";
@@ -60,6 +61,7 @@ exports.login = function (request, response, database, bouncer) {
 
 exports.register = function (request, response, database) {
   let username = request.body.username;
+  username = username.trim().replace(/\s{2,}/g, ' ');
   let name = request.body.name;
   let email = request.body.email;
   let password = request.body.password;

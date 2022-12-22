@@ -75,18 +75,18 @@ function getThreeDatesSz (){
  return all;
 }
 router.get("/",  function (req, res) {
+  try {
   dates = getThreeDatesSz()
   setTimeout(() => {
-
-  if(req.query.loc == "gr" || req.body.loc == "sz") req.session.location = req.query.loc;
+  if(req.query.loc == "gr" || req.query.loc == "sz") req.session.location = req.query.loc;
   if(!req.session.location) req.session.location = "sz";
   if(!dates.includes(req.session.shiftDate)) req.session.shiftDate = dates[0]
-console.log(dates)
   database.query(
     "SELECT * FROM volunteerShifts WHERE date = ?;",
     [req.session.shiftDate],
     function (error, results, fields) {
       var freeShifts = 0;
+      if(results[0]["shifts"+req.session.location] == null) return res.redirect('/timetable/otherWeek')
       results.forEach((element) => {
         element["shifts"+req.session.location].forEach((element) => {
           element.shifts.forEach((element) => {
@@ -110,6 +110,12 @@ console.log(dates)
   );
   
 }, 1000);
+
+    
+} catch (error) {
+    console.log(error)
+    return res.redirect('/timetable/otherWeek')
+}
 });
 router.post("/", function (req, res) {
   req.session.shiftId = req.body.shiftType;
@@ -214,7 +220,6 @@ var nextMonth = getNextMonth()
   res.render("public/timetable/otherWeek", { dates: getThreeDatesSz(), nextMonth: nextMonth });
 });
 router.post("/chooseDate/", function (req, res) {
-  
   if (!getThreeDatesSz().includes(req.body.date)) return res.json({ success: false });
   database.query(
     "SELECT * FROM volunteerShifts WHERE date = ?;",
@@ -222,6 +227,7 @@ router.post("/chooseDate/", function (req, res) {
     function (error, results, fields) {
       if (!results.length > 0)
         return res.json({ success: false, message: "NA" });
+        if(results[0][["shifts"+req.session.location]] == null) return res.json({ success: false, message: "NA" });
       req.session.shiftDate = req.body.date;
       return res.json({ success: true });
     }

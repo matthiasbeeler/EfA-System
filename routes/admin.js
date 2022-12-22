@@ -27,6 +27,7 @@ router.get("/accounts", function (req, res, next) {
   database.query(
     `SELECT * FROM adminAccounts`,
     function (error, results, fields) {
+      console.log(error)
       if (error) return res.redirect("/admin");
       res.render("admin/accounts", { results: results });
     }
@@ -48,6 +49,7 @@ router.get("/accounts/:username", function (req, res, next) {
   );
   
 } catch (error) {
+  console.log(error)
   if (error) return res.redirect("/admin/accounts");
 
 }
