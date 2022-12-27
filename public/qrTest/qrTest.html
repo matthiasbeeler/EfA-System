@@ -1,16 +1,12 @@
 <!-- HTML file with a video element and a canvas element -->
 <video id="video" width="640" height="480" autoplay></video>
 <canvas id="canvas" width="640" height="480"></canvas>
-<script src="/qrTest/jsQR.js"></script>
-<!-- JavaScript code to access the user's camera and scan for QR codes -->
-<script>
-  // Get references to the video and canvas elements
-  var video = document.getElementById('video');
-  var canvas = document.getElementById('canvas');
-  var context = canvas.getContext('2d');
 
+<!-- JavaScript code to access the user's camera and scan for QR codes -->
+<script src="https://cdn.jsdelivr.net/npm/@zxing/library@latest/umd/index.min.js"></script>
+<script>
   // Set up the QR code reader
-  var qr = new jsQR();
+  const codeReader = new ZXing.BrowserQRCodeReader();
 
   // Set up the video stream
   navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
@@ -27,16 +23,17 @@
     }, 5000);
 
     // Draw the video frame to the canvas
-    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+    canvas.getContext('2d').drawImage(video, 0, 0);
 
     // Scan the image for QR codes
-    var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-    var code = qr.scanImage(imageData);
-
-    // If a QR code is found, display the data
-    if (code) {
-      console.log(code.data);
-    }
+    codeReader.decodeFromImage(canvas)
+      .then(result => {
+        console.log(result.text);
+        alert(result.text)
+      })
+      .catch(err => {
+        console.error(err);
+      });
 
     // Continue scanning
     if (scanning) {
