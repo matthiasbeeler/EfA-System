@@ -1,51 +1,39 @@
-<!-- HTML file with a video element and a canvas element -->
+<!-- HTML file with a video element -->
 <video id="video" width="640" height="480" autoplay></video>
-<canvas id="canvas" width="640" height="480"></canvas>
 
 <!-- JavaScript code to access the user's camera and scan for QR codes -->
-<script src="https://cdn.jsdelivr.net/npm/jsqr@latest/dist/jsQR.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@ericblade/quagga@latest/dist/quagga.min.js"></script>
 <script>
-  // Get references to the video and canvas elements
-  var video = document.getElementById('video');
-  var canvas = document.getElementById('canvas');
-  var context = canvas.getContext('2d');
-
   // Set up the QR code reader
-  var qr = new jsQR();
-
-  // Set up the video stream
-  navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
-    .then(function(stream) {
-      video.srcObject = stream;
-    });
-
-  // Set up a loop to continuously scan for QR codes
-  function scan() {
-    // Set up a timeout to stop scanning after a certain period of time
-    // (e.g. 5 seconds) to prevent the scanner from running indefinitely
-    setTimeout(function() {
-      scanning = false;
-    }, 5000);
-
-    // Draw the video frame to the canvas
-    context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-    // Scan the image for QR codes
-    var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-    var code = qr.scanImage(imageData);
-
-    // If a QR code is found, display the data
-    if (code) {
-      console.log(code.data);
+  Quagga.init({
+    inputStream: {
+      type: 'LiveStream',
+      target: document.querySelector('#video'),
+      constraints: {
+        width: 640,
+        height: 480,
+        facingMode: 'environment',
+      },
+    },
+    locator: {
+      patchSize: 'medium',
+      halfSample: true,
+    },
+    decoder: {
+      readers: ['qr_reader'],
+    },
+    locate: true,
+  }, function(err) {
+    if (err) {
+      console.log(err);
+      return
     }
+    console.log('Initialization finished. Ready to start');
+    Quagga.start();
+  });
 
-    // Continue scanning
-    if (scanning) {
-      requestAnimationFrame(scan);
-    }
-  }
-
-  // Start scanning
-  var scanning = true;
-  scan();
+  // Handle QR code detection
+  Quagga.onDetected(function(result) {
+    console.log(result.codeResult.code);
+  });
 </script>
