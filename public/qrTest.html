@@ -1,0 +1,50 @@
+<!-- HTML file with a video element and a canvas element -->
+<video id="video" width="640" height="480" autoplay></video>
+<canvas id="canvas" width="640" height="480"></canvas>
+<script src="https://raw.githubusercontent.com/cozmo/jsQR/8e6a036beafa7053dd44b1b76ac578d22b1b3311/dist/jsQR.js"></script>
+<!-- JavaScript code to access the user's camera and scan for QR codes -->
+<script>
+  // Get references to the video and canvas elements
+  var video = document.getElementById('video');
+  var canvas = document.getElementById('canvas');
+  var context = canvas.getContext('2d');
+
+  // Set up the QR code reader
+  var qr = new JSQR();
+
+  // Set up the video stream
+  navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+    .then(function(stream) {
+      video.srcObject = stream;
+    });
+
+  // Set up a loop to continuously scan for QR codes
+  function scan() {
+    // Set up a timeout to stop scanning after a certain period of time
+    // (e.g. 5 seconds) to prevent the scanner from running indefinitely
+    setTimeout(function() {
+      scanning = false;
+    }, 5000);
+
+    // Draw the video frame to the canvas
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    // Scan the image for QR codes
+    var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+    var code = qr.scanImage(imageData);
+
+    // If a QR code is found, display the data
+    if (code) {
+      console.log(code.data);
+    }
+
+    // Continue scanning
+    if (scanning) {
+      requestAnimationFrame(scan);
+    }
+  }
+
+  // Start scanning
+  var scanning = true;
+  scan();
+</script>
