@@ -3,10 +3,15 @@
 <canvas id="canvas" width="640" height="480"></canvas>
 
 <!-- JavaScript code to access the user's camera and scan for QR codes -->
-<script src="https://cdn.jsdelivr.net/npm/@zxing/library@latest/umd/index.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jsqr@latest/dist/jsQR.min.js"></script>
 <script>
+  // Get references to the video and canvas elements
+  var video = document.getElementById('video');
+  var canvas = document.getElementById('canvas');
+  var context = canvas.getContext('2d');
+
   // Set up the QR code reader
-  const codeReader = new ZXing.BrowserQRCodeReader();
+  var qr = new JSQR();
 
   // Set up the video stream
   navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
@@ -23,17 +28,16 @@
     }, 5000);
 
     // Draw the video frame to the canvas
-    canvas.getContext('2d').drawImage(video, 0, 0);
+    context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
     // Scan the image for QR codes
-    codeReader.decodeFromImage(canvas)
-      .then(result => {
-        console.log(result.text);
-        alert(result.text)
-      })
-      .catch(err => {
-        console.error(err);
-      });
+    var imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+    var code = qr.scanImage(imageData);
+
+    // If a QR code is found, display the data
+    if (code) {
+      console.log(code.data);
+    }
 
     // Continue scanning
     if (scanning) {
