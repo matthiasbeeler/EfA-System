@@ -58,8 +58,11 @@
         id: $('#cardId').val()
       },
       success: function (data) {
-        console.log(data)
         if (data.success == true) {
+          if(data.comment.length > 0){
+              $('.message').show();
+              $('.message').html("Lezter Kommentar: "+data.comment)
+            }
           $('.button').hide();
           $('.tick').show()
           setTimeout(() => {
