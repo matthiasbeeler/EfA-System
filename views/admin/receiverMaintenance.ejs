@@ -23,12 +23,13 @@
             <input type="text" name="tel" placeholder="Telefonnummer" id="phone" onkeyup="searchPhone()" required>
             <input type="text" name="passportNumber" placeholder="Ausweisnummer" id="passportNumber" onkeyup="searchPassport()" required>
             <input type="text" name="plz" placeholder="Ort/Postleitzahl" id="Postalcode" onkeyup="searchPostalcode()" required>
-            <input type="text" name="number" placeholder="Karten-ID" onkeyup="searchCardId()" id="username" required>
-            
+            <input type="number" name="number" placeholder="Karten-ID" onkeyup="searchCardId()" id="username" required>
+            <input type="text" name="description" placeholder="Beschreibung" onkeyup="searchComment()" id="description" required>
+
             <div class="searchContent">
                 <div class="titleBar"><div class="leftText">Name</div><div class="centerSeperator"></div><div class="rightText">Karten-ID</div></div>
                 <% results.forEach(function(result) { %>
-                    <div class="searchElement" onclick="window.location = '/admin/receiverMaintenance/<%-result.id%>'"><div class="leftText text"><%-result.fullName%></div><div class="centerSeperator"></div><div class="rightText text"><%-result.cardId%></div><div class="phonenumberText text" style="display: none;"><%-result.phonenumber%></div><div class="passportText text" style="display: none;"><%-result.passportNumber%></div><div class="postalcodeText text" style="display: none;"><%-result.postalCode%></div><img src="/images/svg/continue.svg" alt=""></div>
+                    <div class="searchElement" onclick="window.location = '/admin/receiverMaintenance/<%-result.id%>'"><div class="leftText text"><%-result.fullName%></div><div class="centerSeperator"></div><div class="rightText text"><%-result.cardId%></div><div class="phonenumberText text" style="display: none;"><%-result.phonenumber%></div><div class="passportText text" style="display: none;"><%-result.passportNumber%></div><div class="postalcodeText text" style="display: none;"><%-result.postalCode%></div><div class="commentText text" style="display: none;"><%-result.comment%></div><img src="/images/svg/continue.svg" alt=""></div>
                 <% }); %> 
 
             </div>
@@ -47,6 +48,25 @@
         // Loop through all table rows, and hide those who don't match the search query
         for (i = 0; i < tr.length; i++) {
             td = tr[i].getElementsByClassName("text")[1];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+    function searchComment() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("description");
+        filter = input.value.toUpperCase();
+        table = document.querySelector(".searchContent");
+        tr = table.getElementsByClassName("searchElement");
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByClassName("text")[5];
             if (td) {
                 txtValue = td.textContent || td.innerText;
                 if (txtValue.toUpperCase().indexOf(filter) > -1) {

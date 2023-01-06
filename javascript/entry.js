@@ -27,8 +27,13 @@ exports.normal = function (req, res, database) {
             message: "Diese Karte existiert im System nicht",
           });
         } else {
+          if(results[0].blocked !== 0) res.json({
+            success: false,
+            message: "Karte blockiert. Kommentar: "+results[0].comment,
+          });
           var entitlement = results[0].entitlement;
           var id = results[0].id;
+          var comment = results[0].comment;
           database.query(
             `SELECT * FROM entryLogs WHERE  id = ? and date = ?`,
             [id, currentDate],
@@ -44,7 +49,7 @@ exports.normal = function (req, res, database) {
         VALUES (?, ?, ?, ?, ?,?)`,
                   [id, time, entitlement, req.body.id, currentDate, jwt.verify(req.cookies.Auth, process.env.jwtSecret).location],
                   function (error, results, fields) {
-                    if (!error) return res.json({ success: true });
+                    if (!error) return res.json({ success: true, comment: comment });
                   }
                 );
               }

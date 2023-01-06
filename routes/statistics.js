@@ -74,6 +74,7 @@ router.get("/", function (req, res) {
             aReceiversLoc: aReceiversLoc,
             bReceiversLoc: bReceiversLoc,
             registrationsLoc: registrationsLoc,
+            registrationsLocDate: "--",
             receiversLoc: receiversLoc,
             location: jwt.verify(req.cookies.Auth, process.env.jwtSecret)
               .location,
@@ -100,6 +101,7 @@ router.get("/:date/", function (req, res) {
           bReceiversLoc: "--",
           registrationsLoc: "--",
           receiversLoc: "--",
+          registrationsLocDate: "--",
           location: jwt.verify(req.cookies.Auth, process.env.jwtSecret)
             .location,
         });
@@ -111,6 +113,7 @@ router.get("/:date/", function (req, res) {
       var bReceiversLoc = 0;
       var registrationsLoc = 0;
       var receiversLoc = 0;
+      registrationsLocDate = 0;
       results.forEach((element) => {
         receivers++;
         if (element.entitlement == "A") return aReceivers++;
@@ -144,6 +147,11 @@ router.get("/:date/", function (req, res) {
               jwt.verify(req.cookies.Auth, process.env.jwtSecret).location
             )
               registrationsLoc++;
+              if (
+                element.registrationLocation ==
+                jwt.verify(req.cookies.Auth, process.env.jwtSecret).location && element.registrationDate == req.params.date
+              )
+              registrationsLocDate++;
           });
         }
       );
@@ -163,6 +171,7 @@ router.get("/:date/", function (req, res) {
             aReceiversLoc: aReceiversLoc,
             bReceiversLoc: bReceiversLoc,
             registrationsLoc: registrationsLoc,
+            registrationsLocDate: registrationsLocDate,
             receiversLoc: receiversLoc,
             location: jwt.verify(req.cookies.Auth, process.env.jwtSecret)
               .location,
