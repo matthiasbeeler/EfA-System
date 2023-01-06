@@ -101,6 +101,10 @@
           if (data.success == true) {
             $('.button').hide();
             $('.tick').show()
+            if(data.comment.length > 0){
+              $('.message').show();
+              $('.message').html("Lezter Kommentar: "+data.comment)
+            }
             setTimeout(() => {
               $('.tick').hide();
               $('.button').show();
