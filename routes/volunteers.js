@@ -25,10 +25,17 @@ function getThreeDatesSz (){
   }
   
  function getFirstMonth(){
+  var day = new Date();
+  var firstSat = [];
+
+  if(day.getDay()==6){
+    var is = day.getDate();
+    if(is < 10) is = "0"+String(is)
+    firstSat.push(day.getFullYear()+"-"+day.getMonth()+1+"-"+is)
+  }
   var d = new Date();
   var getTot = daysInMonth(d.getMonth()+1,d.getFullYear()); //Get total days in a month
   var sat = new Array();   //Declaring array for inserting Saturdays
-  var firstSat = [];
   for(var i=1;i<=getTot;i++){    //looping through days in month
       var newDate = new Date(d.getFullYear(),d.getMonth(),i)
       if(newDate.getDay()==6){   //if Saturday
@@ -39,7 +46,7 @@ function getThreeDatesSz (){
   
   }
   sat.forEach(function(element) {
-    if(!isInThePast(new Date(element)) && sat.indexOf(element) == 0 || !isInThePast(new Date(element)) && sat.indexOf(element) == 2) firstSat.push(element)
+    if(!isInThePast(new Date(element)) && sat.indexOf(element) == 0 || !isInThePast(new Date(element)) && sat.indexOf(element) == 2 ) firstSat.push(element)
    });
   return firstSat;
   function daysInMonth(month,year) {
@@ -84,6 +91,8 @@ if(d.getMonth()+2 < 10){         sat.push(String(d.getFullYear())+"-0"+String(d.
 router.get("/", function (req, res) {
   var location = jwt.verify(req.cookies.Auth, process.env.jwtSecret).location;
   dates = getThreeDatesSz()
+  console.log(dates)
+
  if(location !== "sz"){
   var beforedate = new Date();
   var tomorrow = new Date();
@@ -93,8 +102,10 @@ router.get("/", function (req, res) {
   var result = [];
   var current = start.clone();
   while (current.day(7 + day).isBefore(end)) {
+    console.log(current.clone())
     result.push(current.clone());
   }
+
   var result = result.map((m) => m.format("DD.MM.YYYY"));
     req.session.shiftDate = result[0];
  } else{
