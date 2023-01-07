@@ -97,13 +97,16 @@
           id: JSON.parse(decodedText).id
         },
         success: function (data) {
-          console.log(data)
           if (data.success == true) {
             $('.button').hide();
             $('.tick').show()
+            try{
             if(data.comment.length > 0){
               $('.message').show();
               $('.message').html("Lezter Kommentar: "+data.comment)
+            }              
+            } catch (error) {
+              
             }
             setTimeout(() => {
               $('.tick').hide();
