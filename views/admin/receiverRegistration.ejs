@@ -10,6 +10,10 @@
     <script src="https://code.jquery.com/jquery-1.6.2.min.js"></script>
     <link rel="stylesheet" href="/stylesheets/main.css">
     <link rel="manifest" href="/manifest.json">
+    <script>
+  var reload = true;
+
+    </script>
 </head>
 
 <body>
@@ -30,8 +34,7 @@
             <div class="message infoBlock">
                 <div class="info"></div>
             </div>
-            <input type="tel" onchange="$(this).css('border', '2px solid white');" name="phonenumber" placeholder="Telefonnummer" id="phonenumber" oninvalid=" $(this).css('border', '2px solid red');" required>
-            <select name="permit" onclick="$('#passportType').focus();" onchange="$(this).css('border', '2px solid white');" id="passportType" oninvalid=" $(this).css('border', '2px solid red');" required>
+            <select name="permit" onclick="$('#passportType').focus();" onchange="$(this).css('border', '2px solid white');reload = false;" id="passportType" oninvalid=" $(this).css('border', '2px solid red');" required>
                 <option value="" disabled selected>Aufenthaltsstatus</option>
                 <option value="s">S</option>
                 <option value="F">F</option>
@@ -42,7 +45,7 @@
                 <option value="N">N</option>
                 <option value="L">L</option>
             </select>
-            <input type="text" onchange="$(this).css('border', '2px solid white');" name="passportnumber" maxlength="20" placeholder="Ausweis- oder Zemisnummer" id="" oninvalid=" $(this).css('border', '2px solid red');" required>
+            <input type="text" onchange="$(this).css('border', '2px solid white');reload = false;" name="passportnumber" maxlength="20" placeholder="Ausweis- oder Zemisnummer" id="" oninvalid=" $(this).css('border', '2px solid red');" required>
             <div class="zemis">
               <div class="inputContainer">
 
@@ -50,7 +53,7 @@
               <div class="removeZemis" onclick="addZemis()">Nummer hinzufügen</div>
             </div>
             <input type="date" onchange="$(this).css('border', '2px solid white');" data-placeholder="Geburtsdatum" inputmode="decimal" aria-required="true" name="birthdate" placeholder="Geburtsdatum DD.MM.YYY" required pattern="[0-9]{2}.[0-9]{2}.[0-9]{4}" oninvalid=" $(this).css('border', '2px solid red');" required>
-            <input type="text" onchange="$(this).css('border', '2px solid white');" name="name" placeholder="Vorname, Nachname" id="name" oninvalid=" $(this).css('border', '2px solid red');" required>
+            <input type="text" onchange="$(this).css('border', '2px solid white');reload = false;" name="name" placeholder="Vorname, Nachname" id="name" oninvalid=" $(this).css('border', '2px solid red');" required>
             <select name="gender"  onclick="$('#gender').focus();" onchange="$(this).css('border', '2px solid white');" id="gender" oninvalid=" $(this).css('border', '2px solid red');" required>
                 <option value="" disabled selected>Geschlecht</option>
                 <option value="Weiblich">Weiblich</option>
@@ -74,6 +77,7 @@
                 <option value="12">12</option>
 
             </select>
+            <input type="tel" onchange="$(this).css('border', '2px solid white');" name="phonenumber" placeholder="Telefonnummer" id="phonenumber" oninvalid=" $(this).css('border', '2px solid red');" required>
             <input type="text" name="postalcode" onchange="$(this).css('border', '2px solid white');" placeholder="Postleitzahl" id="postalCode" required oninvalid=" $(this).css('border', '2px solid red');">
             <div class="button buttonImage" onchange="$(this).css('border', '2px solid white');" onclick="cardScan()"><img src="/images/svg/qrScan.svg" alt="">Karte einscannen</div>
             <input type="number" max="9999999" onchange="$(this).css('border', '2px solid white');" name="cardid" id="cardID" placeholder="Karten-ID" id="" required oninvalid=" $(this).css('border', '2px solid red');">
@@ -118,6 +122,7 @@
 </html>
 <script src="/javascripts/qr.min.js"></script>
 <script>
+
 function entitlementSelect(){
   $('.entitlementInfo').hide()
   $('#entitlement').css('border', '2px solid white');
@@ -130,6 +135,7 @@ function entitlementSelect(){
   return false;
 }
 function addZemis(){
+  reload = false;
       var obj = `<div><input type="text" value="" onchange="$(this).css('border', '2px solid white');" maxlength="20" name="passportnumber" placeholder="Ausweis- oder Zemisnummer" id="" oninvalid=" $(this).css('border', '2px solid red');" required><div class="removeZemis" onclick="removeZemis(this)">L&ouml;schen</div></br></div>`;
       $('.inputContainer').append(obj)
     };
@@ -183,6 +189,7 @@ function addZemis(){
               id: JSON.parse(decodedText).id
             },
             success: function (data) {
+              reload = false;
                 if (data.success == true) {
                     var results = data.results[0];
                     $('#inputs').html(`<input type="text" name="id" placeholder="ReceiverId" required="" value="${results.id}" style="display: none;" readonly>`)
@@ -242,6 +249,7 @@ function addZemis(){
             success: function (data) {
               console.log(data)
                 if (data.success == true) {
+                  reload = true;
                   $('.loader').hide()
 
                   $('form').hide();
@@ -277,4 +285,14 @@ function addZemis(){
             }
         });
     })
+    window.addEventListener("beforeunload", (e) => {
+  if(reload) return;
+  const confirmationMessage = "\\o/";
+
+  // Gecko + IE
+  (e || window.event).returnValue = confirmationMessage;
+
+  // Safari, Chrome, and other WebKit-derived browsers
+  return confirmationMessage;
+});
 </script>
