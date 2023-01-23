@@ -36,6 +36,9 @@
         return false;
        }
     }
+    if (typeof navigator.serviceWorker !== 'undefined') {
+    navigator.serviceWorker.register('/javascript/pwabuilder-sw.js')
+  }
 </script>
 <body>
     <div class="content">

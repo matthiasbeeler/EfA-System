@@ -41,6 +41,9 @@
 
 </html>
 <script>
+  if (typeof navigator.serviceWorker !== 'undefined') {
+    navigator.serviceWorker.register('/javascript/pwabuilder-sw.js')
+  }
     $('.message').hide()
     $("form").submit(function(e) {
         e.preventDefault();
