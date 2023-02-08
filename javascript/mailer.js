@@ -1,7 +1,7 @@
 var nodemailer = require("nodemailer");
 var ejs = require("ejs");
 const transporter = nodemailer.createTransport({
-  host: "nyv.email",
+  host: "mail.nyv.ch",
   port: 587,
   secure: false, // true for 465, false for other ports
   auth: {
