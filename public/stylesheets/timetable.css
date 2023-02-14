@@ -337,10 +337,14 @@ input[type="date"]:valid::before { display: none }
     transition: all .1s linear;
 
 }
+
 footer{
     background: var(--mainInfoColour);
-    padding: 3%;
-    border-radius: 10px 10px 0px 0px;
+    padding: 1%;
+    font-size: small;
+}
+footer p, footer a{
+    font-size: small;
 }
 .seperator{
     background: var(--mainInputBackgroundColour);

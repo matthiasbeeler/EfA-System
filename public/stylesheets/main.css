@@ -383,7 +383,10 @@ input[type="date"]:valid::before { display: none }
 footer{
     background: var(--mainInfoColour);
     padding: 3%;
-    border-radius: 10px 10px 0px 0px;
+    font-size: small;
+}
+footer p, footer a{
+    font-size: small;
 }
 .shiftList, .shiftList .infoBlock{
     width: 90%;

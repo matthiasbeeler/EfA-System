@@ -138,6 +138,7 @@
   }
 
   footer{
-    padding: 2%;
+    padding: 1%;
+    border-radius: 0px;
     background: lightgray;
   }
