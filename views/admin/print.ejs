@@ -23,7 +23,7 @@
     <div class=e210_2>
         <div class=e210_5><span class="e210_4">11:00 - 12:00</span>
             <div class="e210_8"></div>
-            <div class="e210_9"></div><span class="e210_7">AA</span>
+            <div class="e210_9"></div><span class="e210_7">A</span>
         </div>
         <div class=e210_64>
             <div class="e1306_2"></div><span class="e210_65">12:00 - 13:00</span>
@@ -39,7 +39,7 @@
         </div>
         <div class=e1306_46>
             <div class="e1306_47"></div><span class="e1306_48">12:00 - 13:00</span>
-            <div class="e1306_49"></div><span class="e1306_50">B</span><span class="e1306_51">3491</span><span
+            <div class="e1306_49"></div><span class="e1306_50">A</span><span class="e1306_51">3491</span><span
                 class="e1306_52">www.essenfueralle.org</span>
             <div class="e1306_53"></div>
         </div>
@@ -57,7 +57,7 @@
         </div>
         <div class=e1306_54>
             <div class="e1306_55"></div><span class="e1306_56">12:00 - 13:00</span>
-            <div class="e1306_57"></div><span class="e1306_58">B</span><span class="e1306_59">3491</span><span
+            <div class="e1306_57"></div><span class="e1306_58">A</span><span class="e1306_59">3491</span><span
                 class="e1306_60">www.essenfueralle.org</span>
             <div class="e1306_61"></div>
         </div>
@@ -1140,7 +1140,7 @@
                 var numContainers = ["e1220_5", "e1306_11", "e1306_19", "e1306_27", "e1306_35", "e1306_43", "e1306_51", "e1306_59", "e1306_67"]
                 qrContainers.forEach(element => {
                     var entitlement = "A"
-                    if (countNum > 5) var entitlement = "B"
+                    if (countNum > 7) var entitlement = "B"
 
                     new QRCode(document.querySelector(`.${qrContainers[countNum]}`), { text: String(`{"type":"card","id":"${startId + countNum}", "timeslot":"${timeslot}", "entitlement": "${entitlement}", "location":"sz"}`), correctLevel: QRCode.CorrectLevel.L });
                     $(`.${numContainers[countNum]}`).html(startId + countNum)
