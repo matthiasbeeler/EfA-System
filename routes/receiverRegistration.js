@@ -128,7 +128,7 @@ router.post("/", function (req, res, next) {
                     phonenumber: phone.number,
                     passportType: req.body.permit,
                     passportNumber: passportNumber,
-                    birthdate: req.body.birthdate.split("-").reverse().join("."),
+                    birthdate: req.body.birthdate,
                     fullName: req.body.name.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                     gender: req.body.gender,
                     familyMembers: req.body.familymembers,
@@ -198,7 +198,7 @@ router.post("/", function (req, res, next) {
                   passportNumber,
                   req.body.permit,
 
-                  req.body.birthdate.split("-").reverse().join("."),
+                  req.body.birthdate,
                   req.body.name,
                   req.body.gender,
                   req.body.familymembers,

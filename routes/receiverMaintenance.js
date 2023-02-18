@@ -150,7 +150,7 @@ router.get("/", function (req, res, next) {
                 phone.number,
                 req.body.permit,
                 passportNumber,
-                req.body.birthdate.split("-").reverse().join("."),
+                req.body.birthdate,
                 req.body.name.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 req.body.gender,
                 req.body.familymembers,

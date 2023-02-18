@@ -60,7 +60,7 @@
         </div>
         <div class="removeZemis" onclick="addZemis()">Nummer hinzufügen</div>
       </div>
-      <input pattern="\d*" inputmode="decimal" id="dateField" type="text"
+      <input pattern="\d*" inputmode="decimal" name="birthdate" id="dateField" type="text"
         placeholder="DD.MM.YYYY Geburtsdatum" required onchange="$(this).css('border', '2px solid white');"
         oninvalid=" $(this).css('border', '2px solid red');" pattern="[0-9]{2}.[0-9]{2}.[0-9]{4}">
       <input type="text" onchange="$(this).css('border', '2px solid white');reload = false;" name="name"
