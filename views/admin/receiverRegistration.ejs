@@ -60,8 +60,8 @@
         </div>
         <div class="removeZemis" onclick="addZemis()">Nummer hinzufügen</div>
       </div>
-      <input pattern="\d*" inputmode="decimal" name="birthdate" id="dateField" type="text"
-        placeholder="DD.MM.YYYY Geburtsdatum" required onchange="$(this).css('border', '2px solid white');"
+      <input  inputmode="decimal" name="birthdate" id="dateField" type="text"
+        placeholder="DD.MM.YYYY Geburtsdatum"   required onchange="$(this).css('border', '2px solid white');"
         oninvalid=" $(this).css('border', '2px solid red');" pattern="[0-9]{2}.[0-9]{2}.[0-9]{4}">
       <input type="text" onchange="$(this).css('border', '2px solid white');reload = false;" name="name"
         placeholder="Vorname, Nachname" id="name" oninvalid=" $(this).css('border', '2px solid red');" required>
@@ -341,21 +341,18 @@
       var size = document.getElementById('dateField').value.length;
 
       if ((size == 2 && document.getElementById('dateField').value > 31) || (size == 5 && Number(document
-          .getElementById('dateField').value.split('.')[1]) > 12) || (size >= 10 && Number(document.getElementById(
+          .getElementById('dateField').value.split('.')[1]) > 99) || (size >= 10 && Number(document.getElementById(
           'dateField').value.split('.')[2]) > 2023)) {
-        alert('Invalid Date');
-        document.getElementById('dateField').value = '';
+        
         return;
       }
 
       if ((size == 2 && document.getElementById('dateField').value < 32) || (size == 5 && Number(document
-          .getElementById('dateField').value.split('.')[1]) < 13)) {
+          .getElementById('dateField').value.split('.')[1]) < 99)) {
         document.getElementById('dateField').value += '.';
       }
 
     } else {
-      alert('Please enter valid date.')
-      document.getElementById('dateField').value = '';
     }
   }
 </script>
