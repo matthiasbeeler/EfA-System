@@ -46,7 +46,7 @@
               </div>
               <div class="removeZemis" onclick="addZemis()">Nummer hinzufügen</div>
             </div>
-            <input id="dateField" value="<%-result[0].birthdate%>" inputContainer="numeric" type="text" placeholder="DD.MM.YYYY Geburtsdatum" required  onchange="$(this).css('border', '2px solid white');" oninvalid=" $(this).css('border', '2px solid red');" pattern="[0-9]{2}.[0-9]{2}.[0-9]{4}">
+            <input  pattern="\d*" inputmode="decimal" id="dateField" value="<%-result[0].birthdate%>" type="text" placeholder="DD.MM.YYYY Geburtsdatum" required  onchange="$(this).css('border', '2px solid white');" oninvalid=" $(this).css('border', '2px solid red');" pattern="[0-9]{2}.[0-9]{2}.[0-9]{4}">
             <input type="text" value="<%-result[0].fullName%>" onchange="$(this).css('border', '2px solid white');" name="name" placeholder="Vorname, Nachname" id="name" oninvalid=" $(this).css('border', '2px solid red');" required>
             <select name="gender" value="<%-result[0].gender%>" onchange="$(this).css('border', '2px solid white');" id="gender" oninvalid=" $(this).css('border', '2px solid red');" required>
                 <option value="" disabled selected>Geschlecht</option>
