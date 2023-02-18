@@ -20,7 +20,7 @@ function getThreeDatesSz (){
   var d = new Date();
   var getTot = daysInMonth(d.getMonth()+1,d.getFullYear()); //Get total days in a month
   var sat = new Array();   //Declaring array for inserting Saturdays
-  var firstSat = [];
+  var firstSat = [];  
   for(var i=1;i<=getTot;i++){    //looping through days in month
       var newDate = new Date(d.getFullYear(),d.getMonth(),i)
       if(newDate.getDay()==6){   //if Saturday
@@ -209,7 +209,6 @@ router.post("/support", function (req, res) {
 router.get("/otherWeek/", function (req, res) {
   function getNextMonth(){
     var date = new Date();
-    console.log(date.getMonth()+1)
     var lastDay = new Date(date.getFullYear(), date.getMonth()+1, 0);
     if(lastDay.getMonth()+1 < 10){ return lastDay.getDate()+".0"+(lastDay.getMonth()+1)+"."+lastDay.getFullYear();
   }else{return lastDay.getDate()+"."+(lastDay.getMonth()+1)+"."+lastDay.getFullYear();
