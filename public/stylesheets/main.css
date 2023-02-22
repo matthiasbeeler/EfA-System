@@ -348,16 +348,6 @@ input.smallInput{
         transform: rotate(360deg);
     }
 }
-@media (min-width: 600px) {
-    .content{
-        width: 40%;
-        margin-left: 30%;
-    }
-    footer{
-        width: 34%;
-    }
-    
-}
 
 
 
@@ -382,13 +372,27 @@ input[type="date"]:valid::before { display: none }
 }
 footer{
     background: var(--mainInfoColour);
-    padding: 3%;
-    font-size: small;
+    padding: 2%;
 }
 footer p, footer a{
-    font-size: small;
+    font-size: unset;
+    margin: 0px;
 }
 .shiftList, .shiftList .infoBlock{
     width: 90%;
 }
 
+
+
+@media (min-width: 600px) {
+    .content{
+        width: 30%;
+        margin-left: 35%;
+    }
+    footer{
+        width: 28%;
+        margin-left: 35%;
+        padding: 1%;
+    }
+    
+}

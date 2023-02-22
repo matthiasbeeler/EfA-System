@@ -340,11 +340,12 @@ input[type="date"]:valid::before { display: none }
 
 footer{
     background: var(--mainInfoColour);
-    padding: 1%;
+    padding: 2%;
     font-size: small;
 }
 footer p, footer a{
-    font-size: small;
+    font-size: unset;
+    margin: 0px;
 }
 .seperator{
     background: var(--mainInputBackgroundColour);
@@ -465,8 +466,9 @@ footer p, footer a{
         margin-left: 30%;
     }
     footer{
-        width: 34%;
+        width: 38%;
         margin-left: 30%;
+        padding: 1%;
     }
     .innerButtonContainer a:nth-of-type(1), .innerButtonContainer a:nth-of-type(2){
         width: 47.4%;
@@ -478,8 +480,9 @@ footer p, footer a{
         margin-left: 35%;
     }
     footer{
-        width: 24%;
+        width: 28%;
         margin-left: 35%;
+        padding: 1%;
     }
     .innerButtonContainer a:nth-of-type(1), .innerButtonContainer a:nth-of-type(2){
         width: 47.4%;
