@@ -73,7 +73,7 @@
             </select>
             <input type="text" value="<%-result[0].postalCode%>" name="postalcode" onchange="$(this).css('border', '2px solid white');" placeholder="Postleitzahl" id="postalCode" required oninvalid=" $(this).css('border', '2px solid red');">
             <div class="button buttonImage" onchange="$(this).css('border', '2px solid white');" onclick="cardScan()"><img src="/images/svg/qrScan.svg" alt="">Karte einscannen</div>
-            <input type="number" value="<%-result[0].cardId%>" max="9999999" onchange="$(this).css('border', '2px solid white');" name="cardid" id="cardID" placeholder="Karten-ID" id="" required oninvalid=" $(this).css('border', '2px solid red');">
+            <input type="number" value="<%-result[0].cardId%>" max="9999999" onchange="$(this).css('border', '2px solid white');" inputmode="decimal" name="cardid" id="cardID" placeholder="Karten-ID" id="" required oninvalid=" $(this).css('border', '2px solid red');">
             <select name="entitlement" id="entitlement" onchange="$(this).css('border', '2px solid white');" class="smallSelect" id="" oninvalid=" $(this).css('border', '2px solid red');" required>
                 <option value="" disabled selected>Berechtigung</option>
                 <option value="A">A</option>

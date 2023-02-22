@@ -42,7 +42,7 @@
         onchange="$(this).css('border', '2px solid white');reload = false;" id="passportType"
         oninvalid=" $(this).css('border', '2px solid red');" required>
         <option value="" disabled selected>Aufenthaltsstatus</option>
-        <option value="s">S</option>
+        <option value="s">S (Ukraine)</option>
         <option value="F">F</option>
         <option value="B">B</option>
         <option value="C">C</option>
@@ -98,7 +98,7 @@
       <div class="button buttonImage" onchange="$(this).css('border', '2px solid white');" onclick="cardScan()"><img
           src="/images/svg/qrScan.svg" alt="">Karte einscannen</div>
       <input type="number" max="9999999" onchange="$(this).css('border', '2px solid white');" name="cardid" id="cardID"
-        placeholder="Karten-ID" id="" required oninvalid=" $(this).css('border', '2px solid red');">
+        placeholder="Karten-ID" inputmode="decimal" id="" required oninvalid=" $(this).css('border', '2px solid red');">
       <div class="entitlementInfo infoBlock" style="display: none;">
         <div class="info">
           Bitte überprüfe deine Eingaben: <br>
