@@ -90,11 +90,16 @@
             <div id="inputs">
 
             </div>
-            <textarea name="comment" placeholder="Bemerkungen" id="" cols="30" rows="2"><%-result[0].comment%></textarea>
+            <select name="paid" id="blocked" onchange="$(this).css('border', '2px solid white');" class="smallSelect" id="" required oninvalid=" $(this).css('border', '2px solid red');">
+              <option value="1" selected>Bezahlt</option>
+              <option value="0">Unbezahlt</option>
+          </select>
             <select name="blocked" id="blocked" onchange="$(this).css('border', '2px solid white');" class="smallSelect" id="" required oninvalid=" $(this).css('border', '2px solid red');">
               <option value="0">Nicht blockiert</option>
               <option value="1">Blockiert</option>
           </select>
+            <textarea name="comment" placeholder="Bemerkungen" id="" cols="30" rows="2"><%-result[0].comment%></textarea>
+            
             <button type="submit" class="button buttonImage"><img src="/images/svg/save.svg" alt=""> Speichern</button>
         </form>
         <div class="tick">

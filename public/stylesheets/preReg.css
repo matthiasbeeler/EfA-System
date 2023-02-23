@@ -15,6 +15,9 @@
     background-color: whitesmoke;
   }
   
+  html {
+    overscroll-behavior-y: none;
+}
   .title-gray {
     opacity: 0.5;
   }
