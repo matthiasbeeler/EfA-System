@@ -90,7 +90,7 @@
             <div id="inputs">
 
             </div>
-            <select name="paid" id="blocked" onchange="$(this).css('border', '2px solid white');" class="smallSelect" id="" required oninvalid=" $(this).css('border', '2px solid red');">
+            <select name="paid" id="paid" onchange="$(this).css('border', '2px solid white');" class="smallSelect" id="" required oninvalid=" $(this).css('border', '2px solid red');">
               <option value="1" selected>Bezahlt</option>
               <option value="0">Unbezahlt</option>
           </select>
@@ -114,6 +114,7 @@
 <script>
 
 $('#blocked').val("<%-result[0].blocked%>")
+$('#paid').val("<%-result[0].blocked%>")
 $('#passportType').val("<%-result[0].passportType%>")
 $('#gender').val("<%-result[0].gender%>")
 $('#familyMembers').val("<%-result[0].familyMembers%>")
