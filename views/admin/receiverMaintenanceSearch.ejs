@@ -133,7 +133,19 @@
                 <%-receiverData[0].comment%>
             </div>
         </div>
+        <% if(receiverData[0].paid==0){%>
+            <div class="infoBlock">
 
+                <div class="infoName">Unbezahlt
+                </div>
+            </div>
+            <% }else{%>
+                <div class="infoBlock">
+
+                    <div class="infoName"> Bezahlt
+                    </div>
+                </div>
+                <% }%>
         <% if(receiverData[0].blocked==0){%>
             <div class="infoBlock">
 
