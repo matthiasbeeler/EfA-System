@@ -191,16 +191,15 @@ exports.signOut = function (request, response, database) {
     "SELECT * FROM volunteers WHERE name = ? AND email = ?;",
     [request.session.volunteerName, request.session.volunteerEmail],
     function (error, results, fields) {
+      console.log(results[0].shifts)
       if (error) console.log(error);
       if (error) return response.json({ success: false });
       if (!results.length > 0) {
         response.json({ success: false });
       } else {
         var location =  results[0].shifts[request.session.shiftDate][request.body.shiftTime].location;
-        delete results[0].shifts[request.session.shiftDate][
-          request.body.shiftTime
-        ];
-        var volunteerShifts = results[0]["shifts"+request.session.location];
+        delete results[0].shifts[request.session.shiftDate][request.body.shiftTime];
+        var volunteerShifts = results[0].shifts;
         var volunteerId = results[0].id;
         database.query(
           "SELECT * FROM volunteerShifts WHERE date = ? ;",

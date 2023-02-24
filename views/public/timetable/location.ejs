@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Essen für Alle</title>
+    <link rel="apple-touch-icon" sizes="640x640" href="/images/efaLogo.png">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="/stylesheets/timetable.css">
+    <link rel="manifest" href="/timetableManifest.json">
+    <meta name="theme-color" content="#ececec">
+</head>
+
+<body>
+    <div class="content timetableContent chooseDate">
+        <div class="topBtn" onclick="window.location = '/timetable/'">
+            <img src="/images/svg/ArrowBack.svg" alt="">
+        </div>
+        <h1 class="centerSiteTitle">
+            <%= __('Please choose a location')%>
+        </h1>
+        <div class="seperator"></div>
+
+        <div class="locationButton" onclick="window.location = '/timetable?loc=sz'">
+            <img src="/images/svg/timetable/btnSz.svg" alt="">
+        </div>
+        <div class="locationButton" onclick="window.location = '/timetable?loc=gr'">
+            <img src="/images/svg/timetable/btnGr.svg" alt="">
+        </div>
+        <br>
+
+        <div id="timetableLoader" style="display: none;" class=" loader lds-ripple">
+            <div></div>
+            <div></div>
+        </div>
+
+    </div>
+    <%- include('../../footer'); -%>
+
+</body>
+
+</html>
+<script>
+    function choosen(date) {
+        $("form").hide();
+        $(".naMessage").hide();
+        $(".message").hide();
+        $('.buttonContainer').hide()
+        $('.centerSiteTitle').hide()
+        $('.button').hide()
+        $('.loader').show()
+        $('.topBtn').hide()
+        $.ajax({
+            url: '/timetable/chooseDate/',
+            type: 'POST',
+            cache: false,
+            data: {
+                date: date
+            },
+            success: function (data) {
+                if (data.success == true) {
+                    window.location = "/timetable/";
+                }
+                if (data.success == false) {
+                    if (data.message == "NA") {
+                        $('.naMessage').show()
+                    } else {
+                        $('.message').show()
+                    }
+                    $("form").show();
+                    $('.buttonContainer').show()
+                    $('.centerSiteTitle').show()
+                    $('.button').show()
+                    $('.loader').hide()
+                    $('.topBtn').show()
+                }
+            },
+            error: function (jqXHR, textStatus, err) {
+                $('.message').show()
+                $("form").show();
+                $('.buttonContainer').show()
+                $('.centerSiteTitle').show()
+                $('.button').show()
+                $('.loader').hide()
+                $('.topBtn').show()
+            }
+        });
+    }
+</script>

@@ -261,6 +261,9 @@ router.post("/signOut/", function (req, res) {
 router.get("/signOutEmail", function (req, res) {
   res.render('public/timetable/signOutEmail')
 })
+router.get("/location", function (req, res) {
+  res.render('public/timetable/location')
+})
 router.get('/showQR/volunteer/:volunteerId', function(req, res){
   bwipjs.toBuffer(
     {
