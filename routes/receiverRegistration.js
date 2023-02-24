@@ -139,7 +139,8 @@ router.post("/", function (req, res, next) {
                     comment: req.body.comment,
                     activeRegistration: 1,
                     registrationDate: currentDate,
-                    registrationLocation: jwt.verify(req.cookies.Auth, process.env.jwtSecret).location
+                    registrationLocation: jwt.verify(req.cookies.Auth, process.env.jwtSecret).location,
+                    paid: req.body.paid,
                   },
                   { id: req.body.id },
                 ],
@@ -191,7 +192,7 @@ router.post("/", function (req, res, next) {
                         if(error) console.log(error)
                         if(error) return res.json({ success: false, message: "An error occured" });
               database.query(
-                "INSERT INTO receivers (id, phonenumber,passportNumber, passportType, birthdate, fullName, gender, familyMembers, postalCode, cardId, timeslot, entitlement, comment, activeRegistration, registrationDate, registrationLocation) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                "INSERT INTO receivers (id, phonenumber,passportNumber, passportType, birthdate, fullName, gender, familyMembers, postalCode, cardId, timeslot, entitlement, comment, activeRegistration, registrationDate, registrationLocation,paid) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                 [
                   uuid,
                   phone.number,
@@ -209,7 +210,9 @@ router.post("/", function (req, res, next) {
                   req.body.comment,
                   1,
                   currentDate,
-                  jwt.verify(req.cookies.Auth, process.env.jwtSecret).location
+                  jwt.verify(req.cookies.Auth, process.env.jwtSecret).location,
+                  req.body.paid,
+
 
                 ],
                 function (error, results, fields) {
