@@ -19,6 +19,9 @@ select option{
     background-color: var(--mainBackgroundColour);
     color: var(--mainTextColour);
 }
+html {
+    overscroll-behavior-y: none;
+}
 body, html{
     padding: 0px;
     margin: 0px;

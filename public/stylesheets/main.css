@@ -20,6 +20,9 @@ body, html{
     margin: 0px;
     background: var(--mainBackgroundColour);
 }
+html {
+    overscroll-behavior-y: none;
+}
 .centerSiteTitle{
     width: 100%;
     text-align: center;
