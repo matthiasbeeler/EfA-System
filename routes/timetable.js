@@ -86,6 +86,7 @@ router.get("/",  function (req, res) {
     [req.session.shiftDate],
     function (error, results, fields) {
       var freeShifts = 0;
+      if(!results) return res.redirect('/timetable/otherWeek')
       if(results[0]["shifts"+req.session.location] == null) return res.redirect('/timetable/otherWeek')
       results.forEach((element) => {
         element["shifts"+req.session.location].forEach((element) => {
@@ -278,7 +279,7 @@ router.get('/showQR/volunteer/:volunteerId', function(req, res){
         const imgBase64 = png.toString("base64");
        
         return res.render("public/timetable/showQR", {
-          qrCode: "data:image/png;base64," + imgBase64,
+          qrCode: "data:image/png;base64," + imgBase64, loc: req.query.loc
         });
       }
     }

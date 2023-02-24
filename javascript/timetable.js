@@ -32,13 +32,11 @@ exports.register = function (request, response, database) {
           shiftJson.forEach((el) => {
             if (el.id !== request.session.shiftId) return;
             shiftName = el.shiftName;
-            console.log(el)
             el["shifts"].forEach((element) => {
               if (element.smallShiftId !== e) return;
               var endFreeSpots = element.freeSpots - 1;
               element.freeSpots = endFreeSpots;
               element.volunteers[uuid] = false;
-              console.log(element)
               signedUpShifts.push(`${element.shiftTime}`);
               timeArray.push(element.shiftTime);
             });
@@ -55,7 +53,6 @@ exports.register = function (request, response, database) {
               var stopProcess = 0;
               timeArray.forEach((ele) => {
                 if (ele == 0) return;
-                console.log(ele)
                 if(results[0].shifts == null) results[0].shifts = {}
                 if(!results[0].shifts[request.session.shiftDate]) results[0].shifts[request.session.shiftDate] = {};
                 if (results[0].shifts[request.session.shiftDate][ele]) stopProcess = 1;
