@@ -22,6 +22,30 @@
         <div class="button buttonImage"
             onclick="window.location = '/admin/receiverMaintenance/<%-receiverData[0].id%>/edit/'"><img
                 src="/images/svg/edit.svg" alt="">Bearbeiten</div>
+                <% if(receiverData[0].blocked==1 || receiverData[0].paid==0 || receiverData[0].activeRegistration==0){%>
+
+                <div class="infoBlock warningBlock">
+                    <div class="warningSymbol">
+                        <img src="/images/svg/warning.svg" alt="">
+                    </div>
+
+                    <div class="infoName">
+                    <% if(receiverData[0].blocked==1){%>
+
+                        Blockiert <br>
+                    <% }%>
+                    <% if(receiverData[0].paid==0){%>
+                        Unbezahlt <br>
+                        <% }%>
+                        <% if(receiverData[0].activeRegistration==0){%>
+                            Inaktiv <br>
+                            <% }%>
+
+
+                    </div>
+                </div>
+                <% }%>
+
         <div class="infoBlock">
 
             <div class="infoName">Telefonnummer

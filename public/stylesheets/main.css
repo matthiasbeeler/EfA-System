@@ -394,7 +394,27 @@ div.false{
     background-color: var(--blockBtnColour);
 }
 
+.warningBlock{
+    min-width: 70%;
+}
 
+.infoBlock .warningSymbol{
+    display:flex;
+    width: 30%;
+    height: inherit;
+    min-height: 100%;
+    vertical-align: middle;
+    display: inline-block;
+}
+.infoBlock .warningSymbol img{
+    width: 100%;
+}
+.infoBlock .infoName{
+    width: 68%;
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+}
 @media (min-width: 600px) {
     .content{
         width: 30%;
