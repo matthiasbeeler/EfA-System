@@ -23,11 +23,18 @@
         <br>
         <div class="locationContainer">
             <h2 class="smallTitle">
-                <%= __('Our location in Seewen SZ')%>
+                <%if(loc == "gr") {%><%= __('Our location in Chur GR')%><%}%> <%if(loc == "sz") {%><%= __('Our location in Seewen SZ')%><%}%>
+                
             </h2>
+            <%if(loc == "gr") {%>
+                <iframe frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.openstreetmap.org/export/embed.html?bbox=9.507146179676056%2C46.85746188979569%2C9.511625468730928%2C46.85912359182533&amp;layer=mapnik&amp;marker=46.85829274723863%2C9.509385824203491" style="border:0;width:100%;aspect-ratio: 2/1;border-radius: 10px;"></iframe> 
+                Grossbruggerweg 2 <br> 7000 Chur GR
+                <%}%>
+            <%if(loc == "sz") {%>
             <iframe frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.openstreetmap.org/export/embed.html?bbox=8.627175092697145%2C47.0323435940105%2C8.630715608596804%2C47.03402181345981&amp;layer=mapnik&amp;marker=47.03318271033194%2C8.628945350646973" style="border:0;width:100%;aspect-ratio: 2/1;border-radius: 10px;"></iframe> 
             Steinbislin 9 Seewen SZ <br>
             <a href="https://w3w.co/slime.kitchens.sofa" target="_blank">///slime.kitchens.sofa</a>
+            <%}%>
         </div>
 
     </div>
