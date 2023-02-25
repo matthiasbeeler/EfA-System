@@ -29,7 +29,8 @@ body, html{
     background: var(--mainBackgroundColour);
 }
 .centerSiteTitle{
-    width: 100%;
+    width: 95%;
+    margin-left: 2.5%;
     text-align: center;
     font-size: xx-large;
 }
@@ -47,6 +48,9 @@ input, select, textarea{
     margin-left: 6.5%;
     border: none;
     background: var(--mainInputBackgroundColour);
+    
+}
+.select{
     -webkit-appearance: none;
     -moz-appearance:    none;
     appearance:         none;
@@ -235,7 +239,8 @@ div.unblockButton{
     width: 100%;
 }
 .smallTitle{
-    width: 100%;
+    width: 95%;
+    margin-left: 2.5%;
     text-align: center;
 }
 .toptitle.title{
