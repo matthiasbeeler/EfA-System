@@ -18,6 +18,7 @@
 select option{
     background-color: var(--mainBackgroundColour);
     color: var(--mainTextColour);
+
 }
 html {
     overscroll-behavior-y: none;
@@ -46,6 +47,9 @@ input, select, textarea{
     margin-left: 6.5%;
     border: none;
     background: var(--mainInputBackgroundColour);
+    -webkit-appearance: none;
+    -moz-appearance:    none;
+    appearance:         none;
 }
 input[type="checkbox"]{
     width: unset;
@@ -109,9 +113,11 @@ div.removeZemis{
     margin-left: 2vw;
     margin-top: 2vw;
     display: inline-flex;
+    
 }
 .topBtn img{
     width: 52%;
+    filter: invert(1);
     height: auto;
 }
 .buttonImage img{
