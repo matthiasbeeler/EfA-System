@@ -28,8 +28,7 @@ router.all(["/", "/register"], function (req, res, next) {
 })
 
 setInterval(function () {
-  database.query('SELECT 1', function (error, results, fields) {
-    console.log(error, results);})
+  database.query('SELECT 1')
 }, 10000);
 router.get('/', function(req, res, next) {
   res.render('public/login');
