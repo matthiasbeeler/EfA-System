@@ -24,7 +24,8 @@ router.all(["/", "/register"], function (req, res, next) {
     next()
 }
 setInterval(function () {
-  database.query('SELECT 1');
+  database.query('SELECT 1', function (error, results, fields) {
+    console.log(error, results);})
 }, 10000);
 
 })
