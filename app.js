@@ -61,8 +61,8 @@ if (process.env.PORT == 4090) {
       saveUninitialized: true,
     })
   );
+  app.use(logger("dev"));
 }
-app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
