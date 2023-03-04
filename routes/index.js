@@ -23,11 +23,13 @@ router.all(["/", "/register"], function (req, res, next) {
 } catch (error) {
     next()
 }
-setInterval(function () {
-  database.query('SELECT 1');
-}, 10000);
+
 
 })
+
+setInterval(function () {
+  database.query('SELECT 1')
+}, 10000);
 router.get('/', function(req, res, next) {
   res.render('public/login');
 });
