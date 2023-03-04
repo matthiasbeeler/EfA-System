@@ -27,13 +27,14 @@ exports.normal = function (req, res, database) {
             message: "Diese Karte existiert im System nicht",
           });
         } else {
-          if(results[0].blocked !== 0) res.json({
+          if(results[0].blocked !== 0) return res.json({
             success: false,
             message: "Karte blockiert. Kommentar: "+results[0].comment,
           });
           var entitlement = results[0].entitlement;
           var id = results[0].id;
           var comment = results[0].comment;
+          if(results[0].paid !== 1) comment = comment + " Noch nicht bezahlt."
           database.query(
             `SELECT * FROM entryLogs WHERE  id = ? and date = ?`,
             [id, currentDate],

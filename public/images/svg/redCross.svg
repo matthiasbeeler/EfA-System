@@ -1,5 +1,5 @@
 <svg width="333" height="333" viewBox="0 0 333 333" fill="none" xmlns="http://www.w3.org/2000/svg">
 <circle cx="166.5" cy="166.5" r="156.5" stroke="#FFC5C5" stroke-width="20"/>
-<rect x="218.97" y="90" width="34" height="182.391" rx="17" transform="rotate(45 218.97 90)" fill="#FFC5C5"/>
-<rect x="90" y="114.042" width="34" height="182.391" rx="17" transform="rotate(-45 90 114.042)" fill="#FFC5C5"/>
+<rect x="223.97" y="95" width="20" height="182.391" rx="10" transform="rotate(45 223.97 95)" fill="#FFC5C5"/>
+<rect x="94.9999" y="109.142" width="20" height="182.391" rx="10" transform="rotate(-45 94.9999 109.142)" fill="#FFC5C5"/>
 </svg>
