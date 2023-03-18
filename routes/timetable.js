@@ -87,6 +87,8 @@ router.get("/",  function (req, res) {
     function (error, results, fields) {
       var freeShifts = 0;
       if(!results) return res.redirect('/timetable/otherWeek')
+      if(!results[0]) return res.redirect('/timetable/otherWeek')
+      if(results[0].length <= 0) return res.redirect('/timetable/otherWeek')
       if(results[0]["shifts"+req.session.location] == null) return res.redirect('/timetable/otherWeek')
       results.forEach((element) => {
         element["shifts"+req.session.location].forEach((element) => {
