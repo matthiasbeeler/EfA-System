@@ -20,6 +20,11 @@ select option{
     color: var(--mainTextColour);
 
 }
+.powered{
+    width: 90%;
+    margin-left: 5%;
+    margin-top: 15%;
+}
 html {
     overscroll-behavior-y: none;
 }
