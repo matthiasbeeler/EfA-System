@@ -326,6 +326,7 @@
   })
   function showPermitSelect() {
     $('.passportType').attr('disabled', true)
+    document.querySelector('.passportType').blur()
     $('.permitSelect').css('display', "block");
     $('.permitSelect .inner').css('bottom', '0%')
   }
@@ -337,6 +338,7 @@
   }
   function showGenderSelect() {
     $('.gender').attr('disabled', true)
+    document.querySelector('.gender').blur()
     $('.genderSelect').css('display', "block");
     $('.genderSelect .inner').css('bottom', '0%')
   }
@@ -347,6 +349,7 @@
   }
   function showFamilySelect() {
     $('.family').attr('disabled', true)
+    document.querySelector('.family').blur()
     $('.familySelect').css('display', "block");
     $('.familySelect .inner').css('bottom', '0%')
   }
