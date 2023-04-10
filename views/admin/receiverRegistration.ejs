@@ -38,19 +38,9 @@
       <div class="message infoBlock">
         <div class="info"></div>
       </div>
-      <select name="permit" onclick="$('#passportType').focus();"
-        onchange="$(this).css('border', '2px solid white');reload = false;" id="passportType"
-        oninvalid=" $(this).css('border', '2px solid red');" required>
-        <option value="" disabled selected>Aufenthaltsstatus</option>
-        <option value="s">S (Ukraine)</option>
-        <option value="F">F</option>
-        <option value="B">B</option>
-        <option value="C">C</option>
-        <option value="CH">CH</option>
-        <option value="Sans papier">Sans papier</option>
-        <option value="N">N</option>
-        <option value="L">L</option>
-      </select>
+      <input type="text" class="selectButtonInput passportType" onclick="showPermitSelect()"
+        placeholder="Aufenthaltsstatus" onchange="$(this).css('border', '2px solid white');reload = false;"
+        name="permit" id="passportType" oninvalid=" $(this).css('border', '2px solid red');" required>
       <input type="text" onchange="$(this).css('border', '2px solid white');reload = false;" name="passportnumber"
         maxlength="20" placeholder="Ausweis- oder Zemisnummer" id=""
         oninvalid=" $(this).css('border', '2px solid red');" required>
@@ -60,37 +50,19 @@
         </div>
         <div class="removeZemis" onclick="addZemis()">Nummer hinzufügen</div>
       </div>
-      <input  inputmode="decimal" name="birthdate" id="dateField" type="text"
-        placeholder="DD.MM.YYYY Geburtsdatum"   required onchange="$(this).css('border', '2px solid white');"
+      <input inputmode="decimal" name="birthdate" id="dateField" type="text" placeholder="DD.MM.YYYY Geburtsdatum"
+        required onchange="$(this).css('border', '2px solid white');"
         oninvalid=" $(this).css('border', '2px solid red');" pattern="[0-9]{2}.[0-9]{2}.[0-9]{4}">
       <input type="text" onchange="$(this).css('border', '2px solid white');reload = false;" name="name"
         placeholder="Vorname, Nachname" id="name" oninvalid=" $(this).css('border', '2px solid red');" required>
-      <select name="gender" onclick="$('#gender').focus();" onchange="$(this).css('border', '2px solid white');"
-        id="gender" oninvalid=" $(this).css('border', '2px solid red');" required>
-        <option value="" disabled selected>Geschlecht</option>
-        <option value="Weiblich">Weiblich</option>
-        <option value="Männlich">M&auml;nnlich</option>
-        <option value="Anderes">Anderes</option>
-      </select>
-      <select name="familymembers" onclick="$('#familyMembers').focus();"
-        onchange="$(this).css('border', '2px solid white');" id="familyMembers"
+      <input type="text" class="selectButtonInput gender" onclick="showGenderSelect()" placeholder="Geschlecht"
+        onchange="$(this).css('border', '2px solid white');reload = false;" name="gender" id="gender"
         oninvalid=" $(this).css('border', '2px solid red');" required>
-        <option value="" disabled selected>Zusätzliche Familienmitglieder</option>
-        <option value="0">0</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-        <option value="6">6</option>
-        <option value="7">7</option>
-        <option value="8">8</option>
-        <option value="9">9</option>
-        <option value="10">10</option>
-        <option value="11">11</option>
-        <option value="12">12</option>
+        <input type="text" class="selectButtonInput family" onclick="showFamilySelect()" placeholder="Zusätzliche Familienmitglieder"
+        onchange="$(this).css('border', '2px solid white');reload = false;" name="familymembers" id="familyMembers"
+        oninvalid=" $(this).css('border', '2px solid red');" required>
 
-      </select>
+      
       <input type="tel" onchange="$(this).css('border', '2px solid white');" name="phonenumber"
         placeholder="Telefonnummer" id="phonenumber" oninvalid=" $(this).css('border', '2px solid red');" required>
       <input type="text" name="postalcode" onchange="$(this).css('border', '2px solid white');" list="plz"
@@ -127,12 +99,13 @@
       <div id="inputs">
 
       </div>
-      <select name="paid" id="paid" onchange="$(this).css('border', '2px solid white');" class="smallSelect" id="" required oninvalid=" $(this).css('border', '2px solid red');">
+      <select name="paid" id="paid" onchange="$(this).css('border', '2px solid white');" class="smallSelect" id=""
+        required oninvalid=" $(this).css('border', '2px solid red');">
         <option value="1" selected>Bezahlt</option>
         <option value="0">Unbezahlt</option>
-    </select>
+      </select>
       <textarea name="comment" placeholder="Bemerkungen" id="" cols="30" rows="2"></textarea>
-      
+
       <button type="submit" class="button">Registrieren</button>
     </form>
     <div class="tick">
@@ -142,6 +115,204 @@
       <img src="/images/svg/loader.svg" alt="">
     </div>
     <br>
+    <div class="permitSelect mainSelect">
+      <div class="hideSelect" onclick="hidePermitSelect()">
+
+      </div>
+      <div class="inner">
+        <div class="closeButton" onclick="hidePermitSelect()">
+          <img src="/images/svg/cancel.svg" alt="">
+        </div>
+        <div class="title">
+          Aufenthaltsstatus
+        </div>
+        <div class="spacing5"></div>
+        <div class="selectOptions">
+          <div class="selectOption" onclick="$('.passportType').val('s');hidePermitSelect()">
+            <div class="title titleH4 noMarginTitle noLeftMarginTitle">
+              S (Ukraine)
+            </div>
+
+          </div>
+          <div class="selectOption" onclick="$('.passportType').val('F');hidePermitSelect()">
+            <div class="title titleH4 noMarginTitle noLeftMarginTitle">
+              F
+            </div>
+
+          </div>
+          <div class="selectOption" onclick="$('.passportType').val('B');hidePermitSelect()">
+            <div class="title titleH4 noMarginTitle noLeftMarginTitle">
+              B
+            </div>
+
+          </div>
+
+          <div class="selectOption" onclick="$('.passportType').val('C');hidePermitSelect()">
+            <div class="title titleH4 noMarginTitle noLeftMarginTitle">
+              C
+            </div>
+
+          </div>
+          <div class="selectOption" onclick="$('.passportType').val('CH');hidePermitSelect()">
+            <div class="title titleH4 noMarginTitle noLeftMarginTitle">
+              CH
+            </div>
+
+          </div>
+          <div class="selectOption" onclick="$('.passportType').val('Sans papier');hidePermitSelect()">
+            <div class="title titleH4 noMarginTitle noLeftMarginTitle">
+              Sans papier
+            </div>
+
+          </div>
+          <div class="selectOption" onclick="$('.passportType').val('N');hidePermitSelect()">
+            <div class="title titleH4 noMarginTitle noLeftMarginTitle">
+              N
+            </div>
+
+          </div>
+          <div class="selectOption" onclick="$('.passportType').val('L');hidePermitSelect()">
+            <div class="title titleH4 noMarginTitle noLeftMarginTitle">
+              L
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="genderSelect mainSelect">
+      <div class="hideSelect" onclick="hideGenderSelect()">
+
+      </div>
+      <div class="inner">
+        <div class="closeButton" onclick="hideGenderSelect()">
+          <img src="/images/svg/cancel.svg" alt="">
+        </div>
+        <div class="title">
+          Geschlecht
+        </div>
+        <div class="spacing5"></div>
+        <div class="selectOptions">
+          <div class="selectOption" onclick="$('.gender').val('Weiblich');hideGenderSelect()">
+            <div class="title titleH4 noMarginTitle noLeftMarginTitle">
+              Weiblich
+            </div>
+
+          </div>
+          <div class="selectOption" onclick="$('.gender').val('Männlich');hideGenderSelect()">
+            <div class="title titleH4 noMarginTitle noLeftMarginTitle">
+              Männlich
+            </div>
+
+          </div>
+
+          <div class="selectOption" onclick="$('.gender').val('Anderes');hideGenderSelect()">
+            <div class="title titleH4 noMarginTitle noLeftMarginTitle">
+              Anderes
+            </div>
+
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+    <div class="familySelect mainSelect">
+      <div class="hideSelect" onclick="hideFamilySelect()">
+
+      </div>
+      <div class="inner">
+        <div class="closeButton" onclick="hideFamilySelect()">
+          <img src="/images/svg/cancel.svg" alt="">
+        </div>
+        <div class="title">
+          Zusätzliche Familienmitglieder
+        </div>
+        <div class="spacing5"></div>
+        <div class="selectOptions">
+          <div class="selectOption" onclick="$('.family').val('0');hideFamilySelect()">
+            <div class="title titleH4 noMarginTitle noLeftMarginTitle">
+              0
+            </div>
+
+          </div>
+          <div class="selectOption" onclick="$('.family').val('1');hideFamilySelect()">
+            <div class="title titleH4 noMarginTitle noLeftMarginTitle">
+              1
+            </div>
+
+          </div>
+
+          <div class="selectOption" onclick="$('.family').val('2');hideFamilySelect()">
+            <div class="title titleH4 noMarginTitle noLeftMarginTitle">
+              2
+            </div>
+
+          </div>
+          <div class="selectOption" onclick="$('.family').val('3');hideFamilySelect()">
+            <div class="title titleH4 noMarginTitle noLeftMarginTitle">
+              3
+            </div>
+
+          </div>
+          <div class="selectOption" onclick="$('.family').val('4');hideFamilySelect()">
+            <div class="title titleH4 noMarginTitle noLeftMarginTitle">
+              4
+            </div>
+
+          </div>
+          <div class="selectOption" onclick="$('.family').val('5');hideFamilySelect()">
+            <div class="title titleH4 noMarginTitle noLeftMarginTitle">
+              5
+            </div>
+
+          </div>
+          <div class="selectOption" onclick="$('.family').val('6');hideFamilySelect()">
+            <div class="title titleH4 noMarginTitle noLeftMarginTitle">
+              6
+            </div>
+
+          </div>
+          <div class="selectOption" onclick="$('.family').val('7');hideFamilySelect()">
+            <div class="title titleH4 noMarginTitle noLeftMarginTitle">
+              7
+            </div>
+
+          </div>
+          <div class="selectOption" onclick="$('.family').val('8');hideFamilySelect()">
+            <div class="title titleH4 noMarginTitle noLeftMarginTitle">
+              8
+            </div>
+
+          </div>
+          <div class="selectOption" onclick="$('.family').val('9');hideFamilySelect()">
+            <div class="title titleH4 noMarginTitle noLeftMarginTitle">
+              9
+            </div>
+
+          </div>
+          <div class="selectOption" onclick="$('.family').val('10');hideFamilySelect()">
+            <div class="title titleH4 noMarginTitle noLeftMarginTitle">
+              10
+            </div>
+
+          </div>
+          <div class="selectOption" onclick="$('.family').val('11');hideFamilySelect()">
+            <div class="title titleH4 noMarginTitle noLeftMarginTitle">
+              11
+            </div>
+
+          </div>
+          <div class="selectOption" onclick="$('.family').val('12');hideFamilySelect()">
+            <div class="title titleH4 noMarginTitle noLeftMarginTitle">
+              12
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
 </body>
@@ -149,6 +320,41 @@
 </html>
 <script src="/javascripts/qr.min.js"></script>
 <script>
+  $('.passportType').click(function (e) {
+    e.preventDefault()
+    showPermitSelect()
+  })
+  function showPermitSelect() {
+    $('.passportType').attr('disabled', true)
+    $('.permitSelect').css('display', "block");
+    $('.permitSelect .inner').css('bottom', '0%')
+  }
+  function hidePermitSelect() {
+    $('.passportType').attr('disabled', false)
+
+    $('.permitSelect .inner').css('bottom', "-20%")
+    $('.permitSelect').css('display', "none")
+  }
+  function showGenderSelect() {
+    $('.gender').attr('disabled', true)
+    $('.genderSelect').css('display', "block");
+    $('.genderSelect .inner').css('bottom', '0%')
+  }
+  function hideGenderSelect() {
+    $('.gender').attr('disabled', false)
+    $('.genderSelect .inner').css('bottom', "-20%")
+    $('.genderSelect').css('display', "none")
+  }
+  function showFamilySelect() {
+    $('.family').attr('disabled', true)
+    $('.familySelect').css('display', "block");
+    $('.familySelect .inner').css('bottom', '0%')
+  }
+  function hideFamilySelect() {
+    $('.family').attr('disabled', false)
+    $('.familySelect .inner').css('bottom', "-20%")
+    $('.familySelect').css('display', "none")
+  }
   function entitlementSelect() {
     $('.entitlementInfo').hide()
     $('#entitlement').css('border', '2px solid white');
@@ -226,7 +432,7 @@
           var results = data.results[0];
           $('#inputs').html(
             `<input type="text" name="id" placeholder="ReceiverId" required="" value="${results.id}" style="display: none;" readonly>`
-            )
+          )
           $('#name').val(results.fullName);
           $('#name').css("border", "2px solid white");
           $('#phonenumber').val(results.phonenumber);
@@ -263,7 +469,7 @@
       $('#entitlement').val(JSON.parse(decodedText).entitlement)
       $('#entitlement').css("border", "2px solid white");
 
-    }).catch((err) => {});
+    }).catch((err) => { });
   }
 
 
@@ -305,7 +511,7 @@
             $('.message').html("Einzelne Bezügerdaten wurden bereits gefunden.")
             $('.message').append(
               `<div class="button" onclick="window.open('/admin/receiverMaintenance/${data.receiverId}', '_blank');">BezügerIn anzeigen</div>`
-              )
+            )
           }
           $('form').show();
 
@@ -340,20 +546,20 @@
 
   el.onkeyup = function (evt) {
     if ((evt.keyCode >= 48 && evt.keyCode <= 57) || (evt.keyCode >= 96 &&
-        evt.keyCode <= 105)) {
+      evt.keyCode <= 105)) {
       evt = evt || window.event;
 
       var size = document.getElementById('dateField').value.length;
 
       if ((size == 2 && document.getElementById('dateField').value > 31) || (size == 5 && Number(document
-          .getElementById('dateField').value.split('.')[1]) > 99) || (size >= 10 && Number(document.getElementById(
+        .getElementById('dateField').value.split('.')[1]) > 99) || (size >= 10 && Number(document.getElementById(
           'dateField').value.split('.')[2]) > 2023)) {
-        
+
         return;
       }
 
       if ((size == 2 && document.getElementById('dateField').value < 32) || (size == 5 && Number(document
-          .getElementById('dateField').value.split('.')[1]) < 99)) {
+        .getElementById('dateField').value.split('.')[1]) < 99)) {
         document.getElementById('dateField').value += '.';
       }
 
