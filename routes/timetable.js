@@ -16,7 +16,7 @@ function getThreeDatesSz (){
     return date < today;
   }
   
- function getFirstMonth(){
+ /*function getFirstMonth(){
   var d = new Date();
   var getTot = daysInMonth(d.getMonth()+1,d.getFullYear()); //Get total days in a month
   var sat = new Array();   //Declaring array for inserting Saturdays
@@ -39,6 +39,7 @@ function getThreeDatesSz (){
       return new Date(year, month, 0).getDate();
   }
  }
+ console.log(getSecondMonth())
  function getSecondMonth(){
   var d = new Date();
   var getTot = daysInMonth(d.getMonth()+2,d.getFullYear()); //Get total days in a month
@@ -55,20 +56,33 @@ function getThreeDatesSz (){
   
   }
   sat.forEach(function(element) {
+    console.log(element)
     if(!isInThePast(new Date(element)) && sat.indexOf(element) == 0 || !isInThePast(new Date(element)) && sat.indexOf(element) == 2) secondSat.push(element)
    });
   return secondSat;
   function daysInMonth(month,year) {
       return new Date(year, month, 0).getDate();
   }
- }
- var first = getFirstMonth()
- var second = getSecondMonth()
+ }*/
+
+ var saveSat = []
+ var sat = ["2023-01-07","2023-01-21","2023-02-04","2023-02-18","2023-03-04","2023-03-18","2023-04-01","2023-04-15","2023-04-29","2023-05-13","2023-05-27","2023-06-10","2023-06-24","2023-07-08","2023-07-22","2023-08-05","2023-08-19","2023-09-02","2023-09-16","2023-09-30","2023-10-14","2023-10-28","2023-11-11","2023-11-25","2023-12-09","2023-12-23"]
+  sat.forEach(function(element) {
+    if(!isInThePast(new Date(element))) saveSat.push(element)
+   });
+saveSatFirstThree = saveSat.slice(0,3)
+
+ /*var first = getFirstMonth()
+ var second = getSecondMonth()*/
  var all = []
- second.forEach(element => {
+ /*second.forEach(element => {
   first.push(element)
  });
  first.forEach(element => {
+  var split = element.split('-')
+  all.push(split[2]+"."+split[1]+"."+split[0])
+ });*/
+ saveSatFirstThree.forEach(element => {
   var split = element.split('-')
   all.push(split[2]+"."+split[1]+"."+split[0])
  });
@@ -219,7 +233,7 @@ router.get("/otherWeek/", function (req, res) {
     
 }
 var nextMonth = getNextMonth()
-  res.render("public/timetable/otherWeek", { dates: getThreeDatesSz(), nextMonth: nextMonth });
+  res.render("public/timetable/otherWeek", { dates: getThreeDatesSz(), nextDate: getThreeDatesSz()[0] });
 });
 router.post("/chooseDate/", function (req, res) {
   if (!getThreeDatesSz().includes(req.body.date)) return res.json({ success: false });
