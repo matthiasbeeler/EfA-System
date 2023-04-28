@@ -17,6 +17,7 @@ var statistics = require("./routes/statistics");
 var print = require("./routes/print");
 var timetable = require("./routes/timetable");
 var volunteers = require("./routes/volunteers");
+var volunteerCards = require("./routes/volunteerCards");
 const i18n = require("./javascript/i18n");
 
 var app = express();
@@ -76,8 +77,11 @@ app.use("/admin/receiverMaintenance", receiverMaintenance);
 app.use("/admin/entry", entry);
 app.use("/admin/statistics", statistics);
 app.use("/admin/print", print);
+app.use("/admin/volunteers/volunteerCards", volunteerCards);
 app.use("/admin/volunteers", volunteers);
 app.use("/timetable", timetable);
+
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
