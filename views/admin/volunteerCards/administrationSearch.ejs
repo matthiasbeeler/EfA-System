@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Essen für Alle</title>
+    <script src="https://code.jquery.com/jquery-1.6.2.min.js"></script>
+    <link rel="stylesheet" href="/stylesheets/main.css">
+</head>
+
+<body>
+    <div class="content">
+        <div class="topBtn" onclick="window.location = '/admin/volunteers/volunteerCards'">
+            <img src="/images/svg/ArrowBack.svg" alt="">
+          </div>
+          <div class="toptitle title">
+            FW-Karten Administration
+          </div>
+        <form>
+            <div class="message infoBlock">
+                <div class="info"></div>
+            </div>
+            <input type="text" name="name" placeholder="Name" id="name" onkeyup="searchName()" required>
+            <input type="number" name="number" inputmode="decimal" placeholder="Karten-ID" onkeyup="searchCardId()" id="username" required>
+            <div class="button buttonImage" onchange="$(this).css('border', '2px solid white');" onclick="window.location = '/admin/volunteers/volunteerCards/addNew'"><img
+                src="/images/svg/addBox.svg" alt="">Neue Karte hinzufügen</div>
+            <div class="searchContent">
+                <div class="titleBar"><div class="leftText">Name</div><div class="centerSeperator"></div><div class="rightText">Karten-ID</div></div>
+                <% results.forEach(function(result) { %>
+                    <div class="searchElement" onclick="window.location = '/admin/volunteers/volunteerCards/<%-result.id%>'"><div class="leftText text"><%-result.name%></div><div class="centerSeperator"></div><div class="rightText text"><%-result.id%></div><img src="/images/svg/continue.svg" alt=""></div>
+                <% }); %> 
+
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>
+<script>
+    function searchCardId() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("username");
+        filter = input.value.toUpperCase();
+        table = document.querySelector(".searchContent");
+        tr = table.getElementsByClassName("searchElement");
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByClassName("text")[1];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+    function searchName() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("name");
+        filter = input.value.toUpperCase();
+        table = document.querySelector(".searchContent");
+        tr = table.getElementsByClassName("searchElement");
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByClassName("text")[0];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+    $('.message').hide()
+
+</script>

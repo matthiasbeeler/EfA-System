@@ -21,6 +21,9 @@ select option{
     margin-left: 5%;
     margin-top: 5%;
 }
+.administrationSearch .paddingDiv{
+    padding-bottom: 2%;
+}
 
 body, html{
     padding: 0px;
@@ -52,7 +55,8 @@ input, select, textarea{
 }
 .tick, .cross, .loader{
     display: none;
-    width: 100%;
+    width: 80%;
+    margin-left: 10%;
 }
 .tick img, .cross img{
     width: 90%;

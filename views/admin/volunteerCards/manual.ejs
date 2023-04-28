@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Essen für Alle</title>
+  <link rel="apple-touch-icon" sizes="640x640" href="/images/efaLogo.png">
+  <script src="https://code.jquery.com/jquery-1.6.2.min.js"></script>
+  <link rel="stylesheet" href="/stylesheets/main.css">
+  <link rel="manifest" href="/manifest.json">
+</head>
+
+<body>
+  <div class="content">
+    <div class="topBtn" onclick="window.location = '/admin/volunteers/volunteerCards'">
+      <img src="/images/svg/ArrowBack.svg" alt="">
+    </div>
+    <div class="toptitle title">
+      Manuelle Freiwilligenkarten
+    </div>
+    <div class="infoBlock message">
+
+      </div>
+    <input type="number" inputmode="decimal" name="cardId" placeholder="Freiwilligen-ID" class="smallInput" id="cardId">
+    <input type="number" inputmode="decimal" name="" placeholder="Wiederholen" class="smallInput" id="cardId2">
+
+    <br>
+    <br>
+    <div class="button" onclick="submit()">Eintragen</div>
+
+    <br>
+    <img src="/images/FwCardExample.png" style="margin-top:10%;width: 70%; margin-left: 15%;" alt="">
+
+    <div class="checkInOverlay">
+      <center>
+        <div class="checkInOverlayInner infoBlock successInner">
+          <img src="/images/svg/greenTick.svg" alt="Green tick">
+          <div class="infoName">
+            ${volunteerName}
+          </div>
+          <div class="info searchContent">
+            <div class="searchElement">
+              <div class="leftText text">${shiftTime}</div>
+              <div class="centerSeperator"></div>
+              <div class="rightText text">${shiftType}</div>
+            </div>
+            <div class="searchElement">
+              <div class="leftText text">${shiftTime}</div>
+              <div class="centerSeperator"></div>
+              <div class="rightText text">${shiftType}</div>
+            </div>
+
+          </div>
+          <div class="button" onclick="window.location.reload()">Ausblenden</div>
+        </div>
+        <div class="checkInOverlayInner infoBlock errorInner">
+          <img src="/images/svg/redCross.svg" alt="Red cross">
+          <div class="infoName">
+            Es wurden keine Daten gefunden.
+          </div>
+          <div class="button" onclick="window.location.reload()">Ausblenden</div>
+
+        </div>
+      </center>
+    </div>
+    <br>
+  </div>
+</div>
+
+</body>
+
+</html>
+<script>
+  $('.message').hide()
+
+
+  function submit() {
+    $('.message').hide()
+    if($('#cardId').val() !== $('#cardId2').val()){ $('.message').html("Die ID's stimmen nicht überein"); return $('.message').show()};
+    $('.button').hide()
+    $('input').hide()
+    $.ajax({
+        url: '/admin/volunteers/volunteerCards/',
+        type: 'POST',
+        cache: false,
+        data: {
+          id: $('#cardId2').val()
+        },
+        success: function (data) {
+          console.log(data)
+          if (data.success == true) {
+            $('.button').show()
+
+            $('.checkInOverlay, .checkInOverlay .successInner').show();
+          $('.checkInOverlay .successInner .infoName').html(data.name);
+          $('.checkInOverlay .successInner .searchContent').html(data.message);
+
+          }
+          if (data.success == false) {
+            $('.button').show()
+          $('.checkInOverlay, .checkInOverlay .errorInner').show();
+          if(data.message) {
+            $('.checkInOverlay .errorInner .infoName').html(data.message);
+          }
+        }
+        },
+        error: function (jqXHR, textStatus, err) {
+          alert('text status ' + textStatus + ', err ' + err)
+          $(".button").show();
+        }
+      });
+
+  }
+</script>

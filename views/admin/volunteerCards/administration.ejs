@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Essen für Alle</title>
+    <script src="https://code.jquery.com/jquery-1.6.2.min.js"></script>
+    <link rel="stylesheet" href="/stylesheets/main.css">
+</head>
+
+<body>
+    <div class="content">
+        <div class="topBtn" onclick="window.location = '/admin/volunteers/volunteerCards/administration'">
+            <img src="/images/svg/ArrowBack.svg" alt="">
+        </div>
+
+        <div class="toptitle title">
+            <%-volunteerData[0].name%>
+        </div>
+        <div class="button buttonImage"
+            onclick="window.location = '/admin/volunteers/volunteerCards/administration/<%-volunteerData[0].id%>/edit/'">
+            <img src="/images/svg/edit.svg" alt="">Bearbeiten
+        </div>
+
+
+
+        <div class="infoBlock">
+
+            <div class="infoName">Name
+            </div>
+            <div class="info">
+                <%-volunteerData[0].name%>
+            </div>
+        </div>
+
+        <div class="infoBlock">
+
+            <div class="infoName">Karten-ID
+            </div>
+            <div class="info">
+                <%-volunteerData[0].id%>
+            </div>
+        </div>
+
+        <div class="infoBlock">
+
+            <div class="infoName">Bemerkungen
+            </div>
+            <div class="info">
+                <%-volunteerData[0].comment%>
+            </div>
+        </div>
+        <div class="infoBlock">
+
+            <div class="infoName">Erstellungsdatum
+            </div>
+            <div class="info createdAt">
+                <script>
+                    $('.createdAt').html(`${new Date(<%-volunteerData[0].createdAt %>).toLocaleTimeString('de-CH')}, ${new Date(<%-volunteerData[0].createdAt %>).toLocaleDateString('de-CH')}`);
+                </script>
+
+            </div>
+        </div>
+
+
+        <div class="searchContent administrationSearch">
+            <div class="infoBlock">
+                <div class="infoName">Einträge
+                </div>
+            </div>
+            <div class="titleBar">
+                <div class="leftText">Datum <br> Erster Log</div>
+                <div class="centerSeperator"></div>
+                <div class="rightText">Dauer <br> Zweiter Log</div>
+            </div>
+            <% logResults.forEach(function(result) { %>
+                
+                <script>
+                    console.log(Number("<%-result.secondLog%>") == 0)
+                    var secondLog = Number("<%-result.secondLog%>");
+                    if(secondLog == 0) secondLog = Date.now();
+                    var diff = secondLog-<%=result.firstLog %>;
+                    diff = Math.floor(diff / 1000);
+                    var secs_diff = diff % 60;
+                    diff = Math.floor(diff / 60);
+                    var mins_diff = diff % 60;
+                    if(mins_diff < 10) mins_diff = "0"+String(mins_diff)
+                    diff = Math.floor(diff / 60);
+                    var hours_diff = diff % 24;
+                    if(hours_diff < 10) hours_diff = "0"+String(hours_diff) 
+                    diff = Math.floor(diff / 24);
+                    var obj = `<div class="searchElement"><div class="leftText text"><div class="paddingDiv">${new Date(<%=result.firstLog %>).toLocaleDateString('de-CH')}</div>${new Date(<%=result.firstLog %>).toLocaleTimeString('de-CH')}</div><div class="centerSeperator"></div><div class="rightText text"><div class="paddingDiv">${hours_diff}h ${mins_diff}min</div><%if(result.secondLog){%>${new Date(<%=result.secondLog %>).toLocaleTimeString('de-CH')}<%}else{%>---<%}%></div></div>`
+                    $('.searchContent').append(obj)
+
+                </script>
+                <% }); %>
+        </div>
+
+    </div>
+</body>
+
+</html>

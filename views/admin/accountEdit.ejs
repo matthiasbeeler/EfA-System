@@ -52,7 +52,9 @@
         <div class="permissionElement volunteers" onclick="volunteers()">
             Freiwilligenverwaltung
         </div>
-        
+        <div class="permissionElement volunteerCards" onclick="volunteerCards()">
+            Freiwilligenkarten
+        </div>
         <div class="permissionElement accounts" onclick="accounts()">
             Accountverwaltung
         </div>
@@ -64,6 +66,9 @@
         </div>
         <div class="permissionElement sz" onclick="sz()">
             Schwyz
+        </div>
+        <div class="permissionElement zh" onclick="zh()">
+            Zürich Manegg
         </div>
         <div class="permissionElement gr" onclick="gr()">
             Chur
@@ -82,18 +87,21 @@
 </html>
 <script>
     var permissions = <%-result[0].permissions%>;
+    
     if(permissions.receiverRegistration == true) $('.receiverRegistration').addClass('granted')
     if(permissions.receiverMaintenance == true) $('.receiverMaintenance').addClass('granted')
     if(permissions.print == true) $('.print').addClass('granted')
     if(permissions.gr == true) $('.gr').addClass('granted')
     if(permissions.sz == true) $('.sz').addClass('granted')
+    if(permissions.zh == true) $('.zh').addClass('granted')
     if(permissions.entry == true) $('.entry').addClass('granted')
     if(permissions.accounts == true) $('.accounts').addClass('granted')
     if(permissions.blocked == true) $('.unblockButton').show()
     if(permissions.blocked == false) $('.blockButton').show()
     if(permissions.statistics == true) $('.statistics').addClass('granted')
     if(permissions.volunteers == true) $('.volunteers').addClass('granted')
-    
+    if(permissions.volunteerCards == true) $('.volunteerCards').addClass('granted')
+
     function receiverRegistration(){
         if($('.receiverRegistration').hasClass('granted')) permissions.receiverRegistration = false;
         if($('.receiverRegistration').hasClass('granted')) return $('.receiverRegistration').removeClass('granted');
@@ -106,6 +114,12 @@
         if(!$('.volunteers').hasClass('granted')) permissions.volunteers = true;
         if(!$('.volunteers').hasClass('granted')) return $('.volunteers').addClass('granted');
     }
+    function volunteerCards(){
+        if($('.volunteerCards').hasClass('granted')) permissions.volunteerCards = false;
+        if($('.volunteerCards').hasClass('granted')) return $('.volunteerCards').removeClass('granted');
+        if(!$('.volunteerCards').hasClass('granted')) permissions.volunteerCards = true;
+        if(!$('.volunteerCards').hasClass('granted')) return $('.volunteerCards').addClass('granted');
+    }
     function sz(){
         if($('.sz').hasClass('granted')) permissions.sz = false;
         if($('.sz').hasClass('granted')) return $('.sz').removeClass('granted');
@@ -117,6 +131,12 @@
         if($('.gr').hasClass('granted')) return $('.gr').removeClass('granted');
         if(!$('.gr').hasClass('granted')) permissions.gr = true;
         if(!$('.gr').hasClass('granted')) return $('.gr').addClass('granted');
+    }
+    function zh(){
+        if($('.zh').hasClass('granted')) permissions.zh = false;
+        if($('.zh').hasClass('granted')) return $('.zh').removeClass('granted');
+        if(!$('.zh').hasClass('granted')) permissions.zh = true;
+        if(!$('.zh').hasClass('granted')) return $('.zh').addClass('granted');
     }
     function print(){
         if($('.print').hasClass('granted')) permissions.print = false;

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Essen für Alle</title>
+    <link rel="apple-touch-icon" sizes="640x640" href="/images/efaLogo.png">
+    <script src="https://code.jquery.com/jquery-1.6.2.min.js"></script>
+    <link rel="stylesheet" href="/stylesheets/main.css">
+    <link rel="manifest" href="/manifest.json">
+</head>
+
+<body>
+    <div class="content">
+        <div class="topBtn" onclick="$('button').trigger('click');">
+            <img src="/images/svg/save.svg" alt="">
+        </div>
+        <div class="toptitle title">
+          <%-result[0].name%>
+      </div>
+        <form id="form">
+            <div class="message infoBlock">
+                <div class="info"></div>
+            </div>
+<input type="text" value="<%-result[0].name%>" onchange="$(this).css('border', '2px solid white');" name="name" placeholder="Voller Name" id="name" oninvalid=" $(this).css('border', '2px solid red');" required>
+
+            <textarea name="comment" placeholder="Bemerkungen" id="" cols="30" rows="2"><%-result[0].comment%></textarea>
+            
+            <button type="submit" class="button buttonImage"><img src="/images/svg/save.svg" alt=""> Speichern</button>
+        </form>
+        <div class="tick">
+          <img src="/images/svg/greenTick.svg" alt="">
+        </div>
+        <br>
+    </div>
+</body>
+
+</html>
+<script src="/javascripts/qr.min.js"></script>
+<script>
+
+
+
+    $('.message').hide()
+    $("#form").submit(function(e) {
+        e.preventDefault();
+        $(".button").hide();
+        $.ajax({
+            url: '/admin/volunteers/volunteerCards/administration/1/edit/',
+            type: 'POST',
+            cache: false,
+            data: $('form').serializeArray(),
+            success: function (data) {
+                console.log(data)
+                if (data.success == true) {
+                  $('form').hide();
+                  $('.button').hide();
+                  $('.tick').show()
+                  setTimeout(() => {
+                    window.location.href = "/admin/volunteers/volunteerCards/<%-result[0].id%>/";
+                  }, 1000);
+                }
+                if (data.success == false) {
+                  if(data.receiverId){
+
+                    $(".button").show();
+                    $('form').show();
+
+                    $('.message').show()
+                    $('.message').html("Einzelne Bezügerdaten wurden bereits gefunden.")
+                    $('.message').append(`<div class="button" onclick="window.open('/admin/receiverMaintenance/${data.receiverId}', '_blank');">BezügerIn anzeigen</div>`)
+                  }
+                  $('form').show();
+
+                    $(".button").show();
+                    $('.message').show()
+                    $('.message').html(data.message)
+                }
+            },
+            error: function (jqXHR, textStatus, err) {
+                alert('text status ' + textStatus + ', err ' + err)
+                $(".button").show();
+            }
+        });
+    })
+</script>

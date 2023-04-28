@@ -18,6 +18,9 @@
                 <% if(location == "sz"){%>
                     Seewen SZ
                     <%}%>
+                    <% if(location == "zh"){%>
+                        Zürich
+                        <%}%>
             
           </div>
         
@@ -41,6 +44,12 @@
             <img src="/images/svg/entry.svg" alt="">
         </div>
         <%}%>
+        <% if(permissions.volunteerCards){%>
+            <div class="entry tile button" onclick="window.location = '/admin/volunteers/volunteerCards'">
+                <div class="title">Freiwilligenkarten</div>
+                <img src="/images/svg/badge.svg" alt="">
+            </div>
+            <%}%>
         <% if(permissions.statistics){%>
             <div class="entry tile button" onclick="window.location = '/admin/statistics'">
                 <div class="title">Statistik</div>
