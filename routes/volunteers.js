@@ -144,7 +144,7 @@ router.get("/", function (req, res) {
   var location = jwt.verify(req.cookies.Auth, process.env.jwtSecret).location;
   dates = getThreeDatesSz();
 
-  if (location !== "sz") {
+  //if (location !== "sz") {
     var beforedate = new Date();
     var tomorrow = new Date();
     var start = moment(new Date().setDate(beforedate.getDate() - 7)), // Sept. 1st
@@ -159,9 +159,9 @@ router.get("/", function (req, res) {
 
     var result = result.map((m) => m.format("DD.MM.YYYY"));
     req.session.shiftDate = result[0];
-  } else {
+  /*} else {
     req.session.shiftDate = dates[0];
-  }
+  }*/
   console.log(req.session.shiftDate);
   database.query(
     "SELECT * FROM volunteers;",
