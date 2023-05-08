@@ -53,7 +53,7 @@ input, select, textarea{
     margin-left: 6.5%;
     border: none;
     background: var(--mainInputBackgroundColour);
-    
+    border: #00000068 2px solid;
 }
 .select{
     -webkit-appearance: none;
