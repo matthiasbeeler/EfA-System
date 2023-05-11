@@ -1,0 +1,538 @@
+.grayShadowNoOffset{
+    box-shadow: 0px 0px 7px #bdbdbd;
+}
+.grayInnerShadowNoOffset{
+    box-shadow: inset 0px 0px 7px #bdbdbd;
+}
+.greenShadowNoOffset{
+  box-shadow: 0px 0px 6px #00C52B;
+}
+
+.successButton{
+    box-shadow: inset 0px 0px 6px #00C52B;
+}
+
+body, html{
+  background: #ececec;
+  padding: 0px;
+  margin: 0px;
+}
+
+*{
+    font-family: sans-serif;
+}
+
+.title{
+    margin-top: 5%;
+    margin-left: 3%;
+    font-weight: 700;
+    font-size: larger;
+}
+
+.dateTitle{
+    color: gray;
+    margin-top: 3%;
+}
+
+.container{
+  width: 90%;
+  padding: 2%;
+  background-color: white;
+  border-radius: 20px;
+  margin-left: 3%;
+  margin-top: 5%;
+}
+.containerTopContent *, .bottomContent *{
+    display: inline-block;
+}
+.container .logo{
+    width: 20%;
+}
+.container img{
+    width: 100%;
+    aspect-ratio: 1/1;
+}
+
+.container .topText{
+    width: 75%;
+    vertical-align: top;
+    padding-left: 2%;
+}
+
+.container .topText *{
+    font-family: sans-serif;
+}
+.container .topText .name{
+    font-size: xx-large;
+    font-weight: 800;
+}
+.container .topText .email{
+    font-size: large;
+    font-weight: 600;
+}
+
+.container .profileImage{
+    position: relative;
+    width: 42%;
+    padding: 3%;
+}
+
+.bottomContent{
+    position: relative;
+    height: min-content;
+}
+
+.bottomContent .imageContainer{
+    position: relative;
+    top: 50%;
+    width: 100%;
+    border-radius: 10px;
+    aspect-ratio: 1/1;
+    background-image: url('/images/svg/placeholderProfile.svg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.bottomContent .qrCode{
+    position: absolute;
+    top: 50%;
+    right: 5%;
+    transform: translateY(-50%);
+    width: 40%;
+    vertical-align: top;
+    border-radius: 10px;
+    padding: 3%;
+}
+.bottomContent .qrCode img{
+    width: 100%;
+    aspect-ratio: 1/1;
+    vertical-align: middle;
+}
+
+
+.addNewShiftContainer{
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    background-color: white;
+    border-radius: 20px 20px 0px 0px;
+}
+
+.newShiftButton{
+    width: 85%;
+    background-color: #cccccc;
+    padding: 2% 4% 2% 4%;
+    font-size: x-large;
+    margin: 3.5%;
+    border-radius: 90px;
+    text-align: center;
+    font-weight: 700;
+}
+
+.accountIcon{
+    width: 10%;
+    margin-right: 4%;
+    margin-left: auto;
+    margin-top: 3%;
+}
+
+.accountIcon img{
+    width: 100%;
+    aspect-ratio: 1/1;
+}
+
+.newShiftButton *{
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.newShiftButton img{
+    width: 9%;
+}
+
+
+
+
+.spacing5{
+    padding: 2.5%;
+    width: 80%;
+}
+.spacing10{
+    padding: 5%;
+    width: 80%;
+}
+div.groupDiv {
+    border-radius: 20px;
+    margin-left: 5%;
+    width: 90%;
+    cursor: unset;
+    padding: 1% 0px 1% 0px;
+    -webkit-transition: all 0.2s ease-out;
+    -moz-transition: all 0.2s ease-out;
+    -o-transition: all 0.2s ease-out;
+    transition: all 0.2s ease-out;
+    background-color: white;
+  }
+  
+  .groupDiv .button {
+    margin-left: 3%;
+    padding: 3%;
+    width: 88%;
+    text-align: left;
+    cursor: pointer;
+    position: relative;
+    -webkit-transition: all 0.2s ease-out;
+    -moz-transition: all 0.2s ease-out;
+    -o-transition: all 0.2s ease-out;
+    transition: all 0.2s ease-out;
+  }
+  
+  .groupDiv .button .text {
+    width: 80%;
+    display: inline-block;
+    -webkit-touch-callout: unset;
+    -webkit-user-select: unset;
+    -khtml-user-select: unset;
+    -moz-user-select: unset;
+    -ms-user-select: unset;
+    user-select: unset;
+  }
+  
+  .groupDiv .button .text .textTitle {
+    font-size: large;
+  }
+  
+  .groupDiv .button .text .textContent {
+    color: #8c8c8c;
+    -webkit-transition: all 0.2s ease-out;
+    -moz-transition: all 0.2s ease-out;
+    -o-transition: all 0.2s ease-out;
+    transition: all 0.2s ease-out;
+    padding-top: 1%;
+  }
+  
+  .smallTextContent {
+    font-size: x-small;
+  }
+  
+  .groupDiv .switchButton .text {
+    width: 77%;
+    font-size: medium;
+  }
+  
+  .groupDiv .text.hiddenText {
+    display: none;
+  }
+  
+  .groupDiv .switchButton {
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+  
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    -webkit-box-align: center;
+    align-items: center;
+  }
+  
+  
+  .groupDiv .button .arrow {
+    position: absolute;
+    top: 50%;
+    right: 4%;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: center;
+    width: 8%;
+    aspect-ratio: 1/1;
+  }
+  
+  .groupDiv .button .arrow img {
+    aspect-ratio: 1/1;
+    width: 100%;
+  }
+
+
+
+  .backButton {
+    display: flex;
+    padding: 1%;
+    justify-content: center;
+    background: white;
+    width: 9%;
+    aspect-ratio: 1/1;
+    border-radius: 10px;
+    margin-left: 3%;
+    margin-top: 2%;
+    cursor: pointer;
+  }
+
+/*switch*/
+.switchSimple {
+    position: relative;
+    display: inline-block;
+    vertical-align:top;
+    width: 20%;
+    aspect-ratio: 8/4;
+  }
+  
+  /* Hide default HTML checkbox */
+  .switchSimple input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  
+  /* The slider */
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgb(194, 0, 0);
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 80%;
+    aspect-ratio: 1/1;
+    left: 8%;
+    bottom: 10%;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  body.darkMode .slider:before{
+    background-color: #ececec;
+  }
+  
+  input:checked + .slider {
+    background-color: rgb(0, 173, 0);
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px rgb(0, 173, 0);
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(115%);
+    -ms-transform: translateX(115%);
+    transform: translateX(115%);
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+    border-radius: 34px;
+  }
+  
+  .slider.round:before {
+    border-radius: 50%;
+  }
+
+
+  .shiftTile{
+    margin-left: 3%;
+    width: 90%;
+    padding: 2%;
+    background-color: white;
+    border-radius: 20px;
+  }
+.shiftTile *{
+    display: inline-block;
+}
+  .shiftTile .left{
+    vertical-align: middle;
+
+    padding: 1%;
+    text-align: left;
+    font-size: large;
+    width: 45%;
+    font-weight: bolder;
+  }
+  .shiftTile .right{
+    width: 47%;
+  }
+  .shiftTile .right .location{
+    width: 15%;
+  }
+  .shiftTile .right .location img{
+    width: 100%;
+  }
+  .shiftTile .right *{
+    vertical-align: middle;
+    display: inline-block;
+  }
+  .shiftTile .right .text{
+    width: 70%;
+  }
+  .shiftTile .seperator{
+    vertical-align: middle;
+
+    padding-left: 1%;
+    padding-top: 8%;
+    border-radius: 10px;
+    margin-right: 2%;
+    background-color: #9f9f9f;
+}
+
+.shiftTile .shiftTitle{
+    font-size: larger;
+}
+.shiftTile .shiftTime{
+    font-size: large;
+    font-weight: normal;
+}
+
+input, select{
+    background-color: #E1E1E1;
+    border: 0.5px solid black;
+    border-radius: 20px;
+    width: 86%;
+    font-weight: bolder;
+    font-size: larger;
+    padding: 3%;
+    margin-left: 4%;
+}
+
+.submitButton{
+    background-color: #ffffff;
+    border: 0.5px solid black;
+    border-radius: 20px;
+    width: 92%;
+    font-weight: bolder;
+    font-size: larger;
+    padding: 3%;
+    margin-left: 4%;
+}
+
+.topTitle{
+    margin-left: 5%;
+    font-family: sans-serif;
+    font-weight: bolder;
+    font-size: xx-large;
+}
+
+
+
+.mainSelect{
+    display: none;
+    height: 100vh;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    position: fixed;
+    z-index: 21;
+    width: 100%;
+    backdrop-filter: blur(1px);
+    -webkit-backdrop-filter: blur(1px);
+      background: rgba(0, 0, 0, 0.4);
+  }
+  .mainSelect .closeButton{
+    width: 10%;
+    margin-left: auto; 
+  margin-right: 0;
+  }
+  .mainSelect .closeButton img{
+    height: 100%;
+    width: 100%;
+  }
+  
+  .mainSelect .inner{
+    position: fixed;
+    bottom: -20%;
+    left: 0px;
+    width: 94%;
+    max-width: 100%;
+    padding: 3%;
+    max-height: 80vh;
+    height: fit-content;
+    border-radius: 20px 20px 0px 0px;
+    background-color: #ececec;
+    z-index: 22;
+
+  }
+  
+  .mainSelect .hideSelect{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    background: transparent;
+    height: 100vh;
+    width: 100%;
+  }
+  .selectOption *{
+    display: inline-block;
+    vertical-align: middle;
+  }
+  .selectOption .title{
+    width: 83%;
+    max-width: 84%;
+  }
+  
+  .selectOption .radio{
+    margin-left: auto;
+    margin-right: 0px;
+    width: 7%;
+  }
+  .selectOption{
+    background: white;
+    width: 90%;
+    padding: 2.9%;
+    margin: 2% 0% 4% 2%;
+    border-radius: 15px;
+    border: 0.5px solid black;
+  }
+  .selectOptions{
+    max-height: 70vh;
+    overflow: scroll;
+  }
+
+.noMarginTitle{
+    margin: 0px;
+}
+
+.titleH3{
+    font-size: x-large;
+}
+
+.topLogo{
+    width: 24%;
+}
+
+.topLogo img{
+    width: 100%;
+}
+
+.mainContinueButton{
+    background: #B2BAFD;
+}
+
+.errorMessage.redShadowNoOffset{
+    width: 86%;
+    padding: 3%;
+    margin-left: 4%;
+    background: white;
+    box-shadow: 0px 0px 7px #ff7474;
+    border-radius: 20px;
+}
+
+.groupDiv .seperator {
+    padding: 0.3%;
+    background-color: #8c8c8c;
+    border-radius: 10px;
+    width: 83%;
+    opacity: 0.5;
+    margin-left: 8.5%;
+  }
+.groupDiv .seperator {
+    padding: 0.3%;
+    width: 90%;
+    margin-left: 4.5%;
+  }
+

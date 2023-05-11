@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EfA-Pass</title>
+    <link rel="stylesheet" href="/stylesheets/pass.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+
+    <div class="content">
+        <div class="topLogo">
+            <img src="/images/svg/efaTopLogo.svg" alt="">
+        </div>
+        <div class="spacing5"></div>
+        <div class="topTitle topLogoTitle">
+            Essen für Alle <%= __('timetable')%>
+        </div>
+        <div class="spacing10"></div>
+
+        
+            <input type="submit" onclick="window.location = '/timetable/pass/login'" class="submitButton button grayInnerShadowNoOffset" value="Login">
+            <div class="spacing5"></div>
+            <input type="submit" onclick="window.location = '/timetable/pass/signup'" class="submitButton button grayInnerShadowNoOffset" value="Sign up">
+            <div class="spacing5"></div>
+            
+            <input type="submit" class="submitButton button grayInnerShadowNoOffset mainContinueButton" value="Continue as guest">
+        <div class="spacing10"></div>
+        <center>
+
+            <div onclick="window.location = '/timetable/support'"><a><%= __('Contact us')%></a></div>
+        </center>
+    </div>
+
+</body>
+
+</html>

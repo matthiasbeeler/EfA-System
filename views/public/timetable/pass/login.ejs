@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EfA-Pass Login</title>
+    <link rel="stylesheet" href="/stylesheets/pass.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+
+    <div class="content">
+        <div class="backButton grayShadowNoOffset" onclick="window.location = '/timetable/pass/'">
+            <img class="svgWhite" src="/images/svg/back.svg" alt="">
+        </div>
+        <div class="spacing5"></div>
+        <div class="topTitle">
+            <%=__('Login')%>
+
+        </div>
+        <div class="spacing10"></div>
+
+        <form class="loginForm">
+            <div class="errorMessage redShadowNoOffset message" style="display: none;">
+                <center>
+                    <div class="messageText">
+                        Error: please enter all your details.
+                    </div>
+                </center>
+            </div>
+            <div class="spacing5"></div>
+            <input type="text" id="input" required name="input" onchange="$(this).css('border', 'none');"
+                oninvalid="$(this).css('border', '2px solid red');" placeholder="<%= __("E-mail / Phonenumber")%>"
+                class="standardInput">
+                <div class="spacing5"></div>
+            <input type="password" id="password" required name="password" onchange="$(this).css('border', 'none');"
+                oninvalid=" $(this).css('border', '2px solid red');" placeholder="<%= __("Password")%>"
+                class="standardInput">
+                <div class="spacing5"></div>
+
+            <input type="submit" class="submitButton button grayInnerShadowNoOffset submit" value="<%=__('Login')%>">
+        </form>
+        <div class="spacing10"></div>
+        <center>
+
+            <div onclick="redirect('/passwordForgotten')"><a><%= __('Frogot your password?')%></a></div>
+        </center>
+    </div>
+
+</body>
+
+</html>
+<script>
+    var errorMessages = ["", "<%= __('Please fill out all fields.')%>", "<%= __('An error occured. Try again.')%>",
+        "<%= __('Incorrect Username and/or Password!')%>", "<%= __('Account not active. Contact support.')%>"
+    ]
+    $("form").submit(function (e) {
+        e.preventDefault();
+        $('.errorMessage').hide()
+        $(".submit").val("<%= __('Loading...')%>")
+        $('.submit').prop('disabled', true);
+        try {
+            $.ajax({
+                url: '/timetable/pass/login',
+                type: 'POST',
+                cache: false,
+                data: {
+                    "input": $('#input').val(),
+                    "password": $('#password').val(),
+                },
+                xhrFields: {
+                    withCredentials: true
+                },
+                crossDomain: true,
+                success: function (data, status, xhr) {
+                    if (data) {
+
+                        if (data.success == true) {
+                            $(".submit").addClass(`successButton`)
+                            $(".submit").val("<%= __('Success')%>")
+                            setTimeout(() => {
+                                window.location = "/timetable/pass/home/"
+                            }, 1000)
+                        }
+                        if (data.success == false) {
+                            $('.errorMessage').show()
+                            $('.errorMessage .messageText').html(data.message)
+                            $(".submit").val("<%= __('Login')%>")
+                            $('.submit').prop('disabled', false);
+                            if (data.error == 0) {
+                                $('.errorMessage').show()
+                                $('.errorMessage .messageText').html(
+                                    "<%= __('Too many requests were made. Please wait ')%>" +
+                                    data.time + "<%= __(' minutes')%>")
+                            }
+                        }
+                    }
+
+                },
+                error: function (jqXHR, textStatus, err) {
+                    $('.errorMessage').show()
+                    $('.errorMessage .messageText').html("<%= __('An error occerd whilst communication with our server.')%>")
+
+                    $(".submit").val("<%= __('Login')%>")
+                    $('.submit').prop('disabled', false);
+                }
+            });
+
+
+        } catch (error) {
+            $('.errorMessage').show()
+            $('.errorMessage .messageText').html("<%= __('An error occerd whilst communication with our server.')%>")
+            $(".submit").val("<%= __('Login')%>")
+            $('.submit').prop('disabled', false);
+        }
+    })
+</script>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EfA-Pass Signup</title>
+    <link rel="stylesheet" href="/stylesheets/pass.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <script>
+        function Check(){
+            var test = new RegExp('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})')
+           if(test.test($('#password').val())){
+            $('.first').hide()
+            $('#password').css('border', '2px solid green')
+            return true;
+           }else{
+            $('.first').show()
+            $('#password').css('border', '2px solid red')
+            return false;
+           }
+        }
+        function matchCheck(){
+            var test = new RegExp('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})')
+           if($('#password').val() == $('#passwordCheck').val()){
+            $('.second').hide()
+            $('#passwordCheck').css('border', '2px solid green')
+            $('#password').css('border', '2px solid green')
+            return true;
+           }else{
+            $('.second').show()
+            $('#password').css('border', '2px solid red')
+            $('#passwordCheck').css('border', '2px solid red')
+            return false;
+           }
+        }
+        if (typeof navigator.serviceWorker !== 'undefined') {
+        navigator.serviceWorker.register('/javascripts/pwabuilder-sw.js')
+      }
+    </script>
+    <div class="content">
+        <div class="backButton grayShadowNoOffset" onclick="window.location = '/timetable/pass/'">
+            <img class="svgWhite" src="/images/svg/back.svg" alt="">
+        </div>
+        <div class="spacing5"></div>
+        <div class="topTitle">
+            <%=__('Signup')%>
+        </div>
+        <div class="spacing10"></div>
+
+        <form class="loginForm">
+            <div class="errorMessage formError redShadowNoOffset message" style="display: none;">
+                <center>
+                    <div class="messageText">
+                        Error: please enter all your details.
+                    </div>
+                </center>
+            </div>
+            <input type="text" id="input" required name="email" onchange="$(this).css('border', 'none');"
+                oninvalid="$(this).css('border', '2px solid red');" placeholder="<%= __("E-mail address")%>"
+                class="standardInput">
+                <div class="spacing5"></div>
+            <input type="text" id="input" required name="name" onchange="$(this).css('border', 'none');"
+                oninvalid="$(this).css('border', '2px solid red');" placeholder="<%= __("Full name")%>"
+                class="standardInput">
+                <div class="spacing5"></div>
+                <input type="text" id="input" required name="mainLocation" onchange="$(this).css('border', 'none');"
+                oninvalid="$(this).css('border', '2px solid red');" placeholder="<%= __("Main volunteer-location")%>"
+                class="standardInput categoryButton" onfocus="showCategorySelect()" onclick="showCategorySelect()">
+                <div class="spacing5"></div>
+                <div class="categorySelect mainSelect">
+                    <div class="hideSelect" onclick="hideCategorySelect()">
+        
+                    </div>
+                    <div class="inner">
+                        <div class="closeButton" onclick="hideCategorySelect()">
+                            <img src="/images/svg/cancelRound.svg" alt="">
+                        </div>
+                        <div class="title titleH3 noMarginTitle">
+                            <%=__('Where are you planning to be volunteering the most?')%>
+                        </div>
+                        <div class="spacing5"></div>
+                        <div class="selectOptions">
+                        <div class="selectOption grayInnerShadowNoOffset" onclick="$('.categoryButton').val('Seewen SZ');hideCategorySelect()">
+                            <div class="title titleH4 noMarginTitle noLeftMarginTitle ">
+                                Seewen SZ
+                            </div>
+                            
+                        </div>
+                        <div class="selectOption grayInnerShadowNoOffset" onclick="$('.categoryButton').val('Zürich Manegg');hideCategorySelect()">
+                            <div class="title titleH4 noMarginTitle noLeftMarginTitle ">
+                                Zürich Manegg
+                            </div>
+                            
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            <input type="password" autocomplete="new-password" onchange="Check()" id="password" required name="password" onchange="$(this).css('border', 'none');" oninvalid=" $(this).css('border', '2px solid red');" placeholder="<%=__("Password");%>" class="standardInput">
+            <div class="spacing5 first" style="display: none;"></div>
+    
+            <div class="errorMessage redShadowNoOffset message first" style="display: none;">
+                    <%= __('Your password should meet the following criteria')%>
+                    <list>
+                        <li><%= __('It should be 8 characters long.')%></li>
+                        <li><%= __('It should contain at least one uppercase letter.')%></li>
+                        <li><%= __('It should contain at least one lowercase letter.')%></li>
+                        <li><%= __('It should contain at least one digit.')%></li>
+                        <li><%= __('It should contain at least one special character.')%></li>
+                    </list>
+                </div>
+                <div class="spacing5"></div>
+
+                <input type="password" autocomplete="new-password" onchange="matchCheck()" id="passwordCheck" required name="passwordCheck" onchange="$(this).css('border', 'none');" oninvalid=" $(this).css('border', '2px solid red');" placeholder="<%=__("Repeat password");%>" class="standardInput">
+                <div class="spacing5 second" style="display: none;"></div>
+
+                <div class="errorMessage redShadowNoOffset message second" style="display: none;">
+                    <%= __("Your passwords don't match")%>
+                    
+                </div>
+                <div class="spacing5"></div>
+
+            <input type="submit" class="submitButton button grayInnerShadowNoOffset" value="<%=__('Signup')%>">
+        </form>
+        
+    </div>
+
+</body>
+
+</html>
+<script>
+     function showCategorySelect(){
+        $('.categoryButton').attr('disabled', true)
+        document.querySelector('.categoryButton').blur()
+        $('.categorySelect').css('display', "block");
+        $('.categorySelect .inner').css('bottom', '0%')
+    }
+    function hideCategorySelect(){
+        $('.categoryButton').attr('disabled', false)
+        $('.categorySelect .inner').css('bottom', "-20%")
+        $('.categorySelect').css('display', "none")
+    }
+    $('.message').hide()
+    $("form").submit(function(e) {
+        e.preventDefault();
+        if($('#password').val() !== $('#passwordCheck').val()) return $('.message').html("Die Passwörter stimmen nicht überein")
+        $(".button").hide();
+        $.ajax({
+            url: '/timetable/pass/signup',
+            type: 'POST',
+            cache: false,
+            data: $('form').serializeArray(),
+            success: function (data) {
+                console.log(data)
+                if (data.success == true) {
+                    window.location = "/timetable/pass/home";
+                }
+                if (data.success == false) {
+                    $(".button").show();
+                    $('.formError').show()
+                    $('.formError').html(data.message)
+                }
+            },
+            error: function (jqXHR, textStatus, err) {
+                alert('text status ' + textStatus + ', err ' + err)
+                $(".button").show();
+            }
+        });
+    })
+</script>

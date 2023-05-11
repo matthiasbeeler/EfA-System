@@ -18,6 +18,7 @@ var print = require("./routes/print");
 var timetable = require("./routes/timetable");
 var volunteers = require("./routes/volunteers");
 var volunteerCards = require("./routes/volunteerCards");
+var pass = require("./routes/pass");
 const i18n = require("./javascript/i18n");
 
 var app = express();
@@ -80,6 +81,7 @@ app.use("/admin/print", print);
 app.use("/admin/volunteers/volunteerCards", volunteerCards);
 app.use("/admin/volunteers", volunteers);
 app.use("/timetable", timetable);
+app.use("/timetable/pass", pass);
 
 
 

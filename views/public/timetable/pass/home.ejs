@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your EfA-Pass</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" href="/stylesheets/pass.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
+</head>
+
+<body>
+    <div class="content">
+        <div class="accountIcon" onclick="window.location = '/timetable/pass/settings'">
+            <img src="/images/svg/accountIcon.svg" alt="">
+        </div>
+        <div class="container greenShadowNoOffset">
+            <div class="containerTopContent">
+                <div class="logo">
+                    <img src="/images/svg/logo.svg" alt="">
+                </div>
+                <div class="topText">
+                    <div class="name">
+                        <%=tokenData.name%>
+                    </div>
+                    <div class="email">
+                        <%=tokenData.email%>
+                    </div>
+                </div>
+            </div>
+            <div class="bottomContent">
+                <div class="profileImage">
+                    <div class="imageContainer">
+
+                    </div>
+                </div>
+                <div class="qrCode">
+                    <img src="<%=qrCode%>" alt="">
+                </div>
+            </div>
+        </div>
+
+        <div class="smallTitle title">
+            <%=__('Upcoming shifts')%>
+        </div>
+        <div class="dateContainer">
+            
+        </div>
+        <div class="spacing10"></div>
+        <div class="spacing10"></div>
+
+        <div class="addNewShiftContainer grayShadowNoOffset">
+            <div class="newShiftButton greenShadowNoOffset">
+                <img src="/images/svg/addIcon.svg" alt="">
+                <div class="text"><%=__('Register for new shift')%></div>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>
+
+<script>
+    var locations = {
+        "sz": "Steinbislin 9, 6423 Seewen"
+    }
+    var shiftData =<%-JSON.stringify(shiftData) %>;
+    var start = moment('2023-03-02'), // Sept. 1st
+        end = moment('2023-11-02'), // Nov. 2nd
+        day = 6;                    // Sunday
+
+    var result = [];
+    var current = start.clone();
+
+    while (current.day(7 + day).isBefore(end)) {
+        result.push(current.clone());
+    }
+
+    var saveSat = result.map(m => m.format('YYYY-MM-DD'));
+    saveSatDone = []
+    saveSat.forEach(function (element) {
+        if (!moment(element).isBefore(moment())) { saveSatDone.push(element) }
+    })
+    saveSatDone = saveSatDone.slice(0, 8)
+    saveSatDone.forEach(element => {
+        if (shiftData.shifts[element.split('-')[2] + "." + element.split('-')[1] + "." + element.split('-')[0]]) {
+            var data = shiftData.shifts[element.split('-')[2] + "." + element.split('-')[1] + "." + element.split('-')[0]];
+            var date = element.split('-')[2] + "." + element.split('-')[1] + "." + element.split('-')[0];
+            var obj = ` <div class="dateTitle title">
+            ${date}
+        </div>
+        <div class="shiftContainer ${element}"></div> 
+        <div class="spacing5"></div>
+`;
+            $('.dateContainer').append(obj)
+            addElements(data, element)
+        }
+    });
+    function addElements(data, date) {
+        for (var key in data) {
+            var obj = ` 
+            <div class="spacing5"></div>
+            <div class="shiftTile grayShadowNoOffset">
+                    <div class="left">
+                        <div class="shiftTitle">
+                            ${data[key].shiftName}
+                        </div>
+                        <div class="shiftTime">
+                            ${key} Uhr
+                        </div>
+                    </div>
+                    <div class="seperator">
+
+                    </div>
+                    <div class="right">
+                        <div class="location">
+                            <img src="/images/svg/location.svg" alt="">
+                        </div>
+                        <div class="text">
+                            ${locations[data[key].location]}
+                        </div>
+                    </div>
+                </div>
+            `;
+            $('.'+date).append(obj)
+        }
+    }
+</script>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>You EfA-Pass Settings</title>
+    <link rel="stylesheet" href="/stylesheets/pass.css">
+</head>
+<body>
+    <div class="content">
+        <div class="backButton grayShadowNoOffset" onclick="window.location = '/timetable/pass/home'">
+            <img class="svgWhite" src="/images/svg/back.svg" alt="">
+        </div>
+        <div class="spacing5"></div>
+    <div class="groupDiv groupSubmit submit grayShadowNoOffset">
+        <div class="button" onclick="redirect('/account/settings/email')">
+            <div class="text">
+                <div class="textTitle"><%= __('Email')%></div>
+                <div class="textContent email"><%=data[0].email%></div>
+            </div>
+            <div class="arrow"><img src="/images/svg/arrow.svg" alt=""></div>
+        </div>
+        
+        <div class="seperator"></div>
+        <div class="button" onclick="redirect('/account/settings/phonenumber')">
+            <div class="text">
+                <div class="textTitle"><%= __('Name')%></div>
+                <div class="textContent name"><%=data[0].fullName%></div>
+            </div>
+            <div class="arrow"><img src="/images/svg/arrow.svg" alt=""></div>
+        </div>
+        <div class="seperator"></div>
+
+        <!--<div class="button switchButton">
+            <div class="text">
+                <div class="textTitle"><%= __('Multi factor authentication')%></div>
+                
+            </div>
+            <label class="switchSimple mfaSwitch">
+                <input type="checkbox" onchange="setMFA()" id="mfaCheckbox">
+                <span class="slider round"></span>
+              </label>
+        </div>
+        <div class="seperator"></div>-->
+
+        <div class="button">
+            <div class="text">
+                <div class="textTitle"><%= __('Volunteer-ID')%></div>
+                <div class=" smallTextContent textContent accountID"><%=data[0].id%></div>
+            </div>
+        </div>
+    </div>
+    <div class="spacing5"></div>
+        <div class="groupDiv groupSubmit submit grayShadowNoOffset">
+            <div class="button" onclick="redirect('/account/settings/password')">
+                <div class="text">
+                <div class="textTitle"><%= __('Password')%></div>
+            </div>
+            <div class="arrow"><img src="/images/svg/arrow.svg" alt=""></div>
+        </div>
+    </div>
+    <div class="spacing5"></div>
+
+    
+        <div class="groupDiv groupSubmit submit grayShadowNoOffset">
+            <div class="button" onclick="window.location = '/timetable/pass/logout'">
+                <div class="text">
+                <div class="textTitle"><%= __('Logout')%></div>
+            </div>
+            <div class="arrow"><img src="/images/svg/logoutBlack.svg" alt=""></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
