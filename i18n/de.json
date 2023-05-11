@@ -29,7 +29,29 @@
 	"Do you want to sign out from more shifts?": "Do you want to sign out from more shifts?",
 	"Our location in Chur GR": "Unser Standort in Chur GR",
 	"More dates will be available after the": "Weitere Daten werden ab dem",
-	"on": " verfügbar sein"
-
-
+	"on": " verfügbar sein",
+	"Contact us": "Contact us",
+	"Login": "Login",
+	"E-mail / Phonenumber": "E-mail / Phonenumber",
+	"Password": "Password",
+	"Frogot your password?": "Frogot your password?",
+	"Please fill out all fields.": "Please fill out all fields.",
+	"An error occured. Try again.": "An error occured. Try again.",
+	"Incorrect Username and/or Password!": "Incorrect Username and/or Password!",
+	"Account not active. Contact support.": "Account not active. Contact support.",
+	"Loading...": "Loading...",
+	"Success": "Success",
+	"Too many requests were made. Please wait ": "Too many requests were made. Please wait ",
+	" minutes": " minutes",
+	"An error occerd whilst communication with our server.": "An error occerd whilst communication with our server.",
+	"E-mail": "E-mail",
+	"Upcoming shifts": "Upcoming shifts",
+	"Register for new shift": "Register for new shift",
+	"Email": "Email",
+	"Name": "Name",
+	"Multi factor authentication": "Multi factor authentication",
+	"Volunteer-ID": "Volunteer-ID",
+	"Logout": "Logout",
+	"Sign up": "Sign up",
+	"Continue as guest": "Continue as guest"
 }

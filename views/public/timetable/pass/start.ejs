@@ -5,7 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EfA-Pass</title>
-    <link rel="stylesheet" href="/stylesheets/pass.css?v=1">
+    <link rel="stylesheet" href="/stylesheets/pass.css?v=2">
+    
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
 <body>
@@ -19,14 +20,12 @@
             Essen für Alle <%= __('timetable')%>
         </div>
         <div class="spacing10"></div>
-
-        
-            <input type="submit" onclick="window.location = '/timetable/pass/login'" class="submitButton button grayInnerShadowNoOffset" value="Login">
+            <input type="submit" onclick="window.location = '/timetable/pass/login'" class="submitButton button grayInnerShadowNoOffset" value="<%=__('Login')%>">
             <div class="spacing5"></div>
-            <input type="submit" onclick="window.location = '/timetable/pass/signup'" class="submitButton button grayInnerShadowNoOffset" value="Sign up">
+            <input type="submit" onclick="window.location = '/timetable/pass/signup'" class="submitButton button grayInnerShadowNoOffset" value="<%=__('Sign up')%>">
             <div class="spacing5"></div>
             
-            <input type="submit" class="submitButton button grayInnerShadowNoOffset mainContinueButton" value="Continue as guest">
+            <input type="submit" class="submitButton button grayInnerShadowNoOffset mainContinueButton" value="<%=__('Continue as guest')%>">
         <div class="spacing10"></div>
         <center>
 
