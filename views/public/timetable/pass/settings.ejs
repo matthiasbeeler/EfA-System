@@ -14,21 +14,19 @@
         </div>
         <div class="spacing5"></div>
     <div class="groupDiv groupSubmit submit grayShadowNoOffset">
-        <div class="button" onclick="redirect('/account/settings/email')">
+        <div class="button">
             <div class="text">
                 <div class="textTitle"><%= __('Email')%></div>
                 <div class="textContent email"><%=data[0].email%></div>
             </div>
-            <div class="arrow"><img src="/images/svg/arrow.svg" alt=""></div>
         </div>
         
         <div class="seperator"></div>
-        <div class="button" onclick="redirect('/account/settings/phonenumber')">
+        <div class="button">
             <div class="text">
                 <div class="textTitle"><%= __('Name')%></div>
                 <div class="textContent name"><%=data[0].fullName%></div>
             </div>
-            <div class="arrow"><img src="/images/svg/arrow.svg" alt=""></div>
         </div>
         <div class="seperator"></div>
 
@@ -49,11 +47,18 @@
                 <div class="textTitle"><%= __('Volunteer-ID')%></div>
                 <div class=" smallTextContent textContent accountID"><%=data[0].id%></div>
             </div>
+        </div>        <div class="seperator"></div>
+        <div class="button" onclick="window.location = '/timetable/pass/profileImageChange'">
+            <div class="text">
+                <div class="textTitle"><%= __('Profile image')%></div>
+                <div class=" smallTextContent textContent profileImage"></div>
+                <div class="arrow"><img src="/images/svg/arrow.svg" alt=""></div>
+            </div>
         </div>
     </div>
     <div class="spacing5"></div>
         <div class="groupDiv groupSubmit submit grayShadowNoOffset">
-            <div class="button" onclick="redirect('/account/settings/password')">
+            <div class="button" onclick="window.location = '/timetable/pass/passwordChange'">
                 <div class="text">
                 <div class="textTitle"><%= __('Password')%></div>
             </div>

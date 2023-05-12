@@ -538,3 +538,7 @@ footer p, footer a{
     width: 20%;
     height: auto;
 }
+
+select.blueBackground{
+    background-color: var(--mainBtnColour);
+}

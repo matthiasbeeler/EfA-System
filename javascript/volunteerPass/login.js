@@ -28,6 +28,7 @@ exports.loginPass = function (request, response, database, bouncer) {
               httpOnly: false,
               overwrite: true,
             });
+            request.session.timetableType = "pass";
             
             return response.json({ success: true });
           } else {

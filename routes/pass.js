@@ -7,6 +7,10 @@ const { loginPass } = require("../javascript/volunteerPass/login");
 var router = express.Router();
 const bwipjs = require("bwip-js");
 const { passwordForgotten, resetForgottenPassword } = require("../javascript/volunteerPass/forgotPassword");
+const { settingsPasswordChange, updateImage } = require("../javascript/volunteerPass/settingsUpdate");
+const fs = require('fs')
+const { validate } = require("uuid");
+
 
 router.get(["/", "/login", "/signup"], function (req, res, next) {
   try {
@@ -38,6 +42,11 @@ router.get("/resetPassword/:token", function (req, res) {
   res.render('public/timetable/pass/resetForgottenPassword', {token: req.params.token})
 });
 
+router.post("/guest", function (req, res) {
+  req.session.timetableType = "guest";
+  res.json({success: true})
+});
+
 router.post("/resetPassword", function (req, res) {
   resetForgottenPassword(req, res, database);
 });
@@ -56,13 +65,21 @@ router.post("/login", function (req, res) {
 
 router.all(["*"], function (req, res, next) {
   try {
-    if (jwt.verify(req.cookies.EfAPassAuth, process.env.jwtSecret).loggedin)
+    if (jwt.verify(req.cookies.EfAPassAuth, process.env.jwtSecret).loggedin){
+      req.session.timetableType = "pass";
       return next();
+    }else{
     res.redirect("/timetable/pass");
+    }
   } catch (error) {
+    console.log(error)
     res.redirect("/timetable/pass");
   }
 });
+
+
+
+
 
 router.get("/home", function (req, res) {
   var jwtData = jwt.verify(req.cookies.EfAPassAuth, process.env.jwtSecret);
@@ -112,8 +129,48 @@ router.get("/settings", function (req, res) {
   );
 });
 
+router.get("/passwordChange", function (req, res) {
+  res.render("public/timetable/pass/settingsUpdate");
+});
+
+router.post("/settingsPasswordChange", function (req, res) {
+  settingsPasswordChange(req, res, database);
+});
+
+router.get("/profileImageChange", function (req, res) {
+  res.render("public/timetable/pass/imageUpdate");
+});
+
+router.post("/profileImageChange", function (req, res) {
+  updateImage(req, res, database);
+});
+
+
+router.all('/uploads/profileImages/:id', function(req, res, next) {
+  try {
+  var imagePath;
+  if(validate(req.params.id.split(".")[0]) && req.params.id.split(".").length == 2 && req.params.id.split(".")[1] == "webp") {
+    imagePath = req.params.id;
+  }else{
+    imagePath = "0"
+  }
+  fs.readFile(process.cwd()+ "/uploads/efaPassImages/"+imagePath, (err, data) => {
+    if (!err && data) {
+      return res.sendFile(process.cwd()+ "/uploads/efaPassImages/"+imagePath)
+    }else{
+      return res.sendFile(process.cwd()+ "/public/images/svg/placeholderProfile.svg")    }
+  })
+
+    
+} catch (error) {
+    conosole.log(error)
+}
+});
+
+
 router.get("/logout", (req, res) => {
   res.clearCookie("EfAPassAuth");
+  req.session.timetableType = undefined;
   res.redirect("/timetable/pass");
 });
 module.exports = router;

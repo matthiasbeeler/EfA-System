@@ -86,6 +86,7 @@ exports.signupPass = function (request, response, database) {
                     httpOnly: false,
                     overwrite: true,
                   });
+                  request.session.timetableType = "pass";
                   if(newVolunteer == 1){
                     database.query(
                         "INSERT INTO volunteers (`id`,`name`,`email`,`shifts`) VALUES(?,?,?,?)",

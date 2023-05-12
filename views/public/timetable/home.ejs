@@ -15,6 +15,12 @@
 
 <body>
     <div class="content timetableContent">
+        <%if(timetableType == "pass"){%>
+        <div class="topBtn" onclick="window.location = '/timetable/pass'">
+            <img src="/images/svg/ArrowBack.svg" alt="">
+        </div>
+        <%}%>
+
         <h1 class="centerSiteTitle">Essen für Alle <%= __('timetable')%> <%if(loc == "gr") {%>Chur<%}%> <%if(loc == "sz") {%>Seewen<%}%></h1>
         <div class="seperator"></div>
             <h2 class="smallTitle">
@@ -32,11 +38,25 @@
             <div class="message infoBlock" style="display: none;">
                 <div class="info"></div>
             </div>
+            <%if(timetableType !== "pass"){%>
             <input type="text" name="name" value="<%=volName%>" placeholder="1. <%= __('name')%>" id="name" required>
             <input type="email" name="email" value="<%=volEmail%>" placeholder="2. <%= __('email address')%>" id="email" required>
+            <%}else{%>
+                <input type="text" name="name" value="<%=volName%>" placeholder="1. <%= __('name')%>" id="name" required style="display:none;">
+            <input type="email" name="email" value="<%=volEmail%>" placeholder="2. <%= __('email address')%>" id="email" required style="display:none;">
+            
+                <br>
+                <%}%>
+
             <h2 class="smallTitle"><%= __('What do you want to do')%></h2>
-            <select name="shiftType" onchange="$('form').submit()" id="shiftType" required>
+            <select name="shiftType" class="<%if(timetableType == "pass"){%> blueBackground<%}%>" onchange="$('form').submit()" id="shiftType" required>
+                <%if(timetableType !== "pass"){%>
+
                 <option value="" selected disabled>3. <%= __('press me')%></option>
+                <%}else{%>
+                    <option value="" selected disabled>1. <%= __('Please choose')%></option>
+                    <%}%>
+
                 <% results[0]["shifts"+loc].forEach(function(ele) { %>
                     <% var stop = 1; %>
                     <% ele.shifts.forEach(function(elements) { %>
@@ -50,6 +70,12 @@
                         
                 <% }); %> 
             </select>
+            <%if(timetableType == "pass"){%>
+                <br>
+                <br>
+                <br>
+                <%}%>
+
         </form>
         <script>
             if(document.querySelectorAll('option').length==1){
@@ -60,6 +86,7 @@
         </script>
         <div class="button" onclick="$('form').submit()" style="display: none;"><%= __('contiune')%></div>
         <br>
+
         <div class="buttonContainer">
             <div class="innerButtonContainer">
                 <a href="/timetable/otherWeek">

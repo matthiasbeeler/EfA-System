@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EfA-Pass Signup</title>
+    <link rel="stylesheet" href="/stylesheets/pass.css?v=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+
+<body>
+    <script>
+        function Check() {
+            var test = new RegExp('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})')
+            if (test.test($('#password').val())) {
+                $('.first').hide()
+                $('#password').css('border', '2px solid green')
+                return true;
+            } else {
+                $('.first').show()
+                $('#password').css('border', '2px solid red')
+                return false;
+            }
+        }
+        function matchCheck() {
+            var test = new RegExp('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])(?=.{8,})')
+            if ($('#password').val() == $('#passwordCheck').val()) {
+                $('.second').hide()
+                $('#passwordCheck').css('border', '2px solid green')
+                $('#password').css('border', '2px solid green')
+                return true;
+            } else {
+                $('.second').show()
+                $('#password').css('border', '2px solid red')
+                $('#passwordCheck').css('border', '2px solid red')
+                return false;
+            }
+        }
+        if (typeof navigator.serviceWorker !== 'undefined') {
+            navigator.serviceWorker.register('/javascripts/pwabuilder-sw.js')
+        }
+    </script>
+    <div class="content">
+        <div class="backButton grayShadowNoOffset" onclick="window.location = '/timetable/pass/settings'">
+            <img class="svgWhite" src="/images/svg/back.svg" alt="">
+        </div>
+        <div class="spacing5"></div>
+        <div class="topTitle">
+            <%=__('Reset password')%>
+        </div>
+        <div class="spacing5"></div>
+
+        <form class="loginForm">
+            <div class="errorMessage formError redShadowNoOffset message" style="display: none;">
+                <center>
+                    <div class="messageText">
+                        Error: please enter all your details.
+                    </div>
+                </center>
+            </div>
+            <div class="spacing5"></div>
+            <input type="password" autocomplete="current-password" id="oldPassword" required name="oldPassword"
+            onchange="$(this).css('border', 'none');" oninvalid=" $(this).css('border', '2px solid red');"
+            placeholder="<%=__("Current Password");%>" class="standardInput">
+            <div class="spacing5"></div>
+            <input type="password" autocomplete="new-password" onchange="Check()" id="password" required name="password"
+                onchange="$(this).css('border', 'none');" oninvalid=" $(this).css('border', '2px solid red');"
+                placeholder="<%=__("Password");%>" class="standardInput">
+            <div class="spacing5 first" style="display: none;"></div>
+
+            <div class="errorMessage redShadowNoOffset message first" style="display: none;">
+                <%= __('Your password should meet the following criteria')%>
+                    <list>
+                        <li>
+                            <%= __('It should be 8 characters long.')%>
+                        </li>
+                        <li>
+                            <%= __('It should contain at least one uppercase letter.')%>
+                        </li>
+                        <li>
+                            <%= __('It should contain at least one lowercase letter.')%>
+                        </li>
+                        <li>
+                            <%= __('It should contain at least one digit.')%>
+                        </li>
+                        <li>
+                            <%= __('It should contain at least one special character.')%>
+                        </li>
+                    </list>
+            </div>
+            <div class="spacing5"></div>
+
+            <input type="password" autocomplete="new-password" onchange="matchCheck()" id="passwordCheck" required
+                name="passwordCheck" onchange="$(this).css('border', 'none');"
+                oninvalid=" $(this).css('border', '2px solid red');" placeholder="<%=__("Repeat password");%>"
+            class="standardInput">
+            <div class="spacing5 second" style="display: none;"></div>
+
+            <div class="errorMessage redShadowNoOffset message second" style="display: none;">
+                <%= __("Your passwords don't match")%>
+
+            </div>
+            <div class="spacing5"></div>
+
+            <input type="submit" class="submitButton submit button grayInnerShadowNoOffset"
+                value="<%=__('Set new password')%>">
+        </form>
+
+    </div>
+    <%- include('../../../footer'); -%>
+
+</body>
+
+</html>
+<script>
+    function showCategorySelect() {
+        $('.categoryButton').attr('disabled', true)
+        document.querySelector('.categoryButton').blur()
+        $('.categorySelect').css('display', "block");
+        $('.categorySelect .inner').css('bottom', '0%')
+    }
+    function hideCategorySelect() {
+        $('.categoryButton').attr('disabled', false)
+        $('.categorySelect .inner').css('bottom', "-20%")
+        $('.categorySelect').css('display', "none")
+    }
+    $('.message').hide()
+    $("form").submit(function (e) {
+        e.preventDefault();
+        if ($('#password').val() !== $('#passwordCheck').val()) return $('.message').html("Die Passwörter stimmen nicht überein")
+        $('.errorMessage').hide()
+        $(".submit").val("<%= __('Loading...')%>")
+        $('.submit').prop('disabled', true);
+        $.ajax({
+            url: '/timetable/pass/settingsPasswordChange',
+            type: 'POST',
+            cache: false,
+            data: {
+                "oldPassword": $('#oldPassword').val(),
+                "password": $('#password').val(),
+                "passwordCheck": $('#passwordCheck').val(),
+            },
+            success: function (data) {
+                console.log(data)
+                if (data.success == true) {
+                    $(".submit").addClass(`successButton`)
+                    $(".submit").val("<%= __('Success')%>")
+                    setTimeout(() => {
+                        window.location = "/timetable/pass/home/"
+                    }, 1000)
+                }
+                if (data.success == false) {
+                    $('.formError').show()
+                    $('.formError').text(data.message)
+                    $(".submit").val("<%= __('Set new password')%>")
+                    $('.submit').prop('disabled', false);
+                    if (data.error == 0) {
+                        $('.formError').show()
+                        $('.formError').text(
+                            "<%= __('Too many requests were made. Please wait ')%>" +
+                            data.time + "<%= __(' minutes')%>")
+                    }
+
+                }
+            },
+            error: function (jqXHR, textStatus, err) {
+                $('.formError').show()
+                $('.formError').text('text status ' + textStatus + ', err ' + err)
+                $(".submit").val("<%= __('Set new password')%>")
+                $('.submit').prop('disabled', false);
+
+            }
+        });
+    })
+</script>

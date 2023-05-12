@@ -10,6 +10,7 @@
     <link rel="apple-touch-icon" sizes="640x640" href="/images/efaLogoPass.png">
     <meta name="theme-color" content="#ececec">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <script src="/javascripts/jquery.min.js"></script>
     <script>
         if (typeof navigator.serviceWorker !== 'undefined') {
           navigator.serviceWorker.register('/sw.js')
@@ -26,13 +27,20 @@
         <div class="topTitle topLogoTitle">
             Essen für Alle <%= __('timetable')%>
         </div>
-        <div class="spacing10"></div>
+        <div class="spacing5"></div>
+        <div class="errorMessage formError redShadowNoOffset message" style="display: none;">
+            <center>
+                <div class="messageText">
+                </div>
+            </center>
+        </div>
+        <div class="spacing5"></div>
             <input type="submit" onclick="window.location = '/timetable/pass/login'" class="submitButton button grayInnerShadowNoOffset" value="<%=__('Login')%>">
             <div class="spacing5"></div>
             <input type="submit" onclick="window.location = '/timetable/pass/signup'" class="submitButton button grayInnerShadowNoOffset" value="<%=__('Sign up')%>">
             <div class="spacing5"></div>
             
-            <input type="submit" class="submitButton button grayInnerShadowNoOffset mainContinueButton" value="<%=__('Continue as guest')%>">
+            <input type="submit" onclick="guest()" class="submitButton button grayInnerShadowNoOffset mainContinueButton" value="<%=__('Continue as guest')%>">
         <div class="spacing10"></div>
         <center>
 
@@ -44,3 +52,28 @@
 </body>
 
 </html>
+
+<script>
+    function guest(){
+        $.ajax({
+            url: '/timetable/pass/guest',
+            type: 'POST',
+            cache: false,
+            success: function (data) {
+                if (data.success == true) {
+                    window.location = "/timetable/";
+                }
+                if (data.success == false) {
+                    $(".button").show();
+                    $('.formError').show()
+                    $('.formError').html("An error occured. Please try again.")
+                }
+            },
+            error: function (jqXHR, textStatus, err) {
+                $(".button").show();
+                $('.formError').show()
+                $('.formError').html('text status ' + textStatus + ', err ' + err)
+            }
+        });
+    }
+</script>

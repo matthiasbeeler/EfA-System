@@ -568,3 +568,70 @@ footer p, footer a{
   width: 40%;
   margin-left: 30%;
 }
+
+
+@media (min-width: 800px) {
+
+  .content,
+  .topContent, footer {
+    width: 30%;
+    margin-left: 35%;
+  }
+
+  nav {
+    width: 30%;
+  }
+
+  .footer {
+    padding: 1%;
+    width: 28%;
+    margin-left: 35%;
+  }
+
+  .topContent .topimage {
+    max-width: 30%;
+    width: 30%;
+    position: absolute;
+    z-index: -1;
+    top: 0px;
+    left: 35%;
+  }
+  .noApiOverlay, .selectTileForeground, .selectedContactTile, .chatInputs, .mainSelect{
+    width: 30%;
+    left: 35%;
+    max-width: 30%;
+
+  }
+}
+
+
+.fileInput{
+  background-color: #ffffff;
+    border: 1px solid black;
+    border-radius: 20px;
+    width: 85%;
+    font-weight: bolder;
+    font-size: larger;
+    padding: 3%;
+    margin-left: 4%;
+}
+
+.fileInput .placeholderText {
+  text-align: center;
+}
+
+.fileInput .filePreview {
+  padding: 0px;
+  margin: 0px;
+  width: 98%;
+  border-radius: 20px;
+  margin-bottom: 1%;
+}
+
+.fileInput .typeText {
+  text-align: left;
+}
+
+div.fileInput{
+    background-color: white;
+}

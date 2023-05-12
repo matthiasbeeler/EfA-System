@@ -33,7 +33,7 @@
             </div>
             <div class="bottomContent">
                 <div class="profileImage">
-                    <div class="imageContainer">
+                    <div class="imageContainer" style="background-image: url('/timetable/pass/uploads/profileImages/<%=tokenData.id%>.webp');">
 
                     </div>
                 </div>
@@ -53,9 +53,9 @@
         <div class="spacing10"></div>
 
         <div class="addNewShiftContainer grayShadowNoOffset">
-            <div class="newShiftButton greenShadowNoOffset">
+            <div class="newShiftButton greenShadowNoOffset" onclick="window.location = '/timetable'">
                 <img src="/images/svg/addIcon.svg" alt="">
-                <div class="text"><%=__('Register for new shift')%></div>
+                <div class="text"><%=__('Register for new shifts')%></div>
             </div>
         </div>
 

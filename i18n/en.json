@@ -77,5 +77,15 @@
 	"Reset password": "Reset password",
 	"Set new password": "Set new password",
 	" Password": " Password",
-	" Repeat password": " Repeat password"
+	" Repeat password": " Repeat password",
+	"Register for new shifts": "Register for new shifts",
+	"Please choose": "Please choose",
+	"Current Password": "Current Password",
+	"Profile image": "Profile image",
+	"The filesize should not exceed 3MB.": "The filesize should not exceed 3MB.",
+	"Updated": "Updated",
+	"Update": "Update",
+	"An error occured whilst fetching your data.": "An error occured whilst fetching your data.",
+	"The entered phonenumber is already in use.": "The entered phonenumber is already in use.",
+	"No image was uploaded.": "No image was uploaded."
 }

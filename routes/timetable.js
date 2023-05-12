@@ -88,6 +88,19 @@ saveSatFirstThree = saveSat.slice(0,3)
  });
  return all;
 }
+
+router.get("/support", function (req, res) {
+  res.render("public/timetable/supportForm");
+});
+router.post("/support", function (req, res) {
+  supportRequest(req, res);
+});
+
+router.all("*", function(req,res, next){
+  if(!req.session.timetableType) return res.redirect('/timetable/pass')
+  next();
+})
+
 router.get("/",  function (req, res) {
   try {
   dates = getThreeDatesSz()
@@ -115,13 +128,19 @@ router.get("/",  function (req, res) {
       var volName = "";
       if(req.session.volunteerEmail) volEmail = req.session.volunteerEmail;
       if(req.session.volunteerName) volName = req.session.volunteerName;
+      if(req.session.timetableType == "pass") {
+        volunteerData = jwt.verify(req.cookies.EfAPassAuth, process.env.jwtSecret);
+        volEmail = volunteerData.email;
+        volName = volunteerData.name;
+      }
       res.render("public/timetable/home", {
         results: results,
         freeShifts: freeShifts,
         shiftDate: req.session.shiftDate,
         loc: req.session.location,
         volEmail: volEmail,
-        volName: volName
+        volName: volName,
+        timetableType: req.session.timetableType,
       });
     }
   );

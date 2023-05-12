@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EfA-Pass Signup</title>
+    <link rel="stylesheet" href="/stylesheets/pass.css?v=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+
+<body>
+    <div class="content">
+        <div class="backButton grayShadowNoOffset" onclick="window.location = '/timetable/pass/settings'">
+            <img class="svgWhite" src="/images/svg/back.svg" alt="">
+        </div>
+        <div class="spacing5"></div>
+        <div class="topTitle">
+            <%=__('Reset password')%>
+        </div>
+        <div class="spacing5"></div>
+        <form>
+            <div class="message  errorMessage formError redShadowNoOffset message orangeShadowNoOffset">
+                <center>
+                <%= __('The filesize should not exceed 3MB.')%>
+            </center>
+            </div>
+            <div class="spacing10"></div>
+            <div class="fileInput standardInput submit grayShadowNoOffset" onclick="document.querySelector('#fileInput').click();">
+                <img src="" alt="" class="filePreview" style="display: none;">
+    
+                <div class="placeholderText">
+                    Click to add new image
+                </div>
+    
+                <input type="file" onchange="displayImage(this)" accept="image/*" id="fileInput" novalidate
+                    name="fileInput" style="display: none; color: transparent; border: none;">
+                <script>
+                    function displayImage(input) {
+                        if (input.files && input.files[0]) {
+                            var reader = new FileReader();
+    
+                            reader.onload = function (e) {
+                                $('.filePreview').attr('src', e.target.result);
+                                $('.filePreview').show();
+                                $('.fileInput .placeholderText').html('Click to retake');
+                            }
+    
+                            reader.readAsDataURL(input.files[0]);
+                        }
+                    }
+                </script>
+            </div>
+            <div class="spacing10"></div>
+        <input type="submit" class="submitButton submit button grayInnerShadowNoOffset"
+                value="<%=__('Update')%>">
+    </form>
+
+
+    </div>
+    <%- include('../../../footer'); -%>
+
+</body>
+
+</html>
+<script>
+        var errorMessages = ["","<%= __('An error occured whilst fetching your data.')%>","<%= __('The entered phonenumber is already in use.')%>","<%= __('The filesize should not exceed 3MB.')%>", ,"<%= __('No image was uploaded.')%>"]
+
+   $("form").submit(function(e) {
+        e.preventDefault();
+        if(!$('#fileInput')[0].files[0]){
+            $('.errorMessage').show()
+        return $('.errorMessage .messageText').html(errorMessages[4])
+    };
+        if($('#fileInput')[0].files[0].size > 5097152){
+        $('.errorMessage').show()
+        return $('.errorMessage .messageText').html(errorMessages[3])
+    };
+        $('.errorMessageForm').hide()
+        $(".submit").val("<%= __('Loading...')%>")
+        $('.submit').prop('disabled', true);
+        if($('#fileInput')[0].files[0].size > 5097152){
+        $('.errorMessage').show()
+        return $('.errorMessage .messageText').html(errorMessages[3])
+    };
+    $('.content').css('opacity', "0")
+        try {
+            var formData = new FormData();
+            formData.append('changeElement', "image")
+            formData.append('image', $('#fileInput')[0].files[0]);
+            console.log(formData.get('image'))
+            $.ajax({
+                url: '/timetable/pass/profileImageChange/',
+                type: 'POST',
+                processData: false,
+                contentType: false,
+                async: false,
+                cache: false,
+                data: formData,
+                crossDomain: true,
+                success: function (data, status, xhr) {
+                    if (data) {
+
+                        if (data.success == true) {
+                            $(".submit").addClass(`successButton`)
+                            setTimeout(() => {
+                                window.location = "/timetable/pass";
+                            }, 1000)
+                        }
+                        if (data.success == false) {
+                            $(".submit").val("<%= __('Submit')%>")
+                            $('.submit').prop('disabled', false);
+                            $('.errorMessage').show()
+                            $('.errorMessage').html(data.message)
+                            $(".content").css("opacity", "1");
+
+                            if (data.error == 0) {
+                                $('.errorMessage').show()
+                                $('.errorMessage .messageText').html(
+                                    "<%= __('Too many requests were made. Please wait ')%>" +
+                                    data.time + "<%= __(' minutes')%>")
+                            }
+                        }
+                    }
+
+                },
+                error: function (jqXHR, textStatus, err) {
+                    $(".content").css("opacity", "1");
+
+                    $('.fileInput').show()
+                    $('.errorMessage').show()
+                    $('.errorMessage').html("<%= __('An error occerd whilst communication with our server.')%>")
+
+                    $(".submit").val("<%= __('Update')%>")
+                    $('.submit').prop('disabled', false);
+                }
+            });
+
+
+        } catch (error) {
+            console.log(error)
+            $(".content").css("opacity", "1");
+            $('.errorMessage').show()
+            $('.fileInput').show()
+            $('.errorMessage').html("<%= __('An error occerd whilst communication with our server.')%>")
+            $(".submit").val("<%= __('Update')%>")
+            $('.submit').prop('disabled', false);
+        }
+    })
+</script>

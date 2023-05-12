@@ -20,6 +20,8 @@ var volunteers = require("./routes/volunteers");
 var volunteerCards = require("./routes/volunteerCards");
 var pass = require("./routes/pass");
 const i18n = require("./javascript/i18n");
+var bodyParser = require('body-parser')
+const fileUpload = require("express-fileupload");
 
 var app = express();
 app.use(i18n);
@@ -29,6 +31,9 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 var favicon = require("serve-favicon");
 app.use(favicon(path.join(__dirname, "/public/images/efaLogo.png")));
+app.use(fileUpload({
+  createParentPath: true
+}));
 app.use(cookieParser());
 app.use(
   session({
@@ -69,6 +74,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
 
 app.use("/", indexRouter);
 app.use("/admin", adminRouter);
@@ -80,8 +88,8 @@ app.use("/admin/statistics", statistics);
 app.use("/admin/print", print);
 app.use("/admin/volunteers/volunteerCards", volunteerCards);
 app.use("/admin/volunteers", volunteers);
-app.use("/timetable", timetable);
 app.use("/timetable/pass", pass);
+app.use("/timetable", timetable);
 
 
 
