@@ -33,8 +33,7 @@
             </div>
             <div class="bottomContent">
                 <div class="profileImage">
-                    <div class="imageContainer" style="background-image: url('/timetable/pass/uploads/profileImages/<%=tokenData.id%>.webp');">
-
+                    <div class="imageContainer" style="background-image: url('/timetable/pass/uploads/profileImages/<%=tokenData.id%>.webp?v=<%=Math.floor(Math.random() * 9999)%>');">
                     </div>
                 </div>
                 <div class="qrCode">
@@ -53,7 +52,7 @@
         <div class="spacing10"></div>
 
         <div class="addNewShiftContainer grayShadowNoOffset">
-            <div class="newShiftButton greenShadowNoOffset" onclick="window.location = '/timetable'">
+            <div class="newShiftButton greenShadowNoOffset" onclick="$('.content').css('opacity', '0'); window.location = '/timetable'">
                 <img src="/images/svg/addIcon.svg" alt="">
                 <div class="text"><%=__('Register for new shifts')%></div>
             </div>

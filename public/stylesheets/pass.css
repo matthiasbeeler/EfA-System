@@ -23,6 +23,10 @@ body, html{
     -webkit-appearance: none !important;
     outline: none;
     color: black;
+    -webkit-transition: all 0.2s ease-out;
+  -moz-transition: all 0.2s ease-out;
+  -o-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
 }
 
 .title{
