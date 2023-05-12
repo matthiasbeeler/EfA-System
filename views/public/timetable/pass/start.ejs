@@ -35,9 +35,9 @@
             </center>
         </div>
         <div class="spacing5"></div>
-            <input type="submit" onclick="window.location = '/timetable/pass/login'" class="submitButton button grayInnerShadowNoOffset" value="<%=__('Login')%>">
+            <input type="submit" onclick="$('.content').css('opacity', '0');window.location = '/timetable/pass/login'" class="submitButton button grayInnerShadowNoOffset" value="<%=__('Login')%>">
             <div class="spacing5"></div>
-            <input type="submit" onclick="window.location = '/timetable/pass/signup'" class="submitButton button grayInnerShadowNoOffset" value="<%=__('Sign up')%>">
+            <input type="submit" onclick="$('.content').css('opacity', '0');window.location = '/timetable/pass/signup'" class="submitButton button grayInnerShadowNoOffset" value="<%=__('Sign up')%>">
             <div class="spacing5"></div>
             
             <input type="submit" onclick="guest()" class="submitButton button grayInnerShadowNoOffset mainContinueButton" value="<%=__('Continue as guest')%>">
@@ -61,6 +61,7 @@
             cache: false,
             success: function (data) {
                 if (data.success == true) {
+                    $('.content').css('opacity', '0');
                     window.location = "/timetable/";
                 }
                 if (data.success == false) {
