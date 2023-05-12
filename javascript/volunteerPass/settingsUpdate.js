@@ -98,7 +98,7 @@ exports.updateImage = function (request, response, database) {
     if(image.size > 5597152) return response.json({ success: false, message: "Your images size is too big" }); 
   sharp(image.data)
    .rotate()
-    .webp({ quality:30 })
+    .webp({ quality:30, lossless: true })
     .toFile(process.cwd() + '/uploads/efaPassImages/' + jwtData.id+".webp", (err, info) => { console.log(err)});
   //image.mv(process.cwd() + '/public/uploads/profileImages/' + jwtData.id + fileType);
 
