@@ -539,3 +539,32 @@ input, select{
     margin-left: 4.5%;
   }
 
+
+  footer{
+    background: white;
+    padding: 2%;
+    font-size: small;
+}
+footer p, footer a{
+    font-size: medium;
+    margin: 0px;
+}
+
+.content{
+  padding-bottom: 5%;
+  min-height: 100vh;
+}
+
+.successMessage{
+  width: 70%;
+  padding: 3%;
+  margin-left: 12%;
+  background: white;
+  box-shadow: 0px 0px 7px #74ff76;
+  border-radius: 20px;
+}
+
+.successMessage img{
+  width: 40%;
+  margin-left: 30%;
+}

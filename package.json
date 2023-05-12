@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "bwip-js": "^3.1.0",
-    "connect-memcached": "^2.0.0",
+    "connect-memcached": "^1.0.0",
     "cookie-parser": "~1.4.4",
     "crypto": "^1.0.1",
     "debug": "~2.6.9",
@@ -28,6 +28,6 @@
     "serve-favicon": "^2.5.0",
     "translatte": "^3.0.1",
     "uuid": "^9.0.0",
-    "connect-memcached": "^1.0.0"
+    "validator": "^13.9.0"
   }
 }

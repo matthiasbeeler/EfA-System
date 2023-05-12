@@ -6,6 +6,7 @@ const { signupPass } = require("../javascript/volunteerPass/signup");
 const { loginPass } = require("../javascript/volunteerPass/login");
 var router = express.Router();
 const bwipjs = require("bwip-js");
+const { passwordForgotten, resetForgottenPassword } = require("../javascript/volunteerPass/forgotPassword");
 
 router.get(["/", "/login", "/signup"], function (req, res, next) {
   try {
@@ -27,6 +28,22 @@ router.get("/login", function (req, res) {
 
 router.get("/signup", function (req, res) {
   res.render("public/timetable/pass/signup");
+});
+
+router.get("/passwordForgotten", function (req, res) {
+  res.render('public/timetable/pass/forgotPassword')
+});
+
+router.get("/resetPassword/:token", function (req, res) {
+  res.render('public/timetable/pass/resetForgottenPassword', {token: req.params.token})
+});
+
+router.post("/resetPassword", function (req, res) {
+  resetForgottenPassword(req, res, database);
+});
+
+router.post("/passwordForgotten", function (req, res) {
+  passwordForgotten(req, res, database);
 });
 
 router.post("/signup", function (req, res) {

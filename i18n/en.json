@@ -67,5 +67,15 @@
 	"Toggle dark-mode": "Toggle dark-mode",
 	"Logout": "Logout",
 	"Name": "Name",
-	"Volunteer-ID": "Volunteer-ID"
+	"Volunteer-ID": "Volunteer-ID",
+	"Sign up": "Sign up",
+	"Continue as guest": "Continue as guest",
+	"E-mail": "E-mail",
+	"Password forgotten": "Password forgotten",
+	"Send reset-link": "Send reset-link",
+	"If this e-mail address is registered in our system, a password reset-link will be sent shortly.": "If this e-mail address is registered in our system, a password reset-link will be sent shortly.",
+	"Reset password": "Reset password",
+	"Set new password": "Set new password",
+	" Password": " Password",
+	" Repeat password": " Repeat password"
 }

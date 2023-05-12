@@ -1,6 +1,6 @@
 :root {
     --mainInfoColour: #d1d1d1;
-    --mainBtnColour: #B2BAFD;
+    --mainBtnColour: #b2bafd93;
     --mainTextColour: #000000;
     --mainBorderColour: #000000;
     --mainBackgroundColour: #ececec;
@@ -49,11 +49,11 @@ input, select, textarea{
     padding-top: 3%;
     padding-bottom: 3%;
     width: 83%;
-    border-radius: 10px;
+    border-radius: 20px;
     margin-left: 6.5%;
     border: none;
     background: var(--mainInputBackgroundColour);
-    border: #00000068 2px solid;
+    border: #000000 1px solid;
 }
 .select{
     -webkit-appearance: none;
@@ -79,9 +79,12 @@ select{
     width: 87%;
     margin-left: 6.5%;
 }
-::placeholder{
-    color: var(--mainTextColour);
+::placeholder, option{
+    color: #707070;
 }
+option:not(:first-of-type) {
+    color: black;
+  }
 *:focus {
     outline: none;
 }
@@ -93,7 +96,7 @@ select{
     width:  calc(87% + 4px);
     padding: 2%;
     margin-top: 3%;
-    border-radius: 10px;
+    border-radius: 20px;
     margin-left: 6.5%;
     border: none;
     cursor:pointer;
@@ -101,9 +104,11 @@ select{
     justify-content: center;
     align-items: center;
     display: flex;
+    border: 1px solid black;
+    box-shadow: inset 0px 0px 7px #a4a4a4;
 }
 div.button{
-    width:  calc(83% + 4px);
+    width:  calc(81% + 4px);
     padding: 2%;
 }
 div.removeZemis{
@@ -122,7 +127,8 @@ div.removeZemis{
     margin-left: 2vw;
     margin-top: 2vw;
     display: inline-flex;
-    
+    box-shadow: 0px 0px 7px #8a8a8a;
+
 }
 .topBtn img{
     width: 52%;

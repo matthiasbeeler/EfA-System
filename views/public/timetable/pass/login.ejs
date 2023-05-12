@@ -44,9 +44,11 @@
         <div class="spacing10"></div>
         <center>
 
-            <div onclick="redirect('/passwordForgotten')"><a><%= __('Frogot your password?')%></a></div>
+            <div onclick="window.location = '/timetable/pass/passwordForgotten'"><a><%= __('Frogot your password?')%></a></div>
         </center>
+
     </div>
+    <%- include('../../../footer'); -%>
 
 </body>
 

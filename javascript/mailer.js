@@ -142,3 +142,24 @@ exports.signOutEmail = function (request, res) {
   });
  
 };
+
+
+
+exports.passwordResetPassEmail = function (email, verificationKey, name) {
+  const filename = process.cwd() + "/mailTemplates/passwordResetPass.ejs";
+  ejs.renderFile(filename,{resetUrl: "https://admin.essenfueralle.org/timetable/pass/resetPassword/"+verificationKey, name: name}, (error, mailHTML) => { 
+    const mailOptions = {
+      from: process.env.emailUserName, // Sender address
+      to: email, // List of recipients //email
+      subject: "EfA-Pass Passwort Reset", // Subject line
+      html: mailHTML,
+      text: "Setze dein Passwort mit dem folgenen Link zurück: "+"https://admin.essenfueralle.org/timetable/pass/resetPassword/"+verificationKey
+    };
+    transporter.sendMail(mailOptions, (err, response) => {
+        if (err) {
+          console.log(err);
+        }
+      });
+  });
+ 
+};
