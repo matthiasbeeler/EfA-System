@@ -15,5 +15,11 @@
             "sizes": "512x512",
             "type": "image/png",
             "purpose": "maskable"
+        },
+        {
+            "src": "/images/efaLogoPass.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any"
         }]
     }
