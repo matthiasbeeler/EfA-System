@@ -89,6 +89,8 @@
         if (shiftData.shifts[element.split('-')[2] + "." + element.split('-')[1] + "." + element.split('-')[0]]) {
             var data = shiftData.shifts[element.split('-')[2] + "." + element.split('-')[1] + "." + element.split('-')[0]];
             var date = element.split('-')[2] + "." + element.split('-')[1] + "." + element.split('-')[0];
+            console.log(data)
+            if(Object.keys(data).length){
             var obj = ` <div class="dateTitle title">
             ${date}
         </div>
@@ -97,6 +99,7 @@
 `;
             $('.dateContainer').append(obj)
             addElements(data, element)
+    }
         }
     });
     function addElements(data, date) {
