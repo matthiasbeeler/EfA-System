@@ -1,0 +1,6 @@
+[{
+        "relation": ["delegate_permission/common.handle_all_urls"],
+        "target" : { "namespace": "android_app", "package_name": "org.essenfueralle.admin.nyv",
+                     "sha256_cert_fingerprints": ["92:19:C9:15:7B:17:1D:58:8E:00:A9:B8:CB:66:8A:26:DB:48:1F:E8:7D:27:D2:80:8D:5B:FD:4F:95:D0:4F:B0"] }
+      }
+]
