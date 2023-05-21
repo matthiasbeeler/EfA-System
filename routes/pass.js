@@ -101,10 +101,17 @@ router.get("/home", function (req, res) {
       } else {
         const imgBase64 = png.toString("base64");
         database.query(
-          "SELECT shifts FROM volunteers WHERE id = ?;",
+          "SELECT volunteers.shifts, volunteerPasses.profilePictureUpdate FROM volunteers JOIN volunteerPasses ON volunteers.id = volunteerPasses.id WHERE volunteers.id = ?;",
           [jwtData.id],
           function (error, results, fields) {
-            return res.render("public/timetable/pass/home", {
+              if (error) console.log(error);
+              if (error)
+                return response.json({
+                  success: false,
+                  error: 4,
+                  message: "An error occured.",
+                });
+            if(!error)return res.render("public/timetable/pass/home", {
               qrCode: "data:image/png;base64," + imgBase64,
               tokenData: jwtData,
               shiftData: results[0],

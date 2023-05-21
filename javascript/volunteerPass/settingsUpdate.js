@@ -101,10 +101,24 @@ exports.updateImage = function (request, response, database) {
     .webp({ quality:40 })
     .toFile(process.cwd() + '/uploads/efaPassImages/' + jwtData.id+".webp", (err, info) => { console.log(err)});
   //image.mv(process.cwd() + '/public/uploads/profileImages/' + jwtData.id + fileType);
-
-        return response.json({
-          success: true,
-        });
+  database.query(
+    "UPDATE volunteerPasses SET profilePictureUpdate = ? WHERE id = ?",
+    [
+      Date.now(),
+        jwtData.id,
+    ],
+    function (err, results, fields) {
+      if (!err) return response.json({ success: true });
+              if (err) console.log(err);
+              if (err)
+                return response.json({
+                  success: false,
+                  error: 4,
+                  message: "An error occured.",
+                });
+  
+       
+      })
 
         
     } catch (error) {

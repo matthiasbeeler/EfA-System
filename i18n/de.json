@@ -82,5 +82,9 @@
 	"Set new password": "Neues Passwort festelgen",
 	"Repeat password": "Passwort wiederholen",
 	"Click to add new image": "Klicke hier, um ein Bild hinzuzufügen",
-	"Please choose": "Drück mich fest!"
+	"Please choose": "Drück mich fest!",
+	"You dont have a profile picture set yet.": "Du hast noch kein Profilbild hochgeladen.",
+	"Simply add a profile picture by clicking on the account-icon on the right top of your screen and then on \"Profile image\".": "Füge einfach ein Profilbild hinzu, indem du auf das Kontosymbol oben rechts auf Ihrem Bildschirm und dann auf \"Profilbild\" drückst.",
+	"You aren't registered for any upcoming shifts at the moment.": "Du bist momentan für keine zukünftigen Schichten angemeldet.",
+	"Simply press on \"Register for new shift\" below to register for an upcoming shift.": "Klicke einfach auf \"Schichten hinzufügen\", um eine zukünftige Schicht hinzuzufügen."
 }

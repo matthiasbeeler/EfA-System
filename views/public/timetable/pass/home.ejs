@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Your EfA-Pass</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <link rel="stylesheet" href="/stylesheets/pass.css?v=12">
+    <link rel="stylesheet" href="/stylesheets/pass.css?v=13">
     <link rel="manifest" href="/timetableManifest.json">
     <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
 </head>
@@ -41,9 +41,18 @@
                 </div>
             </div>
         </div>
-
+            <div style="display: none;" class="profilePicMessage container wideContainer messageContainer grayShadowNoOffset">
+               <div class="title noMarginTitle"><%=__("You dont have a profile picture set yet.")%></div><img src="/images/svg/cancelRound.svg" onclick="localStorage.setItem('profilePicMessageHidden', 1); $('.profilePicMessage').remove()" alt="">
+               <div class="info"><%=__('Simply add a profile picture by clicking on the account-icon on the right top of your screen and then on "Profile image".')%></div>
+            </div>
         <div class="smallTitle title">
             <%=__('Upcoming shifts')%>
+        </div>
+        <div class="noShifts" style="display: none;">
+            <div class="container wideContainer messageContainer grayShadowNoOffset">
+                <div class="title noMarginTitle"><%=__("You aren't registered for any upcoming shifts at the moment.")%></div>
+                <div class="info"><%=__('Simply press on "Register for new shift" below to register for an upcoming shift.')%></div>
+             </div>
         </div>
         <div class="dateContainer">
             
@@ -104,6 +113,7 @@
     });
     function addElements(data, date) {
         for (var key in data) {
+            
             var obj = ` 
             <div class="spacing5"></div>
             <div class="shiftTile grayShadowNoOffset">
@@ -131,4 +141,9 @@
             $('.'+date).append(obj)
         }
     }
+</script>
+
+<script defer>
+                if(!localStorage.getItem('profilePicMessageHidden') && !shiftData.profilePictureUpdate) $('.profilePicMessage').show()
+    if($('.dateContainer').children().length == 0) $('.noShifts').show()
 </script>
