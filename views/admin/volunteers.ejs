@@ -133,8 +133,6 @@
     try {
     checkInScanScanner.stop()
     $('.checkInScanOverlay').hide();
-    console.log(decodedText)
-    console.log(JSON.parse(decodedText).id)
     $.ajax({
       url: '/admin/volunteers/checkIn',
       type: 'POST',
