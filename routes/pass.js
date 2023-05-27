@@ -88,7 +88,7 @@ router.get("/home", function (req, res) {
       bcid: "qrcode", // Barcode type
       text: `{"type":"volunteer", "id":"${
         jwtData.id
-      }", timestamp: "${Date.now()}"}`, // Text to encode
+      }", "timestamp": "${Date.now()}"}`, // Text to encode
       scale: 3,
       includetext: true, // Show human-readable text
       textxalign: "center",

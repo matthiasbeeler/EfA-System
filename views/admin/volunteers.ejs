@@ -104,13 +104,15 @@
       $('.' + shiftName).append(ObjInner)
     })
   });
-
+</script>
+<script>
   function hideCheckInScanScanner() {
     $('.checkInScanOverlay').hide();
     checkInScanScanner.stop();
   }
 
   function checkInScan() {
+    console.log("hi")
     checkInScanScanner.start({
       facingMode: "environment"
     }, config, checkInScanSuccess);
@@ -128,8 +130,10 @@
 
 
   function checkInScanSuccess(decodedText, decodedResult) {
+    try {
     checkInScanScanner.stop()
     $('.checkInScanOverlay').hide();
+    console.log(decodedText)
     console.log(JSON.parse(decodedText).id)
     $.ajax({
       url: '/admin/volunteers/checkIn',
@@ -160,6 +164,9 @@
         }
       }
     })
+  } catch (error) {
+      console.log(error)
+    }
   }
 
 
@@ -216,5 +223,9 @@
         $(".button").show();
       }
     });
+    
+      
+ 
   })
+
 </script>
