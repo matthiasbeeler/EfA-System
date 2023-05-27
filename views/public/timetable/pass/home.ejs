@@ -78,7 +78,7 @@
     }
     var shiftData =<%-JSON.stringify(shiftData) %>;
     var start = moment('2023-03-02'), // Sept. 1st
-        end = moment('2023-11-02'), // Nov. 2nd
+        end = moment('2025-11-02'), // Nov. 2nd
         day = 6;                    // Sunday
 
     var result = [];
@@ -91,17 +91,19 @@
     var saveSat = result.map(m => m.format('YYYY-MM-DD'));
     saveSatDone = []
     saveSat.forEach(function (element) {
-        if (!moment(element).isBefore(moment())) { saveSatDone.push(element) }
+        if (!moment(element).isBefore(moment().subtract(1, 'days'))) { saveSatDone.push(element) }
     })
     saveSatDone = saveSatDone.slice(0, 8)
     saveSatDone.forEach(element => {
         if (shiftData.shifts[element.split('-')[2] + "." + element.split('-')[1] + "." + element.split('-')[0]]) {
             var data = shiftData.shifts[element.split('-')[2] + "." + element.split('-')[1] + "." + element.split('-')[0]];
             var date = element.split('-')[2] + "." + element.split('-')[1] + "." + element.split('-')[0];
-            console.log(data)
+
             if(Object.keys(data).length){
+                var showDate = date;
+                if(date == moment().format('DD.MM.YYYY')) showDate = "<%=__('Today')%>";
             var obj = ` <div class="dateTitle title">
-            ${date}
+            ${showDate}
         </div>
         <div class="shiftContainer ${element}"></div> 
         <div class="spacing5"></div>
