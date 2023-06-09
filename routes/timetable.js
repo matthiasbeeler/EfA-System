@@ -97,7 +97,7 @@ router.post("/support", function (req, res) {
 });
 
 router.all("*", function(req,res, next){
-  if(!req.session.timetableType) return res.redirect('/timetable/pass')
+  if(!req.session.timetableType) return res.redirect("/timetable/pass?red=/timetable"+req.url);
   next();
 })
 

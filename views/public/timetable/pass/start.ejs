@@ -54,6 +54,11 @@
 </html>
 
 <script>
+function getParameterByName(name) {
+    var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+}
+                    console.log(getParameterByName('red'))
     function guest(){
         $.ajax({
             url: '/timetable/pass/guest',
@@ -62,6 +67,8 @@
             success: function (data) {
                 if (data.success == true) {
                     $('.content').css('opacity', '0');
+                    
+                    if(red) return window.location = red
                     window.location = "/timetable/";
                 }
                 if (data.success == false) {
