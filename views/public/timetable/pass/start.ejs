@@ -67,7 +67,7 @@ function getParameterByName(name) {
             success: function (data) {
                 if (data.success == true) {
                     $('.content').css('opacity', '0');
-                    
+                    var red = getParameterByName('red');
                     if(red) return window.location = red
                     window.location = "/timetable/";
                 }
