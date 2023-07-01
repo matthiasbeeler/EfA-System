@@ -229,7 +229,9 @@ router.get("/registrationSuccess/:volunteerId", function (req, res) {
         return res.render("public/timetable/registrationSuccess", {
           qrCode: "data:image/png;base64," + imgBase64,
           session: req.session,
-          loc: req.session.location
+          loc: req.session.location,
+          timetableType: req.session.timetableType,
+
         });
       }
     }

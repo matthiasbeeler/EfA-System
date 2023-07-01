@@ -15,9 +15,17 @@
 
 <body>
     <div class="content timetableContent">
-        <div class="topBtn" onclick="$('.content').css('opacity', '0');window.location = '/timetable/'">
-            <img src="/images/svg/ArrowBack.svg" alt="">
-        </div>
+        <%if(timetableType == "pass"){%>
+            <div class="topBtn" onclick="$('.content').css('opacity', '0');window.location = '/timetable/pass'">
+                <img src="/images/svg/ArrowBack.svg" alt="">
+            </div>
+            <%}else{%>
+                <div class="topBtn" onclick="$('.content').css('opacity', '0');window.location = '/timetable/'">
+                    <img src="/images/svg/ArrowBack.svg" alt="">
+                </div>
+                <%}%>
+
+        
 
         <h2 class="smallTitle"><%= __('Your registration was successful')%></h2>
         <img src="/images/svg/timetable/timetableTick.svg" class="timetableTick" alt="">
