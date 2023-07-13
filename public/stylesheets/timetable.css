@@ -548,7 +548,7 @@ select.blueBackground{
 }
 
 .highlighted{
-    border: 1px solid rgb(0, 228, 0);
-    box-shadow: inset 0px 0px 7px rgb(0, 228, 0);
+    border: 1px solid #00e400;
+    box-shadow: inset 0px 0px 7px #00e400;
 
 }
