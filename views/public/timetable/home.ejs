@@ -39,17 +39,17 @@
                 <div class="info"></div>
             </div>
             <%if(timetableType !== "pass"){%>
-            <input type="text" name="name" value="<%=volName%>" placeholder="1. <%= __('name')%>" id="name" required>
-            <input type="email" name="email" value="<%=volEmail%>" placeholder="2. <%= __('email address')%>" id="email" required>
+            <input onfocus="$(this).removeClass('highlighted')" onchange="$(this).removeClass('highlighted')" class="highlighted" type="text" name="name" value="<%=volName%>" placeholder="1. <%= __('name')%>" id="name" required>
+            <input onfocus="$(this).removeClass('highlighted')" onchange="$(this).removeClass('highlighted')" class="highlighted" type="email" name="email" value="<%=volEmail%>" placeholder="2. <%= __('email address')%>" id="email" required>
             <%}else{%>
-                <input type="text" name="name" value="<%=volName%>" placeholder="1. <%= __('name')%>" id="name" required style="display:none;">
-            <input type="email" name="email" value="<%=volEmail%>" placeholder="2. <%= __('email address')%>" id="email" required style="display:none;">
+                <input type="text" onfocus="$(this).removeClass('highlighted')" onchange="$(this).removeClass('highlighted')" class="highlighted" name="name" value="<%=volName%>" placeholder="1. <%= __('name')%>" id="name" required style="display:none;">
+            <input type="email" onfocus="$(this).removeClass('highlighted')" onchange="$(this).removeClass('highlighted')" class="highlighted" name="email" value="<%=volEmail%>" placeholder="2. <%= __('email address')%>" id="email" required style="display:none;">
             
                 <br>
                 <%}%>
 
             <h2 class="smallTitle"><%= __('What do you want to do')%></h2>
-            <select name="shiftType" class="<%if(timetableType == "pass"){%> blueBackground<%}%>" onchange="$('form').submit()" id="shiftType" required>
+            <select name="shiftType" onfocus="$(this).removeClass('highlighted')" onchange="$(this).removeClass('highlighted')" class=" highlighted <%if(timetableType == "pass"){%> blueBackground<%}%>" onchange="$('form').submit()" id="shiftType" required>
                 <%if(timetableType !== "pass"){%>
 
                 <option value="" selected disabled>3. <%= __('press me')%></option>

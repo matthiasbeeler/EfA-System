@@ -84,7 +84,7 @@ select{
     margin-left: 6.5%;
 }
 ::placeholder, option{
-    color: #707070;
+    color: #000000;
 }
 option:not(:first-of-type) {
     color: black;
@@ -545,4 +545,10 @@ footer p, footer a{
 
 select.blueBackground{
     background-color: var(--mainBtnColour);
+}
+
+.highlighted{
+    border: 1px solid rgb(0, 228, 0);
+    box-shadow: inset 0px 0px 7px rgb(0, 228, 0);
+
 }

@@ -172,7 +172,7 @@ router.all('/uploads/profileImages/:id', function(req, res, next) {
 
     
 } catch (error) {
-    conosole.log(error)
+    console.log(error)
 }
 });
 
