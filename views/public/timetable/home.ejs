@@ -49,7 +49,7 @@
                 <%}%>
 
             <h2 class="smallTitle"><%= __('What do you want to do')%></h2>
-            <select name="shiftType" onfocus="$(this).removeClass('highlighted')" onchange="$(this).removeClass('highlighted')" class=" highlighted <%if(timetableType == "pass"){%> blueBackground<%}%>" onchange="$('form').submit()" id="shiftType" required>
+            <select name="shiftType" onfocus="$(this).removeClass('highlighted')" onchange="$(this).removeClass('highlighted');sub();" class=" highlighted <%if(timetableType == "pass"){%> blueBackground<%}%>" onchange="$('form').submit()" id="shiftType" required>
                 <%if(timetableType !== "pass"){%>
 
                 <option value="" selected disabled>3. <%= __('press me')%></option>
