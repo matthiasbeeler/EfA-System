@@ -110,6 +110,8 @@ option:not(:first-of-type) {
     display: flex;
     border: 1px solid black;
     box-shadow: inset 0px 0px 7px #a4a4a4;
+    -webkit-box-shadow: inset 0px 0px 7px #a4a4a4;
+    -moz-box-shadow: inset 0px 0px 7px #a4a4a4;
 }
 div.button{
     width:  calc(81% + 4px);
@@ -132,7 +134,8 @@ div.removeZemis{
     margin-top: 2vw;
     display: inline-flex;
     box-shadow: 0px 0px 7px #8a8a8a;
-
+    -webkit-box-shadow: inset 0px 0px 7px #8a8a8a;
+    -moz-box-shadow: inset 0px 0px 7px #8a8a8a;
 }
 .topBtn img{
     width: 52%;
@@ -550,5 +553,6 @@ select.blueBackground{
 .highlighted{
     border: 1px solid #00e400;
     box-shadow: inset 0px 0px 7px #00e400;
-
+    -webkit-box-shadow: inset 0px 0px 7px #00e400;
+    -moz-box-shadow: inset 0px 0px 7px #00e400;
 }
