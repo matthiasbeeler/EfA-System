@@ -10,6 +10,10 @@ bouncer.blocked = function (req, res, next, remaining)
 {
     res.json({success: false, message: "Es wurden zu viele Anfragen gesendet. Bitte warte " + Math.round(remaining / 1000 / 60) + " Minuten"});
 };
+
+router.get('/datenschutz', function(req, res, next) {
+  res.render('datenschutz.ejs');
+});
 router.all(["/", "/register"], function (req, res, next) {
   try {
   if(req.cookies.Auth){
@@ -37,9 +41,7 @@ router.get('/', function(req, res, next) {
 router.post('/',bouncer.block, function(req, res, next) {
   login(req, res, database,bouncer)
 });
-router.get('/privacy-policy', function(req, res, next) {
-  res.render('privacy-policy.ejs');
-});
+
 
 router.get('/register', function(req, res, next) {
   res.render('public/register');
