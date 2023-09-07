@@ -71,36 +71,52 @@ router.post('/', function(req, res, next){
   }
 })
 router.post("/", function (req, res, next) {
+  try {
   var phone = parsePhoneNumber(req.body.phonenumber, "CH");
-
+  
+  console.log(insertString)
         
           const date = new Date();
+          console.log(req.body)
+
+          var zemisCounter= Number(req.body.familyMembers.split(':')[1])-1;
+          console.log(zemisCounter)
           let day = date.getDate();
           let month = date.getMonth() + 1;
           let year = date.getFullYear();
           let currentDate = `${day}.${month}.${year}`;
             if (req.body.id) {
-              var str = ""
+              var insertString = ""
         var searchstr = "";
         var passportNumber = "";
       if(req.body.passportnumber){
         if(req.body.id) req.params.id = req.body.id;
-          if(!req.body.id) req.params.id = "x"
+          if(!req.body.id) req.params.id = "x";
+
+          var passportNumber = "";
+          function addZemis(num){
+            var insertString = insertString + "('"+req.params.id+"','"+req.body["passportnumber"+num]+"','"+req.body["name"+num]+"','"+req.body["birthdate"+num]+"'),";
+            zemisCounter--;
+            if(zemisCounter > 0) addZemis(zemisCounter)
+          }
+          if(zemisCounter > 0) addZemis(zemisCounter)
+          console.log(insertString);
+          console.log(req.body)
         if(typeof req.body.passportnumber == "string"){
-          str = str + "('"+req.params.id+"','"+req.body.passportnumber+"'),";
+          insertString = insertString + "('"+req.params.id+"','"+req.body.passportnumber+"'),";
           searchstr = searchstr + " zemisNr = '"+req.body.passportnumber+"' AND receiverId NOT LIKE '"+req.params.id+"' OR "
           passportNumber = passportNumber + req.body.passportnumber;
         }else{
         req.body.passportnumber.forEach(element => {
           
-          str = str + "('"+req.params.id+"','"+element+"'),"
+          insertString = insertString + "('"+req.params.id+"','"+element+"'),"
           searchstr = searchstr + " zemisNr = '"+element+"' AND receiverId NOT LIKE '"+req.params.id+"' OR "
           passportNumber = passportNumber + element;
         });
       }
-        str = str.slice(0, str.length - 1)
+        insertString = insertString.slice(0, insertString.length - 1)
         searchstr = searchstr.slice(0, searchstr.length - 3)
-        var passportInsert =`INSERT INTO receiversZemis(receiverId, zemisNr) VALUES ${str};`
+        var passportInsert =`INSERT INTO receiversZemis(receiverId, zemisNr) VALUES ${insertString};`
       }else{
         var passportInsert =`SELECT 1`;
         var searchstr = "receiverId = 'x'"
@@ -128,10 +144,10 @@ router.post("/", function (req, res, next) {
                     phonenumber: phone.number,
                     passportType: req.body.permit,
                     passportNumber: passportNumber,
-                    birthdate: req.body.birthdate,
+                    birthdate: request.body.birthdate.split(".")[2]+"-"+request.body.birthdate.split(".")[1]+"-"+request.body.birthdate.split(".")[0],
                     fullName: req.body.name.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                     gender: req.body.gender,
-                    familyMembers: req.body.familymembers,
+                    familyMembers: Number(req.body.familyMembers.split(':')[1]),
                     postalCode: req.body.postalcode,
                     cardId: req.body.cardid,
                     entitlement: req.body.entitlement,
@@ -156,26 +172,39 @@ router.post("/", function (req, res, next) {
               const cyrillicPattern = /^\p{Script=Cyrillic}+$/u;
               if (cyrillicPattern.test(req.body.name))req.body.name = transliterate(req.body.name);
               var uuid = uuidv4();
-              var str = ""
-        var searchstr = "";
-        var passportNumber = "";
+        
       if(req.body.passportnumber){
+        var searchstr = "";
+        var insertString = "";
+
         req.params.id = uuid;
-        if(typeof req.body.passportnumber == "string"){
-          str = str + "('"+req.params.id+"','"+req.body.passportnumber+"'),";
+        var passportNumber = "";
+        function addZemis(num){
+          if(num == 0) num ="";
+           insertString = insertString + "('"+req.params.id+"','"+req.body["passportnumber"+num]+"','"+req.body["name"+num]+"','"+req.body["birthdate"+num]+"'),";
+           searchstr = searchstr + " zemisNr = '"+req.body["passportnumber"+num]+"' AND receiverId NOT LIKE '"+req.params.id+"' OR "
+           passportNumber = passportNumber + req.body["passportnumber"+num];
+
+          zemisCounter--;
+          if(zemisCounter >= 0) addZemis(zemisCounter)
+        }
+        if(zemisCounter >= 0) addZemis(zemisCounter)
+        /*if(typeof req.body.passportnumber == "string"){
+          insertString = insertString + "('"+req.params.id+"','"+req.body.passportnumber+"'),";
           searchstr = searchstr + " zemisNr = '"+req.body.passportnumber+"' AND receiverId NOT LIKE '"+req.params.id+"' OR "
           passportNumber = passportNumber + req.body.passportnumber;
         }else{
         req.body.passportnumber.forEach(element => {
           
-          str = str + "('"+req.params.id+"','"+element+"'),"
+          insertString = insertString + "('"+req.params.id+"','"+element+"'),"
           searchstr = searchstr + " zemisNr = '"+element+"' AND receiverId NOT LIKE '"+req.params.id+"' OR "
           passportNumber = passportNumber + element;
         });
-      }
-        str = str.slice(0, str.length - 1)
+      }*/
+
+        insertString = insertString.slice(0, insertString.length - 1)
         searchstr = searchstr.slice(0, searchstr.length - 3)
-        var passportInsert =`INSERT INTO receiversZemis(receiverId, zemisNr) VALUES ${str};`
+        var passportInsert =`INSERT INTO receiversZemis(receiverId, zemisNr, name, birthdate) VALUES ${insertString};`
       }else{
         var passportInsert =`SELECT 1`;
         var searchstr = "receiverId = 'x'"
@@ -202,7 +231,7 @@ router.post("/", function (req, res, next) {
                   req.body.birthdate,
                   req.body.name,
                   req.body.gender,
-                  req.body.familymembers,
+                  Number(req.body.familyMembers.split(':')[1]),
                   req.body.postalcode,
                   req.body.cardid,
                   req.body.timeslot,
@@ -224,6 +253,12 @@ router.post("/", function (req, res, next) {
                       })
                     })
           }
+
+          
+    
+  } catch (error) {
+    console.log(error)
+  }
         
 });
 

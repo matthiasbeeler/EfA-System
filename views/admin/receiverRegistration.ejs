@@ -20,8 +20,7 @@
     <div class="topBtn" onclick="window.location = '/admin/'">
       <img src="/images/svg/ArrowBack.svg" alt="">
     </div>
-    <div class="button buttonImage preRegBtn" onclick="preRegScan()"><img src="/images/svg/qrScan.svg"
-        alt="">Vorregistration</div>
+   
     <div class="overlay preRegOverlay overlayBig">
       <div id="preRegReader"
         style="margin-top: 10%;margin-left: 6.5%; overflow: hidden;width: 87%; height: fit-content; position: relative; padding: 0px; border-radius: 10px;">
@@ -38,35 +37,38 @@
       <div class="message infoBlock">
         <div class="info"></div>
       </div>
-      <input type="text" class="selectButtonInput passportType" onclick="showPermitSelect()"
-        placeholder="Aufenthaltsstatus" onchange="$(this).css('border', '2px solid white');reload = false;"
-        name="permit" id="passportType" oninvalid=" $(this).css('border', '2px solid red');" required>
-      <input type="text" onchange="$(this).css('border', '2px solid white');reload = false;" name="passportnumber"
-        maxlength="20" placeholder="Ausweis- oder Zemisnummer" id=""
-        oninvalid=" $(this).css('border', '2px solid red');" required>
-      <div class="zemis">
-        <div class="inputContainer">
-
-        </div>
-        <div class="removeZemis" onclick="addZemis()">Nummer hinzufügen</div>
-      </div>
-      <input inputmode="decimal" name="birthdate" id="dateField" type="text" placeholder="DD.MM.YYYY Geburtsdatum"
-        required onchange="$(this).css('border', '2px solid white');"
-        oninvalid=" $(this).css('border', '2px solid red');" pattern="[0-9]{2}.[0-9]{2}.[0-9]{4}">
       <input type="text" onchange="$(this).css('border', '2px solid white');reload = false;" name="name"
         placeholder="Vorname, Nachname" id="name" oninvalid=" $(this).css('border', '2px solid red');" required>
       <input type="text" class="selectButtonInput gender" onclick="showGenderSelect()" placeholder="Geschlecht"
         onchange="$(this).css('border', '2px solid white');reload = false;" name="gender" id="gender"
         oninvalid=" $(this).css('border', '2px solid red');" required>
-        <input type="text" class="selectButtonInput family" onclick="showFamilySelect()" placeholder="Zusätzliche Familienmitglieder"
-        onchange="$(this).css('border', '2px solid white');reload = false;" name="familymembers" id="familyMembers"
-        oninvalid=" $(this).css('border', '2px solid red');" required>
+       
 
       
       <input type="tel" onchange="$(this).css('border', '2px solid white');" name="phonenumber"
         placeholder="Telefonnummer" id="phonenumber" oninvalid=" $(this).css('border', '2px solid red');" required>
       <input type="text" name="postalcode" onchange="$(this).css('border', '2px solid white');" list="plz"
         placeholder="Postleitzahl" id="postalCode" required oninvalid=" $(this).css('border', '2px solid red');">
+        <input type="text" class="selectButtonInput passportType" onclick="showPermitSelect()"
+        placeholder="Aufenthaltsstatus" onchange="$(this).css('border', '2px solid white');reload = false;"
+        name="permit" id="passportType" oninvalid=" $(this).css('border', '2px solid red');" required>
+        <div class="infoBlock">
+      <input type="text" onchange="$(this).css('border', '2px solid white');reload = false;" name="passportnumber"
+        maxlength="20" placeholder="Ausweis- oder Zemisnummer" id=""
+        oninvalid=" $(this).css('border', '2px solid red');" required>
+        <input inputmode="decimal" name="birthdate" id="dateField" type="text" class="dateField" placeholder="DD.MM.YYYY Geburtsdatum"
+        required onchange="$(this).css('border', '2px solid white');"
+        oninvalid=" $(this).css('border', '2px solid red');" pattern="[0-9]{2}.[0-9]{2}.[0-9]{4}">
+      </div>
+      <div class="zemis">
+        <div class="inputContainer">
+
+        </div>
+        <div class="removeZemis" onclick="addZemis()">Person hinzufügen</div>
+      </div>
+      <input type="text" class="selectButtonInput family noBorderInput" onfocus="$(this).blur();" onclick="$(this).blur();" value="Familienmitglieder: 1"
+        onchange="$(this).css('border', '2px solid white');reload = false;" name="familyMembers" id="familyMembers"
+        oninvalid=" $(this).css('border', '2px solid red');" required>
       <div class="button buttonImage" onchange="$(this).css('border', '2px solid white');" onclick="cardScan()"><img
           src="/images/svg/qrScan.svg" alt="">Karte einscannen</div>
       <input type="number" max="9999999" onchange="$(this).css('border', '2px solid white');" name="cardid" id="cardID"
@@ -78,7 +80,7 @@
           Bei 4 oder weniger Personen: A
         </div>
       </div>
-      <select name="entitlement" onclick="$('#entitlement').focus();" id="entitlement"
+      <select name="entitlement"  id="entitlement"
         onchange="entitlementSelect(this)" class="smallSelect" id=""
         oninvalid=" $(this).css('border', '2px solid red');" required>
         <option value="" disabled selected>Berechtigung</option>
@@ -362,23 +364,39 @@
     $('.entitlementInfo').hide()
     $('#entitlement').css('border', '2px solid white');
     if (!$('#familyMembers').val()) return;
-    if ($('#entitlement').val() == "B" && Number($('#familyMembers').val()) + 1 >= 5) return true;
-    if ($('#entitlement').val() == "A" && Number($('#familyMembers').val()) + 1 <= 4) return true;
+    if ($('#entitlement').val() == "B" && Number($('#familyMembers').val().split(':')[1]) + 1 >= 5) return true;
+    if ($('#entitlement').val() == "A" && Number($('#familyMembers').val().split(':')[1]) + 1 <= 4) return true;
     $('#entitlement').css('border', '2px solid red');
     $('#entitlement').val('');
     $('.entitlementInfo').show();
     return false;
   }
+  var ZemisCounter = 1;
 
   function addZemis() {
     reload = false;
     var obj =
-      `<div><input type="text" value="" onchange="$(this).css('border', '2px solid white');" maxlength="20" name="passportnumber" placeholder="Ausweis- oder Zemisnummer" id="" oninvalid=" $(this).css('border', '2px solid red');" required><div class="removeZemis" onclick="removeZemis(this)">L&ouml;schen</div></br></div>`;
-    $('.inputContainer').append(obj)
+      `
+      <div class="infoBlock">
+        <input type="text" onchange="$(this).css('border', '2px solid white');reload = false;" name="name${ZemisCounter}"
+        placeholder="Vorname, Nachname" id="name" oninvalid=" $(this).css('border', '2px solid red');">
+      <input type="text" onchange="$(this).css('border', '2px solid white');reload = false;" name="passportnumber${ZemisCounter}"
+        maxlength="20" placeholder="Ausweis- oder Zemisnummer" id=""
+        oninvalid=" $(this).css('border', '2px solid red');" required>
+        <input inputmode="decimal" name="birthdate${ZemisCounter}" id="dateField" type="text" class="dateField" placeholder="DD.MM.YYYY Geburtsdatum"
+        required onchange="$(this).css('border', '2px solid white');"
+        oninvalid=" $(this).css('border', '2px solid red');" pattern="[0-9]{2}.[0-9]{2}.[0-9]{4}">
+        <div class="removeZemis" onclick="removeZemis(this)">L&ouml;schen</div>
+      </div>`;
+    $('.inputContainer').append(obj);
+    ZemisCounter++;
+    $('.family').val('Familienmitglieder: '+ZemisCounter);
   };
 
   function removeZemis(that) {
+    ZemisCounter--;
     $(that).parent().remove()
+    $('.family').val('Familienmitglieder: '+ZemisCounter);
   }
   $('.message').hide()
   $('.preRegOverlay').hide()
@@ -419,48 +437,6 @@
   };
 
 
-  function preRegScanSuccess(decodedText, decodedResult) {
-    preReg.stop()
-    $('.preRegOverlay').hide();
-    $.ajax({
-      url: '/admin/receiverRegistration/preReg',
-      type: 'POST',
-      cache: false,
-      data: {
-        id: JSON.parse(decodedText).id
-      },
-      success: function (data) {
-        reload = false;
-        if (data.success == true) {
-          var results = data.results[0];
-          $('#inputs').html(
-            `<input type="text" name="id" placeholder="ReceiverId" required="" value="${results.id}" style="display: none;" readonly>`
-          )
-          $('#name').val(results.fullName);
-          $('#name').css("border", "2px solid white");
-          $('#phonenumber').val(results.phonenumber);
-          $('#phonenumber').css("border", "2px solid white");
-          $('#passportType').val(results.passportType);
-          $('#passportType').css("border", "2px solid white");
-          $('#familyMembers').val(results.familyMembers);
-          $('#familyMembers').css("border", "2px solid white");
-          $('#postalCode').val(results.postalCode);
-          $('#postalCode').css("border", "2px solid white");
-          $('#gender').val(results.gender);
-          $('#gender').css("border", "2px solid white");
-        }
-        if (data.success == false) {
-          $('.message').show()
-          $('.info').html("Keine Daten konnten geladen werden.")
-        }
-      },
-      error: function (jqXHR, textStatus, err) {
-        alert('text status ' + textStatus + ', err ' + err)
-        $(".button").show();
-      }
-    });
-
-  }
 
   function cardScanSuccess(decodedText, decodedResult) {
     $('.cardScanOverlay').hide()
@@ -483,7 +459,7 @@
     $('form').hide();
 
     $('.loader').show()
-
+    console.log($('form').serializeArray())
     $(".button").hide();
     $.ajax({
       url: '/admin/receiverRegistration/',
@@ -545,9 +521,10 @@
 
 <script>
   //datepicker
-  var el = document.getElementById("dateField");
+  var el = document.querySelectorAll("dateField");
 
   el.onkeyup = function (evt) {
+    console.log(evt)
     if ((evt.keyCode >= 48 && evt.keyCode <= 57) || (evt.keyCode >= 96 &&
       evt.keyCode <= 105)) {
       evt = evt || window.event;

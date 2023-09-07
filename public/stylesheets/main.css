@@ -64,6 +64,9 @@ input, select, textarea{
     margin-left: 6.5%;
     background: none;
 }
+.noBorderInput{
+    border: none;
+}
 .tick, .cross, .loader{
     display: none;
     width: 80%;
