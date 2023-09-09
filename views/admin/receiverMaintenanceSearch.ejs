@@ -64,9 +64,9 @@
         </div>
         <div class="infoBlock zemis">
 
-            <div class="infoName">Zemis-/Ausweisnummern
+            <div class="infoName">Ausweisnr., Name und Geburtsdatum
             </div>
-            
+
         </div>
         <div class="infoBlock">
 
@@ -95,10 +95,11 @@
 
         <div class="infoBlock">
 
-            <div class="infoName">Zustätzliche Familienmitglieder
+            <div class="infoName">Familienmitglieder
             </div>
             <div class="info">
                 <%-receiverData[0].familyMembers%>
+
             </div>
         </div>
         
@@ -214,8 +215,10 @@
 <script>
     var array = <%-zemisData%>
     array.forEach(element => {
-        var obj = `<div class="info ">
-                ${element.zemisNr}
+        var extra = "";
+        if(element.zemisNr == "<%-receiverData[0].passportNumber%>") extra = " permissionElement granted";
+        var obj = `<div class="info ${extra}">
+                ${element.zemisNr} | ${element.name} | ${element.birthdate} <br><br>
             </div>`;
             $('.zemis').append(obj)
     });

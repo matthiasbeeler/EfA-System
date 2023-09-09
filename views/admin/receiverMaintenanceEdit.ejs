@@ -40,13 +40,7 @@
                 <option value="N">N</option>
                 <option value="L">L</option>
             </select>
-            <div class="zemis">
-              <div class="inputContainer">
-
-              </div>
-              <div class="removeZemis" onclick="addZemis()">Nummer hinzufügen</div>
-            </div>
-            <input  name="birthdate" inputmode="decimal" id="dateField" value="<%-result[0].birthdate%>" type="text" placeholder="DD.MM.YYYY Geburtsdatum" required  onchange="$(this).css('border', '2px solid white');" oninvalid=" $(this).css('border', '2px solid red');" pattern="[0-9]{2}.[0-9]{2}.[0-9]{4}">
+           
             <input type="text" value="<%-result[0].fullName%>" onchange="$(this).css('border', '2px solid white');" name="name" placeholder="Vorname, Nachname" id="name" oninvalid=" $(this).css('border', '2px solid red');" required>
             <select name="gender" value="<%-result[0].gender%>" onchange="$(this).css('border', '2px solid white');" id="gender" oninvalid=" $(this).css('border', '2px solid red');" required>
                 <option value="" disabled selected>Geschlecht</option>
@@ -54,24 +48,26 @@
                 <option value="Männlich">M&auml;nnlich</option>
                 <option value="Anderes">Anderes</option>
             </select>
-            <select name="familymembers" onchange="$(this).css('border', '2px solid white');" id="familyMembers" oninvalid=" $(this).css('border', '2px solid red');" required>
-                <option value="" disabled selected>Zusätzliche Familienmitglieder</option>
-                <option value="0">0</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-                <option value="11">11</option>
-                <option value="12">12</option>
-
-            </select>
+           
             <input type="text" value="<%-result[0].postalCode%>" name="postalcode" onchange="$(this).css('border', '2px solid white');" placeholder="Postleitzahl" id="postalCode" required oninvalid=" $(this).css('border', '2px solid red');">
+            <div class="infoBlock">
+              <input type="text" onchange="$(this).css('border', '2px solid white');reload = false;" class="passportnumber" name="passportnumber"
+                maxlength="20" placeholder="Ausweis- oder Zemisnummer" id="" value="<%-result[0].passportNumber%>"
+                oninvalid=" $(this).css('border', '2px solid red');" required>
+                <input inputmode="decimal" name="birthdate" value="<%-result[0].birthdate%>" id="dateField" type="text" class="dateField" placeholder="DD.MM.YYYY Geburtsdatum"
+                required onchange="$(this).css('border', '2px solid white');"
+                oninvalid=" $(this).css('border', '2px solid red');" pattern="[0-9]{2}.[0-9]{2}.[0-9]{4}">
+              </div>
+              <div class="zemis">
+                <div class="inputContainer">
+        
+                </div>
+                <div class="removeZemis" onclick="addZemis()">Person hinzufügen</div>
+              </div>
+              <input type="text" class="selectButtonInput family noBorderInput" onfocus="$(this).blur();" onclick="$(this).blur();" value="Familienmitglieder: 1"
+                onchange="$(this).css('border', '2px solid white');reload = false;" name="familyMembers" id="familyMembers"
+                oninvalid=" $(this).css('border', '2px solid red');" required>
+
             <div class="button buttonImage" onchange="$(this).css('border', '2px solid white');" onclick="cardScan()"><img src="/images/svg/qrScan.svg" alt="">Karte einscannen</div>
             <input type="number" value="<%-result[0].cardId%>" max="9999999" onchange="$(this).css('border', '2px solid white');" inputmode="decimal" name="cardid" id="cardID" placeholder="Karten-ID" id="" required oninvalid=" $(this).css('border', '2px solid red');">
             <select name="entitlement" id="entitlement" onchange="$(this).css('border', '2px solid white');" class="smallSelect" id="" oninvalid=" $(this).css('border', '2px solid red');" required>
@@ -117,24 +113,66 @@ $('#blocked').val("<%-result[0].blocked%>")
 $('#paid').val("<%-result[0].paid%>")
 $('#passportType').val("<%-result[0].passportType%>")
 $('#gender').val("<%-result[0].gender%>")
-$('#familyMembers').val("<%-result[0].familyMembers%>")
+$('#familyMembers').val("Familienmitglieder: <%-result[0].familyMembers%>")
 $('#timeslot').val("<%-result[0].timeslot%>")
 $('#entitlement').val("<%-result[0].entitlement%>")
-
+console.log($('#familyMembers').val())
       $('.message').hide()
       $('.cardScanOverlay').hide()
+      var ZemisCounter = 1;
 
     var zemis = <%-zemisData%>;
-    zemis.forEach(element => {
-      var obj = `<div><input type="text" value="${element.zemisNr}" onchange="$(this).css('border', '2px solid white');" maxlength="20" name="passportnumber" placeholder="Ausweis- oder Zemisnummer" id="" oninvalid=" $(this).css('border', '2px solid red');" required><div class="removeZemis" onclick="removeZemis(this)">L&ouml;schen</div></br></div>`;
-      $('.inputContainer').append(obj)
+    if(zemis.length > 1){
+      zemis.forEach(element => {
+        if(element.zemisNr == "<%-result[0].passportNumber%>"){
+    $('.passportnumber').val(element.zemisNr)
+          return;
+        }
+
+     
+      reload = false;
+    var obj =
+      `
+      <div class="infoBlock">
+        <input type="text" onchange="$(this).css('border', '2px solid white');reload = false;" name="name${ZemisCounter}"
+        placeholder="Vorname, Nachname" id="name" oninvalid=" $(this).css('border', '2px solid red');" value="${element.name}">
+      <input type="text" onchange="$(this).css('border', '2px solid white');reload = false;" name="passportnumber${ZemisCounter}"
+        maxlength="20" placeholder="Ausweis- oder Zemisnummer" value="${element.zemisNr}" id=""
+        oninvalid=" $(this).css('border', '2px solid red');">
+        <input inputmode="decimal" name="birthdate${ZemisCounter}" id="dateField" type="text" class="dateField" placeholder="DD.MM.YYYY Geburtsdatum"
+       onchange="$(this).css('border', '2px solid white');" value="${element.birthdate}"
+        oninvalid=" $(this).css('border', '2px solid red');" pattern="[0-9]{2}.[0-9]{2}.[0-9]{4}">
+        <div class="removeZemis" onclick="removeZemis(this)">L&ouml;schen</div>
+      </div>`;
+    $('.inputContainer').append(obj);
+    ZemisCounter++;
+    $('#familyMembers').val('Familienmitglieder: '+ZemisCounter);
     });
-    function addZemis(){
-      var obj = `<div><input type="text" value="" onchange="$(this).css('border', '2px solid white');" maxlength="20" name="passportnumber" placeholder="Ausweisnummer" id="" oninvalid=" $(this).css('border', '2px solid red');" required><div class="removeZemis" onclick="removeZemis(this)">L&ouml;schen</div></br></div>`;
-      $('.inputContainer').append(obj)
-    };
+    }
+    
+    function addZemis() {
+    reload = false;
+    var obj =
+      `
+      <div class="infoBlock">
+        <input type="text" onchange="$(this).css('border', '2px solid white');reload = false;" name="name${ZemisCounter}"
+        placeholder="Vorname, Nachname" id="name" oninvalid=" $(this).css('border', '2px solid red');">
+      <input type="text" onchange="$(this).css('border', '2px solid white');reload = false;" name="passportnumber${ZemisCounter}"
+        maxlength="20" placeholder="Ausweis- oder Zemisnummer" id=""
+        oninvalid=" $(this).css('border', '2px solid red');">
+        <input inputmode="decimal" name="birthdate${ZemisCounter}" id="dateField" type="text" class="dateField" placeholder="DD.MM.YYYY Geburtsdatum"
+       onchange="$(this).css('border', '2px solid white');"
+        oninvalid=" $(this).css('border', '2px solid red');" pattern="[0-9]{2}.[0-9]{2}.[0-9]{4}">
+        <div class="removeZemis" onclick="removeZemis(this)">L&ouml;schen</div>
+      </div>`;
+    $('.inputContainer').append(obj);
+    ZemisCounter++;
+    $('#familyMembers').val('Familienmitglieder: '+ZemisCounter);
+  };
     function removeZemis(that){
-      $(that).parent().remove()
+      ZemisCounter--;
+    $(that).parent().remove()
+    $('#familyMembers').val('Familienmitglieder: '+ZemisCounter);
     }
   function hideCardScanScanner() {
     $('.cardScanOverlay').hide();

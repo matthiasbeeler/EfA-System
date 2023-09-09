@@ -213,20 +213,20 @@ div.unblockButton{
     overflow: hidden;
     white-space: nowrap;
 }
-.searchContent .centerSeperator{
+.searchContent .centerSeperator, .searchElementExt .centerSeperator{
     padding-left: 1%;
     padding-top: 5%;
     border-radius: 10px;
     margin-right: 2%;
     background: var(--mainBtnColour);
 }
-.searchContent .searchElement .centerSeperator{
+.searchContent .searchElement .centerSeperator, .searchElementExt .centerSeperator{
     background: var(--mainInfoColour);
 }
 .searchContent *{
     font-size: x-large;
 }
-.searchContent .searchElement{
+.searchContent .searchElement, .searchElementExt{
     background: var(--mainBtnColour);
     display: inline-flex;
     width:  calc(83% + 4px);
@@ -240,6 +240,7 @@ div.unblockButton{
     cursor:pointer;
     font-size: x-large;
 }
+
 .tile .title{
     font-size: xx-large;
     width: 100%;

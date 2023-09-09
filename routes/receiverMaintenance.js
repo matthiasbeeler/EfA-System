@@ -96,12 +96,40 @@ router.get("/", function (req, res, next) {
         true
       )return res.redirect("/admin");
 
-        var str = ""
+        var insertString = ""
         var searchstr = "";
         var passportNumber = "";
+        var zemisCounter = Number(req.body.familyMembers.split(":")[1]) - 1;
         try{
-      if(req.body.passportnumber){
-        console.log(typeof req.body.passportnumber)
+          if(req.body.passportnumber){
+        function addZemis(num) {
+          if (num == 0) num = "";
+          insertString =
+            insertString +
+            "('" +
+            req.params.id +
+            "','" +
+            req.body["passportnumber" + num] +
+            "','" +
+            req.body["name" + num] +
+            "','" +
+            req.body["birthdate" + num] +
+            "'),";
+          searchstr =
+            searchstr +
+            " zemisNr = '" +
+            req.body["passportnumber" + num] +
+            "' AND receiverId NOT LIKE '" +
+            req.params.id +
+            "' OR ";
+          passportNumber = passportNumber + req.body["passportnumber" + num];
+
+          zemisCounter--;
+          if (zemisCounter >= 0) addZemis(zemisCounter);
+        }
+        if (zemisCounter >= 0) addZemis(zemisCounter);
+        
+        /*console.log(typeof req.body.passportnumber)
         if(typeof req.body.passportnumber == "string"){
           str = str + "('"+req.params.id+"','"+req.body.passportnumber+"'),";
           searchstr = searchstr + " zemisNr = '"+req.body.passportnumber+"' AND receiverId NOT LIKE '"+req.params.id+"' OR "
@@ -112,10 +140,10 @@ router.get("/", function (req, res, next) {
           searchstr = searchstr + " zemisNr = '"+element+"' AND receiverId NOT LIKE '"+req.params.id+"' OR "
           passportNumber = passportNumber + element;
         });
-      }
-        str = str.slice(0, str.length - 1)
+      }*/
+      insertString = insertString.slice(0, insertString.length - 1)
         searchstr = searchstr.slice(0, searchstr.length - 3)
-        var passportInsert =`INSERT INTO receiversZemis(receiverId, zemisNr) VALUES ${str};`
+        var passportInsert =`INSERT INTO receiversZemis(receiverId, zemisNr, name, birthdate) VALUES ${insertString};`
       }else{
         var passportInsert =`SELECT 1`;
         var searchstr = "receiverId = 'x'"
@@ -149,11 +177,11 @@ router.get("/", function (req, res, next) {
             [
                 phone.number,
                 req.body.permit,
-                passportNumber,
+                req.body.passportnumber,
                 req.body.birthdate,
                 req.body.name.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 req.body.gender,
-                req.body.familymembers,
+                Number(req.body.familyMembers.split(":")[1]),
                 req.body.postalcode,
                 req.body.cardid,
                 req.body.timeslot,
