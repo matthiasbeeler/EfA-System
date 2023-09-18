@@ -31,4 +31,31 @@ router.get('/manualEntry', function(req, res){
   res.render('admin/manualEntry')
 });
 
+function nachtrag(logLocation){
+  const date = new Date();
+  let day = date.getDate();
+  let month = date.getMonth() + 1;
+  let year = date.getFullYear();
+  let currentDate = `${day}.${month}.${year}`;
+  const time = new Date()
+      .toLocaleString("de-CH", {
+        timeZone: "Europe/Zurich",
+      })
+      .split(", ")[1];
+      var id = "31681282-bdfe-4493-921b-44dc4ee6a1d6";
+  for (let index = 0; index < 70; index++) {
+    database.query(
+      `INSERT INTO entryLogs (id, logTime, entitlement, date,logLocation)
+  VALUES (?, ?, ?, ?, ?)`,
+      [id, time, "A", currentDate, logLocation],
+      function (error, results, fields) {
+        if (!error) console.log(index)
+        if(error) console.log(error)
+      }
+    );
+  }
+ 
+}
+
+//nachtrag('sz')
 module.exports = router;

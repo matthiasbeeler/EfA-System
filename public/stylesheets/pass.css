@@ -658,3 +658,64 @@ footer p, footer a{
 div.fileInput{
     background-color: white;
 }
+
+
+
+
+
+.cookieNoticeBackground, .changeOverlay{
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  width: 100%;
+  height: 100vh;
+  background: #252525;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 100;
+}
+
+.cookieNoticeBackground{
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  width: 100%;
+  height: 100vh;
+  background-color: #f0f0f0;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 100;
+  display: flex;       /* Set the display property to flex */
+align-items: center;
+}
+
+.cookieNoticeBackground center{
+  width: 100%;
+}
+.cookieNotice img{
+  width: 30%;
+  margin-top: -30%;
+  
+}
+.cookieNotice{
+width: fit-content;
+max-width: 100%;
+border-radius: 20px;
+}
+.cookieNotice p{
+  font-size: medium !important;
+  width: 86%;
+  background-color: white;
+padding: 1.5vw;
+border-radius: 20px;
+}
+
+
+@media (min-width: 800px) {
+.cookieNoticeBackground {
+  width: 30%;
+  margin-left: 35%;
+}
+
+
+}

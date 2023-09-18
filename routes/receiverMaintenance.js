@@ -104,6 +104,8 @@ router.get("/", function (req, res, next) {
           if(req.body.passportnumber){
         function addZemis(num) {
           if (num == 0) num = "";
+          console.log(req.body["passportnumber" + num])
+          if(req.body["passportnumber" + num] !== undefined){
           insertString =
             insertString +
             "('" +
@@ -115,6 +117,7 @@ router.get("/", function (req, res, next) {
             "','" +
             req.body["birthdate" + num] +
             "'),";
+          };
           searchstr =
             searchstr +
             " zemisNr = '" +

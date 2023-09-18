@@ -5,3 +5,38 @@
   </div>
 </center>
   </footer>
+
+
+<div class="cookieNoticeBackground" style="display: none;">
+  <center>
+<div class="cookieNotice loginNotice">
+  <div class="warningSymbol">
+    <img src="/images/svg/cookie.svg"  alt="">
+</div>
+<p class="grayShadowNoOffset">Um dir ein optimales Erlebnis zu bieten, verwenden wir Technologien wie Cookies, um auf Geräteinformationen zuzugreifen. Wenn du diesen Technologien zustimmst, können wir Daten wie das Surfverhalten oder eindeutige IDs auf dieser Website verarbeiten - was wir jedoch nicht tun werden. Wenn du deine Zustimmung nicht erteilst oder zurückziehst, können bestimmte Merkmale und Funktionen beeinträchtigt werden.</p>
+
+<div class="footerText"><a href="/datenschutz" target="_blank">Datenschutzerklärung</a> · <a href="https://www.essenfueralle.org/impressum/" target="_blank">Impressum</a>
+</div> <br>
+<div
+id="dismiss-cookie-notice" class="dismiss-cookie-notice button submitButtonNoMargin grayShadowNoOffset smallSubmitText submitButton submitDiv">
+Akzeptieren
+                          </div>
+</div>
+</center>
+</div>
+<script>
+  if(window.location.pathname !== "/datenschutz"){
+  if (!localStorage.getItem('cookieNoticeAccepted')) {
+  // If the notice has not been accepted, display it
+  document.querySelector('.cookieNoticeBackground').style.display = 'flex';
+}
+
+// Add an event listener to the cookie notice to handle the user accepting it
+document.querySelector('.dismiss-cookie-notice').addEventListener('click', function() {
+  // Set the 'cookieNoticeAccepted' item in local storage
+  localStorage.setItem('cookieNoticeAccepted', true);
+  // Hide the cookie notice
+  document.querySelector('.cookieNoticeBackground').style.display = 'none';
+});
+  }
+</script>

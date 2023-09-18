@@ -552,3 +552,61 @@ select.blueBackground{
     -webkit-box-shadow: inset 0px 0px 7px #00e400;
     -moz-box-shadow: inset 0px 0px 7px #00e400;
 }
+
+
+.cookieNoticeBackground, .changeOverlay{
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    width: 100%;
+    height: 100vh;
+    background: #252525;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 100;
+  }
+  
+  .cookieNoticeBackground{
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    width: 100%;
+    height: 100vh;
+    background-color: var(--mainBackgroundColour);
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    z-index: 100;
+    display: flex;       /* Set the display property to flex */
+  align-items: center;
+  }
+  
+  .cookieNoticeBackground center{
+    width: 100%;
+  }
+  .cookieNotice img{
+    width: 30%;
+    margin-top: -30%;
+    
+  }
+  .cookieNotice{
+  width: fit-content;
+  max-width: 100%;
+  border-radius: 20px;
+  }
+  .cookieNotice p{
+    font-size: medium !important;
+    width: 86%;
+    background-color: var(--mainBtnColour);
+  padding: 1.5vw;
+  border-radius: 20px;
+  }
+  
+  
+  @media (min-width: 800px) {
+  .cookieNoticeBackground {
+    width: 30%;
+    margin-left: 35%;
+  }
+  
+  
+  }
