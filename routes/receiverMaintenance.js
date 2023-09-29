@@ -77,14 +77,21 @@ router.get("/", function (req, res, next) {
         var receiverResults = results;
         if(!receiverResults[0].birthdate) receiverResults[0].birthdate = "xx.xx.xxxx"
         database.query(
+          `SELECT * FROM entryLogs WHERE id = ?`,[req.params.id],
+          function (error, results, fields) {
+            if (error) return res.redirect("/admin");
+            var logResults = results;
+        database.query(
           `SELECT * FROM receiversZemis WHERE receiverId = ?`,[req.params.id],
           function (error, results, fields) {
             console.log(error)
         if (error) return res.redirect("/admin");
-        res.render("admin/receiverMaintenanceEdit", { result: receiverResults, zemisData: JSON.stringify(results) });
+        res.render("admin/receiverMaintenanceEdit", {logResults: logResults, result: receiverResults, zemisData: JSON.stringify(results) });
       }
     );
       })
+    })
+
   } catch (error) {
     console.log(error)
     return res.redirect("/admin/");
@@ -105,7 +112,8 @@ router.get("/", function (req, res, next) {
         function addZemis(num) {
           if (num == 0) num = "";
           console.log(req.body["passportnumber" + num])
-          if(req.body["passportnumber" + num] !== undefined){
+          if(req.body["passportnumber" + num] !== undefined && req.body["passportnumber" + num] !== ""){
+            console.log("Num: "+ num+" pass: "+req.body["passportnumber" + num]+"check: ", req.body["passportnumber" + num] !== undefined && req.body["passportnumber" + num] !== "", req.body["passportnumber" + num] !== undefined && req.body["passportnumber" + num] !== "")
           insertString =
             insertString +
             "('" +
@@ -144,6 +152,7 @@ router.get("/", function (req, res, next) {
           passportNumber = passportNumber + element;
         });
       }*/
+      console.log(insertString)
       insertString = insertString.slice(0, insertString.length - 1)
         searchstr = searchstr.slice(0, searchstr.length - 3)
         var passportInsert =`INSERT INTO receiversZemis(receiverId, zemisNr, name, birthdate) VALUES ${insertString};`

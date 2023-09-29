@@ -16,7 +16,7 @@
 </head>
 
 <body>
-  <div class="content">
+  <div class="content wideContent">
     <div class="topBtn" onclick="window.location = '/admin/'">
       <img src="/images/svg/ArrowBack.svg" alt="">
     </div>
@@ -60,6 +60,8 @@
         required onchange="$(this).css('border', '2px solid white');"
         oninvalid=" $(this).css('border', '2px solid red');" pattern="[0-9]{2}.[0-9]{2}.[0-9]{4}">
       </div>
+      <br>
+
       <div class="zemis">
         <div class="inputContainer">
 
@@ -98,14 +100,14 @@
         <option value="15:00-16:00">15:00-16:00</option>
 
       </select>
-      <div id="inputs">
-
-      </div>
+      
       <select name="paid" id="paid" onchange="$(this).css('border', '2px solid white');" class="smallSelect" id=""
         required oninvalid=" $(this).css('border', '2px solid red');">
         <option value="1" selected>Bezahlt</option>
         <option value="0">Unbezahlt</option>
-      </select>
+      </select><div id="inputs">
+
+      </div>
       <textarea name="comment" placeholder="Bemerkungen" id="" cols="30" rows="2"></textarea>
 
       <button type="submit" class="button">Registrieren</button>

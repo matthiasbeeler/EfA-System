@@ -30,6 +30,7 @@ app.use(i18n);
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 var favicon = require("serve-favicon");
+//const { test } = require("./efaAdminTest"); test() // entry test
 app.use(favicon(path.join(__dirname, "/public/images/efaLogo.png")));
 app.use(fileUpload({
   createParentPath: true
@@ -90,7 +91,6 @@ app.use("/admin/volunteers/volunteerCards", volunteerCards);
 app.use("/admin/volunteers", volunteers);
 app.use("/timetable/pass", pass);
 app.use("/timetable", timetable);
-
 
 
 // catch 404 and forward to error handler
