@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Essen für Alle</title>
+    <link rel="apple-touch-icon" sizes="640x640" href="/images/efaLogo.png">
+    <script src="https://code.jquery.com/jquery-1.6.2.min.js"></script>
+    <link rel="stylesheet" href="/stylesheets/main.css">
+    <link rel="manifest" href="/manifest.json">
+</head>
+
+<body>
+    <div class="content wideContent">
+        <div class="topBtn" onclick="window.location = '/admin/';">
+            <img src="/images/svg/ArrowBack.svg" alt="">
+        </div>
+        <div class="toptitle title">
+            Eingang Desktop
+        </div>
+        <center>
+            <div class="infoBlock message entryMessage">
+
+            </div>
+            <h1 class="title">Bitte Karte scannen</h1>
+        </center>
+        <div class="tick">
+            <img src="/images/svg/greenTick.svg" alt="">
+        </div>
+        <div class="cross">
+            <img src="/images/svg/redCross.svg" alt="">
+        </div>
+        <div class="button buttonImage" onclick="window.location = '/admin/entry/manualEntry';"><img
+                src="/images/svg/manual.svg" alt="">Manuelle Eingabe</div>
+        <br>
+        <div class="button buttonImage" onclick="window.location = '/admin/entry/cardForgotten';"><img
+                src="/images/svg/block.svg" alt="">Karte vergessen</div>
+
+        <br>
+        <div class="button buttonImage" onclick="window.location = '/admin/statistics';">Statistik</div>
+
+
+        <br>
+    </div>
+</body>
+
+</html>
+<script src="/javascripts/qr.min.js"></script>
+<script>
+    $('.message').hide()
+    $('.cardScanOverlay').hide()
+    $('.cross, .tick').hide()
+
+    var str = '';
+    var lastresult = '';
+
+    document.addEventListener("keypress", function (e) {
+        if (e.key == "Enter") {
+            console.log(temp, lastresult)
+            var temp = str;
+            if (temp == lastresult) return;
+            str = '';
+            lastresult = temp;
+
+            $('.message').hide()
+            $('center').hide()
+            $.ajax({
+                url: '/admin/entry',
+                type: 'POST',
+                cache: false,
+                data: {
+                    id: temp
+                },
+                success: function (data) {
+                    if (data.success == true) {
+                        $('.tick').show()
+                        try {
+                            if (data.comment.length > 0) {
+                                $('.message, .center').show();
+                                $('.message').html("Lezter Kommentar: " + data.comment)
+                                
+                            }
+                        } catch (error) {
+
+                        }
+                        
+                    }
+                    if (data.success == false) {
+                        $('.cross').show()
+                        $('.message, .center').show();
+                        $('.message').html(data.message)
+                    }
+                },
+                error: function (jqXHR, textStatus, err) {
+                    alert('text status ' + textStatus + ', err ' + err)
+                    $(".button, .center").show();
+                }
+            });
+        } else {
+            str += e.key;
+        }
+    })
+</script>

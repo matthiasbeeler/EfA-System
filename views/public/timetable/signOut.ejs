@@ -88,6 +88,7 @@
     }
 
     function removeSubmit(shiftType, shiftTime, id) {
+        console.log("hi")
         $("form").hide();
         $('.buttonContainer').hide()
         $('.centerSiteTitle').hide()
@@ -95,7 +96,7 @@
         $('.button').hide()
         $('.loader').show()
         $('.buttonContainer, .dateTitle, .seperator').hide()
-
+        console.log(shiftType, shiftTime)
         $.ajax({
             url: '/timetable/signOut/',
             type: 'POST',
@@ -145,6 +146,7 @@
             cache: false,
             data: $('form').serializeArray(),
             success: function (data) {
+                console.log(data)
                 if (data.success == true) {
                     var arr = data.data[0].shifts["<%=shiftDate%>"]
                     if(params.get('date')) arr = data.data[0].shifts[params.get('date')]
@@ -160,6 +162,9 @@
                 }
                 if (data.success == false) {
                     $('.message').show()
+                    if(data.message = "date"){
+                        $('.content').css('opacity', '0');window.location = '/timetable/otherWeek?red=true'
+                    }
                 }
             },
             error: function (jqXHR, textStatus, err) {

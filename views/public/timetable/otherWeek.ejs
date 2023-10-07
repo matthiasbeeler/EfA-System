@@ -63,6 +63,10 @@
 
 </html>
 <script>
+    function getParameterByName(name) {
+    var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+}
     function choosen(date) {
         $("form").hide();
         $(".naMessage").hide();
@@ -81,8 +85,10 @@
             },
             success: function (data) {
                 if (data.success == true) {
+                    var red = getParameterByName('red');
+                    if(red) return window.location = "<%-redirect.replace("&amp;", "&")%>";
                     window.location = "/timetable/";
-                }
+                    }
                 if (data.success == false) {
                     if (data.message == "NA") {
                         $('.naMessage').show()

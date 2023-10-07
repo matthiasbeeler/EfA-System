@@ -153,17 +153,21 @@ exports.searchSignOut = function (request, response, database) {
   var beforedate = new Date();
   var tomorrow = new Date();
 
-  var start = moment(new Date().setDate(beforedate.getDate() - 7)), // Sept. 1st
-    end = moment(new Date().setDate(tomorrow.getDate() + 21)), // Nov. 2nd
-    day = 6; // Sunday
+  var start = moment(new Date().setDate(beforedate.getDate()-6)), // Sept. 1st
+    end = moment(new Date().setDate(tomorrow.getDate() + 35)), // Nov. 2nd
+    day = 6; // saturday
   var result = [];
   var current = start.clone();
   while (current.day(7 + day).isBefore(end)) {
     result.push(current.clone());
   }
   var result = result.map((m) => m.format("DD.MM.YYYY"));
+  console.log(result.includes(request.body.date))
   if(request.body.date){
-    if (result.includes(request.body.date)) request.session.shiftDate = request.body.date;
+    if (result.includes(request.body.date)) {request.session.shiftDate = request.body.date}else{
+      request.session.redirect = "/timetable"+request.url.replace('date=','');;
+      return response.json({success: false, message: "date"});
+    }
   }
   
   database.query(
@@ -194,6 +198,7 @@ exports.signOut = function (request, response, database) {
       console.log(results[0].shifts)
       if (error) console.log(error);
       if (error) return response.json({ success: false });
+      console.log("1:" + JSON.stringify(results))
       if (!results.length > 0) {
         response.json({ success: false });
       } else {
@@ -205,6 +210,8 @@ exports.signOut = function (request, response, database) {
           "SELECT * FROM volunteerShifts WHERE date = ? ;",
           [request.session.shiftDate],
           function (error, results, fields) {
+            console.log("2:" + results)
+
             if (error) console.log(error);
             if (error) return response.json({ success: false });
             results[0]["shifts"+location].forEach((element) => {

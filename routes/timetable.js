@@ -97,7 +97,11 @@ router.post("/support", function (req, res) {
 });
 
 router.all("*", function(req,res, next){
-  if(!req.session.timetableType) return res.redirect("/timetable/pass?red=/timetable"+req.url);
+  if(!req.session.timetableType){
+    console.log("/timetable"+req.url, "/timetable"+req.url.replace('amp;',''))
+    req.session.redirect = "/timetable"+req.url.replace('amp;','');
+    return res.redirect("/timetable/pass?red=/timetable?red=true");
+  } 
   next();
 })
 
@@ -141,6 +145,7 @@ router.get("/",  function (req, res) {
         volEmail: volEmail,
         volName: volName,
         timetableType: req.session.timetableType,
+        redirect: req.session.redirect
       });
     }
   );
@@ -254,7 +259,7 @@ router.get("/otherWeek/", function (req, res) {
     
 }
 var nextMonth = getNextMonth()
-  res.render("public/timetable/otherWeek", { dates: getThreeDatesSz(), nextDate: getThreeDatesSz()[0] });
+  res.render("public/timetable/otherWeek", { dates: getThreeDatesSz(), nextDate: getThreeDatesSz()[0], redirect: req.session.redirect.replace("&amp;", "&") });
 });
 router.post("/chooseDate/", function (req, res) {
   if (!getThreeDatesSz().includes(req.body.date)) return res.json({ success: false });
@@ -275,16 +280,25 @@ router.get("/signOut/", function (req, res) {
   var beforedate = new Date();
   var tomorrow = new Date();
 
-  var start = moment(new Date().setDate(beforedate.getDate() - 7)), // Sept. 1st
-    end = moment(new Date().setDate(tomorrow.getDate() + 21)), // Nov. 2nd
+  var start = moment(new Date().setDate(beforedate.getDate() - 6)), // Sept. 1st
+    end = moment(new Date().setDate(tomorrow.getDate() + 45)), // Nov. 2nd
     day = 6; // Sunday
   var result = [];
   var current = start.clone();
   while (current.day(7 + day).isBefore(end)) {
     result.push(current.clone());
   }
+  if(!req.session.location) req.session.location = "sz"
   var result = result.map((m) => m.format("DD.MM.YYYY"));
-  if (!result.includes(req.session.shiftDate))
+
+  
+    if(req.query.date){
+      if (result.includes(req.query.date)) {req.session.shiftDate = req.query.date}else{
+        req.session.redirect = "/timetable"+req.url.replace('date=','').replace('amp;','');
+        return res.redirect('/timetable/otherWeek?red=true')
+      }
+    }
+    if (!result.includes(req.session.shiftDate))
     req.session.shiftDate = result[0];
   res.render("public/timetable/signOut", { shiftDate: req.session.shiftDate });
 });

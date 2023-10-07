@@ -25,6 +25,9 @@ router.all(["*"], function (req, res, next) {
 router.get("/", function (req, res) {
   res.render("admin/entry");
 });
+router.get("/desktop", function (req, res) {
+  res.render("admin/entryDesktop");
+});
 
 router.post("/", function (req, res) {
   normal(req, res, database);
