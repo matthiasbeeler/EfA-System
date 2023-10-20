@@ -60,7 +60,14 @@
     </div>
     <br>
     <br>
-    <div class="centerSiteTitle"><%=session.shiftDate%> (<%-location %>)</div>
+    <select onchange="pickDate()" name="date" id="" class="date">
+      <option value="" selected disabled>Bitte Datum auswählen</option>
+    </select>
+    <br>
+    <br>
+    <!--<div class="centerSiteTitle"><%=session.shiftDate%> (<%-location %>)</div>-->
+    <div style="display: none;" class="noData centerSiteTitle">Für das gewählte Datum sind keine Daten verfügbar.</div>
+
     <div class="innerContent">
       <div class="shiftList">
 
@@ -82,10 +89,15 @@
 <script>
   $('.message').hide()
   $('.checkInScanOverlay').hide() 
+  var shiftData = undefined;
   <%if (shiftData) {%>
-      var shiftData = <%-shiftData %>;
+       shiftData = <%-shiftData %>;
       <% } %>
   var volunteerData = <%-volunteerData %>;
+  if(shiftData ==undefined) $('.noData').show();
+  if(shiftData !==undefined) {
+    if(shiftData["shifts<%-location %>"] == null)$('.noData').show();
+  }
 
   shiftData["shifts<%-location %>"].forEach(element => {
     var shiftName = element.shiftName;
@@ -106,6 +118,18 @@
   });
 </script>
 <script>
+  var datesArray = <%-JSON.stringify(datesArray.slice(0,4))%>;
+  datesArray.forEach(element => {
+    $('.date').append(`<option value="${element}">${element} (<%-location.toUpperCase() %>)</option>`)
+  });
+  $('.date').val("<%=session.shiftDate%>");
+
+
+function pickDate() {
+  window.location = "/admin/volunteers?date="+ $('.date').val();
+}
+
+
   function hideCheckInScanScanner() {
     $('.checkInScanOverlay').hide();
     checkInScanScanner.stop();

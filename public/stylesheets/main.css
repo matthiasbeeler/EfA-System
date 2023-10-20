@@ -23,6 +23,9 @@
     transition: all 0.2s ease-out;
     -webkit-appearance: none;
 }
+.grayInnerShadowNoOffset{
+    box-shadow: 0px 0px 7px #a4a4a4;
+}
 select option{
     background-color: var(--mainBackgroundColour);
 }
@@ -47,7 +50,7 @@ html {
 .centerSiteTitle{
     width: 100%;
     text-align: center;
-    font-size: xx-large;
+    font-size: x-large;
 }
 .centerText{
     text-align: center;
@@ -241,13 +244,15 @@ div.unblockButton{
     font-size: x-large;
 }
 
-.tile .title{
-    font-size: xx-large;
-    width: 100%;
-}
+
 .title{
     font-weight: bold;
     font-size: x-large;
+}
+.tile .title{
+    font-size: xx-large;
+    width: 100%;
+    font-weight: normal;
 }
 .sideTitle{
     font-weight: bold;
@@ -499,7 +504,9 @@ div.false{
     }
     .wideContent .searchContent{
         width: 30%;
+        display: inline-block;
     }
+    
     .sideTitle{
         font-weight: bold;
         font-size: large;margin-top: 3%;

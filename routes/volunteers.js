@@ -158,11 +158,15 @@ router.get("/", function (req, res) {
     }
 
     var result = result.map((m) => m.format("DD.MM.YYYY"));
+    var datesArray = result
     req.session.shiftDate = result[0];
+
+    if(req.query.date && result.includes(req.query.date)){
+      req.session.shiftDate = req.query.date;
+    }
   /*} else {
     req.session.shiftDate = dates[0];
   }*/
-  console.log(req.session.shiftDate);
   database.query(
     "SELECT * FROM volunteers;",
     function (error, results, fields) {
@@ -176,6 +180,7 @@ router.get("/", function (req, res) {
             volunteerData: JSON.stringify(volunteerData),
             shiftData: JSON.stringify(results[0]),
             location: location,
+            datesArray: datesArray,
           });
         }
       );

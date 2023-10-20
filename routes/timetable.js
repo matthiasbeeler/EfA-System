@@ -15,78 +15,24 @@ function getThreeDatesSz (){
     today.setHours(0, 0, 0, 0);
     return date < today;
   }
-  
- /*function getFirstMonth(){
-  var d = new Date();
-  var getTot = daysInMonth(d.getMonth()+1,d.getFullYear()); //Get total days in a month
-  var sat = new Array();   //Declaring array for inserting Saturdays
-  var firstSat = [];  
-  for(var i=1;i<=getTot;i++){    //looping through days in month
-      var newDate = new Date(d.getFullYear(),d.getMonth(),i)
-      if(newDate.getDay()==6){   //if Saturday
-        if(i < 10) i = "0"+String(i)
-        if(d.getMonth()+2 < 10){         sat.push(String(d.getFullYear())+"-0"+String(d.getMonth()+1)+"-"+String(i));
-      }else{sat.push(String(d.getFullYear())+"-"+String(d.getMonth()+1)+"-"+String(i));
-    }  
-      }
-  
-  }
-  sat.forEach(function(element) {
-    if(!isInThePast(new Date(element)) && sat.indexOf(element) == 0 || !isInThePast(new Date(element)) && sat.indexOf(element) == 2) firstSat.push(element)
-   });
-  return firstSat;
-  function daysInMonth(month,year) {
-      return new Date(year, month, 0).getDate();
-  }
- }
- console.log(getSecondMonth())
- function getSecondMonth(){
-  var d = new Date();
-  var getTot = daysInMonth(d.getMonth()+2,d.getFullYear()); //Get total days in a month
-  var sat = new Array();   //Declaring array for inserting Saturdays
-  var secondSat = [];
-  for(var i=1;i<=getTot;i++){    //looping through days in month
-      var newDate = new Date(d.getFullYear(),d.getMonth()+1,i)
-      if(newDate.getDay()==6){   //if Saturday
-        if(i < 10) i = "0"+String(i)
-        if(newDate.getMonth()+2 < 10){         sat.push(String(newDate.getFullYear())+"-0"+String(newDate.getMonth()+1)+"-"+String(i));
-      }else{sat.push(String(newDate.getFullYear())+"-"+String(newDate.getMonth()+1)+"-"+String(i));
-    }  
-    }
-  
-  }
-  sat.forEach(function(element) {
-    console.log(element)
-    if(!isInThePast(new Date(element)) && sat.indexOf(element) == 0 || !isInThePast(new Date(element)) && sat.indexOf(element) == 2) secondSat.push(element)
-   });
-  return secondSat;
-  function daysInMonth(month,year) {
-      return new Date(year, month, 0).getDate();
-  }
- }*/
-
  var saveSat = []
  var sat = ["2023-01-07","2023-01-21","2023-02-04","2023-02-18","2023-03-04","2023-03-18","2023-04-01","2023-04-15","2023-04-29","2023-05-13","2023-05-27","2023-06-10","2023-06-24","2023-07-08","2023-07-22","2023-08-05","2023-08-19","2023-09-02","2023-09-16","2023-09-30","2023-10-14","2023-10-28","2023-11-11","2023-11-25","2023-12-09","2023-12-23","2024-01-06","2024-01-20","2024-02-03","2024-02-17","2024-03-02","2024-03-16","2024-03-30","2024-04-13","2024-04-27","2024-05-11","2024-05-25","2024-06-08","2024-06-22","2024-07-06","2024-07-20","2024-08-03","2024-08-17","2024-08-31","2024-09-14","2024-09-28","2024-10-12","2024-10-26","2024-11-09","2024-11-23","2024-12-07","2024-12-21","2025-01-04","2025-01-18","2025-02-01","2025-02-15","2025-03-01","2025-03-15","2025-03-29","2025-04-12","2025-04-26","2025-05-10","2025-05-24","2025-06-07","2025-06-21","2025-07-05","2025-07-19","2025-08-02","2025-08-16","2025-08-30","2025-09-13","2025-09-27","2025-10-11","2025-10-25","2025-11-08","2025-11-22","2025-12-06","2025-12-20"]
   sat.forEach(function(element) {
     if(!isInThePast(new Date(element))) saveSat.push(element)
    });
 saveSatFirstThree = saveSat.slice(0,3)
-
- /*var first = getFirstMonth()
- var second = getSecondMonth()*/
  var all = []
- /*second.forEach(element => {
-  first.push(element)
- });
- first.forEach(element => {
-  var split = element.split('-')
-  all.push(split[2]+"."+split[1]+"."+split[0])
- });*/
  saveSatFirstThree.forEach(element => {
   var split = element.split('-')
   all.push(split[2]+"."+split[1]+"."+split[0])
  });
  return all;
+}
+
+function getThreeDates() {
+  array = [];
+  array.push(moment().day(6).format("DD.MM.YYYY"), moment().day(13).format("DD.MM.YYYY"), moment().day(20).format("DD.MM.YYYY"));
+  return array;
 }
 
 router.get("/support", function (req, res) {
@@ -107,10 +53,11 @@ router.all("*", function(req,res, next){
 
 router.get("/",  function (req, res) {
   try {
-  dates = getThreeDatesSz()
-  setTimeout(() => {
   if(req.query.loc == "gr" || req.query.loc == "sz") req.session.location = req.query.loc;
   if(!req.session.location) req.session.location = "sz";
+  var dates = getThreeDates();
+  if(req.session.location == "sz")dates = getThreeDatesSz();
+  setTimeout(() => {
   if(!dates.includes(req.session.shiftDate)) req.session.shiftDate = dates[0]
   database.query(
     "SELECT * FROM volunteerShifts WHERE date = ?;",
@@ -250,16 +197,9 @@ router.post("/support", function (req, res) {
   supportRequest(req, res);
 });
 router.get("/otherWeek/", function (req, res) {
-  function getNextMonth(){
-    var date = new Date();
-    var lastDay = new Date(date.getFullYear(), date.getMonth()+1, 0);
-    if(lastDay.getMonth()+1 < 10){ return lastDay.getDate()+".0"+(lastDay.getMonth()+1)+"."+lastDay.getFullYear();
-  }else{return lastDay.getDate()+"."+(lastDay.getMonth()+1)+"."+lastDay.getFullYear();
-}  
-    
-}
-var nextMonth = getNextMonth()
-  res.render("public/timetable/otherWeek", { dates: getThreeDatesSz(), nextDate: getThreeDatesSz()[0], redirect: req.session.redirect.replace("&amp;", "&") });
+  var dates = getThreeDates();
+  if(req.session.location == "sz")dates = getThreeDatesSz();
+  res.render("public/timetable/otherWeek", { dates: dates, nextDate: dates[0], redirect: req.session.redirect.replace("&amp;", "&") });
 });
 router.post("/chooseDate/", function (req, res) {
   if (!getThreeDatesSz().includes(req.body.date)) return res.json({ success: false });

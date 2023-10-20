@@ -14,7 +14,7 @@
 
 <body>
     <div class="content wideContent">
-        <div class="topBtn" onclick="window.location = '/admin/';">
+        <div class="topBtn" onclick="window.location = '/admin/entry';">
             <img src="/images/svg/ArrowBack.svg" alt="">
         </div>
         <div class="toptitle title">
@@ -58,13 +58,17 @@
 
     document.addEventListener("keypress", function (e) {
         if (e.key == "Enter") {
-            console.log(temp, lastresult)
             var temp = str;
-            if (temp == lastresult) return;
+            console.log(str)
+            if (temp == lastresult) {
+                str = '';
+                return
+            }
             str = '';
             lastresult = temp;
-
             $('.message').hide()
+            $('.cross, .tick').hide()
+
             $('center').hide()
             $.ajax({
                 url: '/admin/entry',

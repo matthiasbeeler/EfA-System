@@ -65,7 +65,6 @@ router.post("/login", function (req, res) {
 });
 
 router.all(["*"], function (req, res, next) {
-  console.log("hi")
   try {
     if (jwt.verify(req.cookies.EfAPassAuth, process.env.jwtSecret).loggedin){
       req.session.timetableType = "pass";

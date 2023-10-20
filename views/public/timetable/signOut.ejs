@@ -38,6 +38,12 @@
             <div class="button" onclick="$('form').submit()"><%= __('Search')%></div>
             <input id="submitButton" type="submit" value="" style="display: none;">
         </form>
+        <div class="infoContent" style="display: none;">
+            <center>
+            <img src="/images/svg/infoIcon.svg" alt="">
+            <h2><%=__('Please press the shift from which you wish to sign out.')%></h2>
+        </center>
+        </div>
         <div class="searchContent">
             <div class="titleBar">
                 <div class="leftText"><%= __('Shiftname')%></div>
@@ -68,7 +74,10 @@
 
 </html>
 <script>
-   
+     var locations = {
+        "sz": "Steinbislin 9, 6423 Seewen",
+        "gr": "Planaterra 11, 7000 Chur GR"
+    }
     function hideSuccess() {
         $('.success').hide()
         $('.success').css('opacity', "0")
@@ -84,7 +93,7 @@
         $(`#${id}`).attr("onclick",
             `removeSubmit('${$("#"+id+" .leftText").html()}', '${$("#"+id+" .rightText").html()}','${id}')`)
         $(`#${id}`).html("<%= __('Press again to sign out')%>");
-        $(`#${id}`).toggleClass('greenSearchElement')
+        $(`#${id}`).toggleClass('redShadowNoOffset')
     }
 
     function removeSubmit(shiftType, shiftTime, id) {
@@ -95,6 +104,7 @@
         $('.searchContent').hide()
         $('.button').hide()
         $('.loader').show()
+        $('.infoContent').hide()
         $('.buttonContainer, .dateTitle, .seperator').hide()
         console.log(shiftType, shiftTime)
         $.ajax({
@@ -154,10 +164,34 @@
                     var i = 0;
                     array.forEach(element => {
                         var obj =
-                            `<div class="searchElement redSearchElement" id="searchElement${i}" onclick="remove('searchElement${i}')"><div class="leftText text">${arr[element].shiftName}</div><div class="centerSeperator"></div><div class="rightText text">${element}</div><div class="emailText text" style="display: none;"></div><img src="/images/svg/delete.svg" alt=""></div>`
+                            `
+                            <div class="shiftTile grayShadowNoOffset" id="searchElement${i}" onclick="remove('searchElement${i}')">
+                    <div class="left">
+                        <div class="shiftTitle">
+                            ${arr[element].shiftName}
+                        </div>
+                        <div class="shiftTime">
+                            ${element} Uhr
+                        </div>
+                    </div>
+                    <div class="shiftTileSeperator">
+
+                    </div>
+                    <div class="right">
+                        <div class="location">
+                            <img src="/images/svg/location.svg" alt="">
+                        </div>
+                        <div class="text">
+                            ${locations[arr[element].location]}
+                        </div>
+                    </div>
+                </div>
+                <div class="spacing5"></div>
+                            <!--<div class="searchElement redSearchElement" id="searchElement${i}" onclick="remove('searchElement${i}')"><div class="leftText text">${arr[element].shiftName}</div><div class="centerSeperator"></div><div class="rightText text">${element}</div><div class="emailText text" style="display: none;"></div><img src="/images/svg/delete.svg" alt=""></div>-->`
                         i++;
                         $('.searchContent').append(obj)
                     });
+                    if(i > 0) $('.infoContent').show()
 
                 }
                 if (data.success == false) {
