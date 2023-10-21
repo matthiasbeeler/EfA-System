@@ -84,7 +84,7 @@
                 $('.noFreeShifts').show()
             }
         </script>
-        <div class="button" onclick="$('form').submit()" style="display: none;"><%= __('contiune')%></div>
+        <div class="button" onclick="$('form').submit()" style="display: none;"><%= __('continue')%></div>
         <br>
 
         <div class="buttonContainer">
@@ -157,13 +157,15 @@ $("select > option").each(function () {
     $("form").submit(function(e) {
         e.preventDefault();
         if(!$("#name").val() || !$('#email').val()) return $(".button").show();
+        $('.button').hide()
         $("form").hide();
         $('.buttonContainer').hide()
         $('.centerSiteTitle').hide()
-        $('.button').hide()
         $('.locationContainer').hide()
-        $('.loader').show()
-        
+        $('.loader').show();
+        $('.powered').hide();
+        $('.button').css('display', 'none')
+
         $.ajax({
             url: '/timetable',
             type: 'POST',
