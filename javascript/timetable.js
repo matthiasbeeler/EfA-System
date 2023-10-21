@@ -195,10 +195,8 @@ exports.signOut = function (request, response, database) {
     "SELECT * FROM volunteers WHERE name = ? AND email = ?;",
     [request.session.volunteerName, request.session.volunteerEmail],
     function (error, results, fields) {
-      console.log(results[0].shifts)
       if (error) console.log(error);
       if (error) return response.json({ success: false });
-      console.log("1:" + JSON.stringify(results))
       if (!results.length > 0) {
         response.json({ success: false });
       } else {

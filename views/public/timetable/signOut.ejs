@@ -61,7 +61,7 @@
         </div>
         <div id="timetableLoader" class=" loader lds-ripple" style="display: none;">
             <div></div>
-            <div></div>
+            <div ></div>
         </div>
 
         <br>
@@ -90,13 +90,15 @@
     }
 
     function remove(id) {
+        var shiftData = $(`#${id}`).data('shift').split(";");
+        console.log(shiftData)
         $(`#${id}`).attr("onclick",
-            `removeSubmit('${$("#"+id+" .leftText").html()}', '${$("#"+id+" .rightText").html()}','${id}')`)
+            `removeSubmit('${shiftData[0]}', '${shiftData[1]}','${shiftData[2]}','${id}')`)
         $(`#${id}`).html("<%= __('Press again to sign out')%>");
         $(`#${id}`).toggleClass('redShadowNoOffset')
     }
 
-    function removeSubmit(shiftType, shiftTime, id) {
+    function removeSubmit(shiftType, shiftTime, location, id) {
         console.log("hi")
         $("form").hide();
         $('.buttonContainer').hide()
@@ -113,7 +115,8 @@
             cache: false,
             data: {
                 shiftName: shiftType,
-                shiftTime: shiftTime
+                shiftTime: shiftTime,
+                location: location
             },
             success: function (data) {
                 if (data.success == true) {
@@ -165,7 +168,7 @@
                     array.forEach(element => {
                         var obj =
                             `
-                            <div class="shiftTile grayShadowNoOffset" id="searchElement${i}" onclick="remove('searchElement${i}')">
+                            <div class="shiftTile grayShadowNoOffset" id="searchElement${i}" data-shift="${arr[element].shiftName};${element};${arr[element].location}" onclick="remove('searchElement${i}')">
                     <div class="left">
                         <div class="shiftTitle">
                             ${arr[element].shiftName}
