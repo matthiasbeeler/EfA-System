@@ -128,7 +128,7 @@ div.removeZemis{
     width:  calc(87% + 4px);
 }
 .topBtn{
-    display: flex;
+    display: inline-flex;
     padding: 1%;
     justify-content: center;
     background: white;
@@ -340,6 +340,18 @@ input.smallInput{
     background: var(--blockBtnColour);
 }
 
+
+.accountIcon{
+    width: 13%;
+    margin-right: 4%;
+    margin-left: auto;
+    margin-top: 3%;
+}
+
+.accountIcon img{
+    width: 100%;
+    aspect-ratio: 1/1;
+}
 
 @keyframes rotate {
     to {

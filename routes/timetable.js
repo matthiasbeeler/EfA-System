@@ -202,7 +202,12 @@ router.get("/otherWeek/", function (req, res) {
   res.render("public/timetable/otherWeek", { dates: dates, nextDate: dates[0], redirect: req.session.redirect.replace("&amp;", "&") });
 });
 router.post("/chooseDate/", function (req, res) {
-  if (!getThreeDatesSz().includes(req.body.date)) return res.json({ success: false });
+  if(req.session.location == "sz"){
+    if (!getThreeDatesSz().includes(req.body.date)) return res.json({ success: false });
+  }
+  if(req.session.location == "gr"){
+    if (!getThreeDates().includes(req.body.date)) return res.json({ success: false });
+  }
   database.query(
     "SELECT * FROM volunteerShifts WHERE date = ?;",
     [req.body.date],

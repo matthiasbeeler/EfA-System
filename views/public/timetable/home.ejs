@@ -20,7 +20,12 @@
             <img src="/images/svg/ArrowBackBlack.svg" alt="">
         </div>
         <%}%>
-
+        <%if(timetableType !== "pass"){%>
+            <div class="accountIcon" onclick="window.location = '/timetable/pass/settings'">
+                <img src="/images/svg/accountIcon.svg" alt="">
+            </div>
+            <%}%>
+        
         <h1 class="centerSiteTitle">Essen für Alle <%= __('timetable')%> <%if(loc == "gr") {%>Chur<%}%> <%if(loc == "sz") {%>Seewen<%}%></h1>
         <div class="seperator"></div>
             <h2 class="smallTitle">
@@ -94,6 +99,12 @@
                     <img src="/images/svg/timetable/otherWeek.svg" alt="">
                 </div>
             </a>
+            <a href="/timetable/location">
+                <div class="timetableLink">
+                    <img src="/images/svg/timetable/location.svg" alt="">
+                </div>
+            </a>
+
             <a href="/timetable/signOut">
 
                 <div class="timetableLink">
@@ -106,13 +117,8 @@
                     <img src="/images/svg/timetable/support.svg" alt="">
                 </div>
             </a>
-            <!--
-            <a href="/timetable/location">
-                <div class="timetableLink">
-                    <img src="/images/svg/timetable/location.svg" alt="">
-                </div>
-            </a>
--->
+            
+            
             </div>
         </div>
 

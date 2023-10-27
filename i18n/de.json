@@ -10,7 +10,7 @@
 	"contiune": "Weiter",
 	"Our location in Seewen SZ": "Unser Standort in Seewen SZ",
 	"At the moment, there aren't any free posts available for the selected date. Thank you for you help.": "Momentan gibt es am ausgewählten Datum keine freien Schichten. Vielen Dank für deine Unterstützung.",
-	"An error occured. Please try again in a couple of minutes.": "Es gab einen Fehler. Bitte versuche es in ein Paar Minuten erneut.",
+	"An error occured. Please try again in a couple of minutes.": "Es gab einen Fehler. Bitte versuche es später erneut.",
 	"Your registration was successful": "Deine anmeldung war erfolgreich",
 	"This is your personal QR-Code. Please show it to a coordinator, as soon as you get to us.": "Dies ist dein persönlicher QR-Code. Bitte zeige ihn vor, sobald du helfen kommst.",
 	"Support": "Support",
@@ -23,7 +23,7 @@
 	"Shiftname": "Schicht",
 	"Shifttime": "Uhrzeit",
 	"Please choose a date": "Bitte wähle ein Datum",
-	"This date is not yet available. Please try again in a couple of minutes.": "Dieses Datum ist noch nicht verfügbar. Bitte versuche es in ein Paar Minuten erneut.",
+	"This date is not yet available. Please try again in a couple of minutes.": "Dieses Datum ist noch nicht verfügbar. Bitte versuche es später erneut.",
 	"Press again to sign out": "Nochmals drücken um zu bestätigen",
 	"You were signed out successfully": "Du wurdest erfolgreich abgemeldet.",
 	"Do you want to sign out from more shifts?": "Do you want to sign out from more shifts?",
@@ -90,5 +90,6 @@
 	"Today": "Heute",
 	"Profilbild": "Profilbild",
 	"Please press the shift from which you wish to sign out.": "Please press the shift from which you wish to sign out.",
-	"continue": "continue"
+	"continue": "continue",
+	"Please choose a location": "Please choose a location"
 }
