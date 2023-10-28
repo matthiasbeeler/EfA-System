@@ -30,8 +30,12 @@ saveSatFirstThree = saveSat.slice(0,3)
 }
 
 function getThreeDates() {
+  var now  = new Date();
+  if(now.getDay() == 6){
+    now.setDate(now.getDate() + 1)
+  }
   array = [];
-  array.push(moment().day(6).format("DD.MM.YYYY"), moment().day(13).format("DD.MM.YYYY"), moment().day(20).format("DD.MM.YYYY"));
+  array.push(moment(now).day(6).format("DD.MM.YYYY"), moment(now).day(13).format("DD.MM.YYYY"), moment(now).day(20).format("DD.MM.YYYY"));
   return array;
 }
 

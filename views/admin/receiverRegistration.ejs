@@ -366,8 +366,8 @@
     $('.entitlementInfo').hide()
     $('#entitlement').css('border', '2px solid white');
     if (!$('#familyMembers').val()) return;
-    if ($('#entitlement').val() == "B" && Number($('#familyMembers').val().split(':')[1]) + 1 >= 5) return true;
-    if ($('#entitlement').val() == "A" && Number($('#familyMembers').val().split(':')[1]) + 1 <= 4) return true;
+    if ($('#entitlement').val() == "B" && Number($('#familyMembers').val().split(':')[1]) >= 5) return true;
+    if ($('#entitlement').val() == "A" && Number($('#familyMembers').val().split(':')[1]) <= 4) return true;
     $('#entitlement').css('border', '2px solid red');
     $('#entitlement').val('');
     $('.entitlementInfo').show();
