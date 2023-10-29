@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 
 exports.signupPass = function (request, response, database) {
     try {
-  var locationArray = ["Zürich Manegg", "Seewen SZ", "Chur"];
+  var locationArray = ["Zürich Manegg", "Seewen SZ", "Chur GR"];
   let name = request.body.name;
   let email = request.body.email;
   let mainLocation = request.body.mainLocation;
