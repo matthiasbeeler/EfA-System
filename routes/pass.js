@@ -23,8 +23,8 @@ router.get(["/", "/login", "/signup"], function (req, res, next) {
 });
 
 router.get("/", function (req, res) {
-  console.log("red: "+req.session.redirect.replace("&amp;", "&"))
-  res.render("public/timetable/pass/start", {redirect: req.session.redirect.replace("&amp;", "&")});
+  if(req.session.redirect) return res.render("public/timetable/pass/start", {redirect: req.session.redirect.replace("&amp;", "&")});
+  return res.render("public/timetable/pass/start", {redirect: ""});
 });
 
 router.get("/login", function (req, res) {
