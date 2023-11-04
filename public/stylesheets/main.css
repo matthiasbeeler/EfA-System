@@ -508,8 +508,8 @@ div.false{
         display: inline-block;
     }
     .wideContent #cardScanReader{
-        width: 30%;
-        margin-left: 4%;
+        width: 30% !important;
+        margin-left: 4% !important;
 
     }
     
