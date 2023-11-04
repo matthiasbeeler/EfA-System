@@ -507,6 +507,11 @@ div.false{
         width: 30%;
         display: inline-block;
     }
+    .wideContent #cardScanReader{
+        width: 30%;
+        margin-left: 4%;
+
+    }
     
     .sideTitle{
         font-weight: bold;
