@@ -19,129 +19,136 @@ exports.register = function (request, response, database) {
         if (results.length > 0) {
           var uuid = results[0].id;
         }
-    database.query(
-      "SELECT * FROM volunteerShifts WHERE date = ?;",
-      [request.session.shiftDate],
-      function (error, results, fields) {
-        console.log(error)
-        var shiftJson = results[0]["shifts"+request.session.location];
-        var signedUpShifts = [];
-        shiftName = "";
-        request.body.timeCheck.forEach((e) => {
-          if (e == 0) return;
-          shiftJson.forEach((el) => {
-            if (el.id !== request.session.shiftId) return;
-            shiftName = el.shiftName;
-            el["shifts"].forEach((element) => {
-              if (element.smallShiftId !== e) return;
-              var endFreeSpots = element.freeSpots - 1;
-              element.freeSpots = endFreeSpots;
-              element.volunteers[uuid] = false;
-              signedUpShifts.push(`${element.shiftTime}`);
-              timeArray.push(element.shiftTime);
-            });
-          });
-        });
         database.query(
-          "SELECT * FROM volunteers WHERE name LIKE ? AND email LIKE ?;",
-          [
-            `%${request.session.volunteerName}%`,
-            `%${request.session.volunteerEmail}%`,
-          ],
+          "SELECT * FROM volunteerShifts WHERE date = ?;",
+          [request.session.shiftDate],
           function (error, results, fields) {
-            if (results.length > 0) {
-              var stopProcess = 0;
-              timeArray.forEach((ele) => {
-                if (ele == 0) return;
-                if(results[0].shifts == null) results[0].shifts = {}
-                if(!results[0].shifts[request.session.shiftDate]) results[0].shifts[request.session.shiftDate] = {};
-                if (results[0].shifts[request.session.shiftDate][ele]) stopProcess = 1;
-                results[0]["shifts"][request.session.shiftDate][ele] = {
-                  shiftName: shiftName,
-                  location: request.session.location
-                };
+            console.log(error);
+            var shiftJson = results[0]["shifts" + request.session.location];
+            var signedUpShifts = [];
+            shiftName = "";
+            request.body.timeCheck.forEach((e) => {
+              if (e == 0) return;
+              shiftJson.forEach((el) => {
+                if (el.id !== request.session.shiftId) return;
+                shiftName = el.shiftName;
+                el["shifts"].forEach((element) => {
+                  if (element.smallShiftId !== e) return;
+                  var endFreeSpots = element.freeSpots - 1;
+                  element.freeSpots = endFreeSpots;
+                  element.volunteers[uuid] = false;
+                  signedUpShifts.push(`${element.shiftTime}`);
+                  timeArray.push(element.shiftTime);
+                });
               });
-              var volunteerId = results[0].id;
-              if (stopProcess == 1) return response.json({ success: false });
-              database.query(
-                "UPDATE volunteers SET shifts = ? WHERE id = ?;",
-                [JSON.stringify(results[0]["shifts"]), results[0].id],
-                function (error, results, fields) {
-                  if (error) console.log(error);
-                  if (error) return response.json({ success: false });
+            });
+            database.query(
+              "SELECT * FROM volunteers WHERE name LIKE ? AND email LIKE ?;",
+              [
+                `%${request.session.volunteerName}%`,
+                `%${request.session.volunteerEmail}%`,
+              ],
+              function (error, results, fields) {
+                if (results.length > 0) {
+                  var stopProcess = 0;
+                  timeArray.forEach((ele) => {
+                    if (ele == 0) return;
+                    if (results[0].shifts == null) results[0].shifts = {};
+                    if (!results[0].shifts[request.session.shiftDate])
+                      results[0].shifts[request.session.shiftDate] = {};
+                    if (results[0].shifts[request.session.shiftDate][ele])
+                      stopProcess = 1;
+                    results[0]["shifts"][request.session.shiftDate][ele] = {
+                      shiftName: shiftName,
+                      location: request.session.location,
+                    };
+                  });
+                  var volunteerId = results[0].id;
+                  if (stopProcess == 1)
+                    return response.json({ success: false });
                   database.query(
-                    "UPDATE volunteerShifts SET shifts"+request.session.location+" = ? WHERE date = ?;",
-                    [JSON.stringify(shiftJson), request.session.shiftDate],
+                    "UPDATE volunteers SET shifts = ? WHERE id = ?;",
+                    [JSON.stringify(results[0]["shifts"]), results[0].id],
                     function (error, results, fields) {
                       if (error) console.log(error);
                       if (error) return response.json({ success: false });
-                      timetableRegistration(
-                        request,
-                        timeArray,
-                        volunteerId,
-                        shiftName,
-                        request.session.location
+                      database.query(
+                        "UPDATE volunteerShifts SET shifts" +
+                          request.session.location +
+                          " = ? WHERE date = ?;",
+                        [JSON.stringify(shiftJson), request.session.shiftDate],
+                        function (error, results, fields) {
+                          if (error) console.log(error);
+                          if (error) return response.json({ success: false });
+                          timetableRegistration(
+                            request,
+                            timeArray,
+                            volunteerId,
+                            shiftName,
+                            request.session.location
+                          );
+                          if (!error)
+                            return response.json({
+                              success: true,
+                              volunteerId: volunteerId,
+                              location: request.session.location,
+                            });
+                        }
                       );
-                      if (!error)
-                        return response.json({
-                          success: true,
-                          volunteerId: volunteerId,
-                          location: request.session.location
-                        });
                     }
                   );
-                }
-              );
-            } else {
-              var dateData = {};
-              timeArray.forEach((ele) => {
-                if (ele == 0) return;
-                if (dateData[ele]) stopProcess = 1;
-                dateData[request.session.shiftDate] = {};
-                dateData[request.session.shiftDate][ele] = {
-                  shiftName: shiftName,
-                  location: request.session.location
-                };
-              });
-              database.query(
-                "INSERT INTO volunteers (`id`,`name`,`email`,`shifts`) VALUES(?,?,?,?)",
-                [
-                  uuid,
-                  request.session.volunteerName,
-                  request.session.volunteerEmail,
-                  JSON.stringify(dateData),
-                ],
-                function (error, results, fields) {
-                  if (error) console.log(error);
-                  if (error) return response.json({ success: false });
+                } else {
+                  var dateData = {};
+                  timeArray.forEach((ele) => {
+                    if (ele == 0) return;
+                    if (dateData[ele]) stopProcess = 1;
+                    dateData[request.session.shiftDate] = {};
+                    dateData[request.session.shiftDate][ele] = {
+                      shiftName: shiftName,
+                      location: request.session.location,
+                    };
+                  });
                   database.query(
-                    "UPDATE volunteerShifts SET shifts"+request.session.location+" = ? WHERE date = ?;",
-                    [JSON.stringify(shiftJson), request.session.shiftDate],
+                    "INSERT INTO volunteers (`id`,`name`,`email`,`shifts`) VALUES(?,?,?,?)",
+                    [
+                      uuid,
+                      request.session.volunteerName,
+                      request.session.volunteerEmail,
+                      JSON.stringify(dateData),
+                    ],
                     function (error, results, fields) {
                       if (error) console.log(error);
                       if (error) return response.json({ success: false });
-                      timetableRegistration(
-                        request,
-                        timeArray,
-                        uuid,
-                        shiftName
+                      database.query(
+                        "UPDATE volunteerShifts SET shifts" +
+                          request.session.location +
+                          " = ? WHERE date = ?;",
+                        [JSON.stringify(shiftJson), request.session.shiftDate],
+                        function (error, results, fields) {
+                          if (error) console.log(error);
+                          if (error) return response.json({ success: false });
+                          timetableRegistration(
+                            request,
+                            timeArray,
+                            uuid,
+                            shiftName
+                          );
+                          if (!error)
+                            return response.json({
+                              success: true,
+                              volunteerId: uuid,
+                            });
+                        }
                       );
-                      if (!error)
-                        return response.json({
-                          success: true,
-                          volunteerId: uuid,
-                        });
                     }
                   );
                 }
-              );
-            }
+              }
+            );
           }
         );
       }
     );
-  })
-
   } catch (error) {
     console.log(error);
     if (error) return response.json({ success: false });
@@ -150,44 +157,45 @@ exports.register = function (request, response, database) {
 
 exports.searchSignOut = function (request, response, database) {
   try {
-  var beforedate = new Date();
-  var tomorrow = new Date();
+    var beforedate = new Date();
+    var tomorrow = new Date();
 
-  var start = moment(new Date().setDate(beforedate.getDate()-6)), // Sept. 1st
-    end = moment(new Date().setDate(tomorrow.getDate() + 35)), // Nov. 2nd
-    day = 6; // saturday
-  var result = [];
-  var current = start.clone();
-  while (current.day(7 + day).isBefore(end)) {
-    result.push(current.clone());
-  }
-  var result = result.map((m) => m.format("DD.MM.YYYY"));
-  console.log(result.includes(request.body.date))
-  if(request.body.date){
-    if (result.includes(request.body.date)) {request.session.shiftDate = request.body.date}else{
-      request.session.redirect = "/timetable"+request.url.replace('date=','');;
-      return response.json({success: false, message: "date"});
+    var start = moment(new Date().setDate(beforedate.getDate() - 6)), // Sept. 1st
+      end = moment(new Date().setDate(tomorrow.getDate() + 35)), // Nov. 2nd
+      day = 6; // saturday
+    var result = [];
+    var current = start.clone();
+    while (current.day(7 + day).isBefore(end)) {
+      result.push(current.clone());
     }
-  }
-  
-  database.query(
-    "SELECT * FROM volunteers WHERE name LIKE ? AND email = ?;",
-    [`%${request.body.name}%`, request.body.email],
-    function (error, results, fields) {
-      if (!results.length > 0) {
-        response.json({ success: false });
+    var result = result.map((m) => m.format("DD.MM.YYYY"));
+    console.log(result.includes(request.body.date));
+    if (request.body.date) {
+      if (result.includes(request.body.date)) {
+        request.session.shiftDate = request.body.date;
       } else {
-        request.session.volunteerName = results[0].name;
-        request.session.volunteerEmail = request.body.email;
-        response.json({ success: true, data: results });
+        request.session.redirect =
+          "/timetable" + request.url.replace("date=", "");
+        return response.json({ success: false, message: "date" });
       }
     }
-  );
-  
-    
-} catch (error) {
-    console.log(error)
-}
+
+    database.query(
+      "SELECT * FROM volunteers WHERE name LIKE ? AND email = ?;",
+      [`%${request.body.name}%`, request.body.email],
+      function (error, results, fields) {
+        if (!results.length > 0) {
+          response.json({ success: false });
+        } else {
+          request.session.volunteerName = results[0].name;
+          request.session.volunteerEmail = request.body.email;
+          response.json({ success: true, data: results });
+        }
+      }
+    );
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 exports.signOut = function (request, response, database) {
@@ -200,27 +208,30 @@ exports.signOut = function (request, response, database) {
       if (!results.length > 0) {
         response.json({ success: false });
       } else {
-        var location =  results[0].shifts[request.session.shiftDate][request.body.shiftTime].location;
-        delete results[0].shifts[request.session.shiftDate][request.body.shiftTime];
+        var location =
+          results[0].shifts[request.session.shiftDate][request.body.shiftTime]
+            .location;
+        delete results[0].shifts[request.session.shiftDate][
+          request.body.shiftTime
+        ];
         var volunteerShifts = results[0].shifts;
         var volunteerId = results[0].id;
         database.query(
           "SELECT * FROM volunteerShifts WHERE date = ? ;",
           [request.session.shiftDate],
           function (error, results, fields) {
-            console.log("2:" + results)
 
             if (error) console.log(error);
             if (error) return response.json({ success: false });
-            results[0]["shifts"+location].forEach((element) => {
+            results[0]["shifts" + location].forEach((element) => {
               if (element.shiftName !== request.body.shiftName) return;
               element["shifts"].forEach((detailShift) => {
                 if (detailShift.shiftTime !== request.body.shiftTime) return;
-                detailShift.freeSpots = Number(detailShift.freeSpots)+1;
+                detailShift.freeSpots = Number(detailShift.freeSpots) + 1;
                 delete detailShift.volunteers[volunteerId];
               });
             });
-            var shiftData = results[0]["shifts"+location];
+            var shiftData = results[0]["shifts" + location];
             database.query(
               "UPDATE volunteers SET shifts = ? WHERE id = ?;",
               [JSON.stringify(volunteerShifts), volunteerId],
@@ -228,14 +239,16 @@ exports.signOut = function (request, response, database) {
                 if (error) console.log(error);
                 if (error) return response.json({ success: false });
                 database.query(
-                  "UPDATE volunteerShifts SET shifts"+location+" = ? WHERE date = ?;",
+                  "UPDATE volunteerShifts SET shifts" +
+                    location +
+                    " = ? WHERE date = ?;",
                   [JSON.stringify(shiftData), `${request.session.shiftDate}`],
                   function (error, results, fields) {
                     if (error) console.log(error);
                     if (error) return response.json({ success: false });
                     request.session.shiftTime = request.body.shiftTime;
                     request.session.shiftName = request.body.shiftName;
-                    signOutEmail(request, response)
+                    signOutEmail(request, response);
                     return response.json({ success: true, data: results });
                   }
                 );
@@ -246,4 +259,59 @@ exports.signOut = function (request, response, database) {
       }
     }
   );
+};
+
+exports.createNewShiftDate = function (request, response, database) {
+ var locations = ["sz", "gr"]
+  request.session.shiftDate = request.body.date;
+  var date = request.body.date;
+  const location = request.session.location;
+  if(!locations.includes(location)) return console.log("Not available location");
+  database.query(
+    "SELECT * FROM  volunteerShifts where date = 'template';",
+    function (error, results, fields) {
+    if (error) console.log(error);
+      var templates = results;
+
+  database.query(
+    "SELECT * FROM  volunteerShifts where date = ?;",
+    [date],
+    function (error, results, fields) {
+      if (error) console.log(error);
+      if(!results.length > 0){
+        database.query(
+          "INSERT INTO volunteerShifts(date) VALUES(?);",
+          [date],
+          function (error, results, fields) {
+            if (error) console.log(error);
+          }
+          );
+      }
+    }
+    );
+  
+      database.query(
+        "SELECT shifts"+location+" FROM volunteerShifts WHERE date = ?;",
+        [date],
+        function (error, results, fields) {
+          if (error) console.log(error);
+          if (error) return response.json({ success: false, message: "NA" });
+          if(results.length > 0){
+          if (results[0]["shifts"+location] !== null) return response.json({ success: true });
+          }
+          database.query(
+            "UPDATE volunteerShifts SET shifts"+location+" = ? WHERE date = ?;",
+            [
+              JSON.stringify(templates[0]["shifts"+location]),
+              date,
+            ],
+            function (error, results, fields) {
+              if (error) console.log(error);
+              if (error) return response.json({ success: false });
+              if (!error) return response.json({ success: true });
+            }
+          );
+        }
+      );
+      })
 };

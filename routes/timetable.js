@@ -3,7 +3,7 @@ const { database } = require("../javascript/db");
 const moment = require("moment");
 const jwt = require("jsonwebtoken");
 const { parsePhoneNumber } = require("libphonenumber-js");
-const { register, searchSignOut, signOut } = require("../javascript/timetable");
+const { register, searchSignOut, signOut, createNewShiftDate } = require("../javascript/timetable");
 var router = express.Router();
 const bwipjs = require("bwip-js");
 const { supportRequest } = require("../javascript/mailer");
@@ -201,9 +201,13 @@ router.post("/support", function (req, res) {
   supportRequest(req, res);
 });
 router.get("/otherWeek/", function (req, res) {
+  if(req.query.loc == "gr" || req.body.loc == "sz") req.session.location = req.query.loc;
+  if(!req.session.location) req.session.location = "sz";
   var dates = getThreeDates();
   if(req.session.location == "sz")dates = getThreeDatesSz();
-  res.render("public/timetable/otherWeek", { dates: dates, nextDate: dates[0], redirect: req.session.redirect.replace("&amp;", "&") });
+  var redirect = "";
+  if(req.session.redirect) redirect = req.session.redirect.replace("&amp;", "&");
+  res.render("public/timetable/otherWeek", { dates: dates, nextDate: dates[0], redirect: redirect});
 });
 router.post("/chooseDate/", function (req, res) {
   if(req.session.location == "sz"){
@@ -216,9 +220,8 @@ router.post("/chooseDate/", function (req, res) {
     "SELECT * FROM volunteerShifts WHERE date = ?;",
     [req.body.date],
     function (error, results, fields) {
-      if (!results.length > 0)
-        return res.json({ success: false, message: "NA" });
-        if(results[0][["shifts"+req.session.location]] == null) return res.json({ success: false, message: "NA" });
+      if (!results.length > 0) return createNewShiftDate(req, res, database);
+        if(results[0][["shifts"+req.session.location]] == null) return createNewShiftDate(req, res, database);
       req.session.shiftDate = req.body.date;
       return res.json({ success: true });
     }
