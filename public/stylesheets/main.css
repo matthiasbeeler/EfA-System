@@ -1,9 +1,9 @@
 :root {
-    --mainInfoColour: #10101b;
-    --mainBtnColour: #484364;
+    --mainInfoColour: #12101B;
+    --mainBtnColour: #3F4451;
     --mainTextColour: #FFFFFF;
     --mainBorderColour: #FFFFFF;
-    --mainBackgroundColour: #211f2f;
+    --mainBackgroundColour: #212529;
     --unblockBtnColour: #0A4500;
     --blockBtnColour: #681A1A;
   }
