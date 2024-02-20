@@ -262,7 +262,7 @@ exports.signOut = function (request, response, database) {
 };
 
 exports.createNewShiftDate = function (request, response, database) {
- var locations = ["sz", "gr"]
+ var locations = ["sz", "gr", "gl"]
   request.session.shiftDate = request.body.date;
   var date = request.body.date;
   const location = request.session.location;

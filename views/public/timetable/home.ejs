@@ -26,7 +26,7 @@
             </div>
             <%}%>
         
-        <h1 class="centerSiteTitle">Essen für Alle <%= __('timetable')%> <%if(loc == "gr") {%>Chur<%}%> <%if(loc == "sz") {%>Seewen<%}%></h1>
+        <h1 class="centerSiteTitle">Essen für Alle <%= __('timetable')%> <%if(loc == "gr") {%>Chur<%}%> <%if(loc == "gl") {%>Glarus<%}%> <%if(loc == "sz") {%>Seewen<%}%></h1>
         <div class="seperator"></div>
             <h2 class="smallTitle">
                 <%=shiftDate%>
@@ -124,13 +124,17 @@
 
         <div class="locationContainer">
             <h2 class="smallTitle">
-                <%if(loc == "gr") {%><%= __('Our location in Chur GR')%><%}%> <%if(loc == "sz") {%><%= __('Our location in Seewen SZ')%><%}%>
+                <%if(loc == "gl") {%><%= __('Our location in Glarus')%><%}%> <%if(loc == "gr") {%><%= __('Our location in Chur GR')%><%}%> <%if(loc == "sz") {%><%= __('Our location in Seewen SZ')%><%}%>
                 
             </h2>
             <%if(loc == "gr") {%>
                 <iframe frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.openstreetmap.org/export/embed.html?bbox=9.533820748329164%2C46.85017620508865%2C9.53615427017212%2C46.85147676861007&amp;layer=mapnik&amp;marker=46.8508255736044%2C9.53498750925064" style="border:0;width:100%;aspect-ratio: 2/1;border-radius: 10px;"></iframe> 
                 Planaterra 11, <br> 7000 Chur GR
                 <%}%>
+                <%if(loc == "gl") {%>
+                    <iframe frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.openstreetmap.org/export/embed.html?bbox=9.06777620315552%2C47.04052944201217%2C9.070109724998476%2C47.04182173333579&amp;layer=mapnik&amp;marker=47.0411755915867%2C9.068942964076996" style="border:0;width:100%;aspect-ratio: 2/1;border-radius: 10px;"></iframe> 
+                    Burgstrasse 26, <br> 8750 Glarus
+                    <%}%>
             <%if(loc == "sz") {%>
             <iframe frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.openstreetmap.org/export/embed.html?bbox=8.627175092697145%2C47.0323435940105%2C8.630715608596804%2C47.03402181345981&amp;layer=mapnik&amp;marker=47.03318271033194%2C8.628945350646973" style="border:0;width:100%;aspect-ratio: 2/1;border-radius: 10px;"></iframe> 
             Steinbislin 9 Seewen SZ <br>

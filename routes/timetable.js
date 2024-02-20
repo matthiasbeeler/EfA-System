@@ -57,10 +57,10 @@ router.all("*", function(req,res, next){
 
 router.get("/",  function (req, res) {
   try {
-  if(req.query.loc == "gr" || req.query.loc == "sz") req.session.location = req.query.loc;
+  if(req.query.loc == "gr" || req.query.loc == "sz" || req.query.loc == "gl") req.session.location = req.query.loc;
   if(!req.session.location) req.session.location = "sz";
   var dates = getThreeDates();
-  if(req.session.location == "sz")dates = getThreeDatesSz();
+  if(req.session.location == "sz"  || req.query.loc == "gl")dates = getThreeDatesSz();
   setTimeout(() => {
   if(!dates.includes(req.session.shiftDate)) req.session.shiftDate = dates[0]
   database.query(
@@ -116,7 +116,7 @@ router.post("/", function (req, res) {
   return res.json({ success: true });
 });
 router.get("/chooseTime", function (req, res) {
-  if(req.query.loc == "gr" || req.body.loc == "sz") req.session.location = req.query.loc;
+  if(req.query.loc == "gr" || req.body.loc == "sz"|| req.body.loc == "gl") req.session.location = req.query.loc;
   if(!req.session.location) req.session.location = "sz";
   var beforedate = new Date();
   var tomorrow = new Date();
@@ -201,16 +201,16 @@ router.post("/support", function (req, res) {
   supportRequest(req, res);
 });
 router.get("/otherWeek/", function (req, res) {
-  if(req.query.loc == "gr" || req.body.loc == "sz") req.session.location = req.query.loc;
+  if(req.query.loc == "gr" || req.query.loc == "sz" || req.query.loc == "gl") req.session.location = req.query.loc;
   if(!req.session.location) req.session.location = "sz";
   var dates = getThreeDates();
-  if(req.session.location == "sz")dates = getThreeDatesSz();
+  if(req.session.location == "sz"  || req.session.location == "gl")dates = getThreeDatesSz();
   var redirect = "";
   if(req.session.redirect) redirect = req.session.redirect.replace("&amp;", "&");
   res.render("public/timetable/otherWeek", { dates: dates, nextDate: dates[0], redirect: redirect});
 });
 router.post("/chooseDate/", function (req, res) {
-  if(req.session.location == "sz"){
+  if(req.session.location == "sz"  || req.session.location == "gl"){
     if (!getThreeDatesSz().includes(req.body.date)) return res.json({ success: false });
   }
   if(req.session.location == "gr"){
