@@ -73,8 +73,8 @@
 
       </div>
     </div>
-    <!--<div class="button buttonImage fixedButton" onchange="$(this).css('border', '2px solid white');"
-    onclick="window.location = '/admin/volunteers/lookup'">Freiwilligensuche</div>-->
+    <div class="button buttonImage fixedButton" onchange="$(this).css('border', '2px solid white');"
+    onclick="window.location = '/admin/volunteers/lookup'">Freiwilligensuche</div>
     <div class="tick">
       <img src="/images/svg/greenTick.svg" alt="">
     </div>
@@ -83,7 +83,6 @@
     </div>
     <br>
   </div>
-
 </body>
 
 </html>
@@ -109,7 +108,7 @@
     var volunteerDiv = "";
       $.each(shift.volunteers, function(is, item) {
         $.each(volunteerData, function(i, item) {
-          if(item.id == is) volunteerDiv = volunteerDiv+`<li>${item.name}</li>`
+          if(item.id == is) volunteerDiv = volunteerDiv+`<li><a href="/admin/volunteers/${item.id}">${item.name}</a></li>`
         })
       })
       var freeSpots = "Freie Schichten: "+shift.freeSpots

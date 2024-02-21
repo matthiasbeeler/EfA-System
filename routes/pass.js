@@ -176,6 +176,28 @@ router.all('/uploads/profileImages/:id', function(req, res, next) {
 }
 });
 
+router.all('/uploads/profileImagesAdmin/:id', function(req, res, next) {
+  try {
+  var imagePath;
+  if(validate(req.params.id.split(".")[0]) && req.params.id.split(".").length == 2 && req.params.id.split(".")[1] == "webp") {
+    imagePath = req.params.id;
+  }else{
+    imagePath = "0"
+  }
+  fs.readFile(process.cwd()+ "/uploads/efaPassImages/"+imagePath, (err, data) => {
+    if (!err && data) {
+      return res.sendFile(process.cwd()+ "/uploads/efaPassImages/"+imagePath)
+    }else{
+      return res.sendFile(process.cwd()+ "/uploads/efaPassImages/"+imagePath)
+    }
+  })
+
+    
+} catch (error) {
+    console.log(error)
+}
+});
+
 
 router.get("/logout", (req, res) => {
   res.clearCookie("EfAPassAuth");

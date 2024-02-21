@@ -30,10 +30,14 @@ select option{
     background-color: var(--mainBackgroundColour);
 }
 
-.powered{
+.powered, .timetableButton{
     width: 90%;
     margin-left: 5%;
     margin-top: 5%;
+}
+
+.timetableButton {
+    border-radius: 20px;
 }
 .administrationSearch .paddingDiv{
     padding-bottom: 2%;
@@ -180,6 +184,12 @@ div.unblockButton{
     font-weight: bold;
     font-size: larger;
 }
+ .searchContent .infoName{
+    margin-left: 5%;
+    font-weight: bold;
+
+}
+
 .infoBlock .info{
     font-size: larger;
 }
@@ -248,6 +258,11 @@ div.unblockButton{
     font-size: x-large;
 }
 
+.overflow .leftText, .overflow .rightText{
+    text-overflow:unset;
+    overflow:visible;
+    white-space:unset;
+}
 
 .title{
     font-weight: bold;
