@@ -184,6 +184,10 @@ div.unblockButton{
     font-size: larger;
 }
 
+.infoBlock.profilePic img{
+    max-width: 100%;
+    max-height: 30vh;
+}
 
 .searchContent{
     margin-top: 3%;
@@ -671,6 +675,12 @@ div.false{
   }
   
   
+.fixedButton{
+    position: fixed;
+    bottom: 10%;
+}
+
+
   @media (min-width: 800px) {
   .cookieNoticeBackground {
     width: 30%;

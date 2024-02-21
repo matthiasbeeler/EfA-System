@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Essen für Alle</title>
+    <script src="https://code.jquery.com/jquery-1.6.2.min.js"></script>
+    <link rel="stylesheet" href="/stylesheets/main.css?v=1">
+</head>
+
+<body>
+    <div class="content wideContent">
+        <div class="topBtn" onclick="window.location = '/admin/'">
+            <img src="/images/svg/ArrowBack.svg" alt="">
+        </div>
+        <form class="searchForm">
+            <div class="message infoBlock">
+                <div class="info"></div>
+            </div>
+            <input type="text" name="name" placeholder="Vorname, Nachname" id="name" onkeyup="searchName()" required>
+            <input type="email" name="email"placeholder="eMail" onkeyup="searchEMail()" id="username" required>
+        </form>
+
+            <div class="searchContent">
+                <div class="titleBar"><div class="leftText">Name</div><div class="centerSeperator"></div><div class="rightText">eMail</div></div>
+                <% results.forEach(function(result) { %>
+                    <div class="searchElement" onclick="window.location = '/admin/volunteers/<%-result.id%>'"><div class="leftText text"><%-result.name%></div><div class="centerSeperator"></div><div class="rightText text"><%-result.email%></div><img src="/images/svg/continue.svg" alt=""></div>
+                <% }); %> 
+
+            </div>
+    </div>
+</body>
+
+</html>
+<script>
+    
+    function searchEMail() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("email");
+        filter = input.value.toUpperCase();
+        table = document.querySelector(".searchContent");
+        tr = table.getElementsByClassName("searchElement");
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByClassName("text")[5];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+    function searchName() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("name");
+        filter = input.value.toUpperCase();
+        table = document.querySelector(".searchContent");
+        tr = table.getElementsByClassName("searchElement");
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByClassName("text")[0];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+ 
+</script>

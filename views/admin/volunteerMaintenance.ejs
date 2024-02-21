@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Essen für Alle</title>
+    <script src="https://code.jquery.com/jquery-1.6.2.min.js"></script>
+    <link rel="stylesheet" href="/stylesheets/main.css">
+</head>
+
+<body>
+    <div class="content">
+        <div class="topBtn" onclick="window.location = '/admin/volunteers/lookup'">
+            <img src="/images/svg/ArrowBack.svg" alt="">
+        </div>
+
+        <div class="toptitle title">
+            <%-shiftData.name%>
+        </div>
+
+
+        <div class="infoBlock profilePic">
+
+            <div class="infoName">Profilbild
+            </div>
+            <div class="info">
+                <img src="/timetable/pass/uploads/profileImages/<%=shiftData.id%>" alt="">
+                
+            </div>
+        </div>
+        <div class="infoBlock">
+
+            <div class="infoName">Name
+            </div>
+            <div class="info">
+                <%-shiftData.name%>
+            </div>
+        </div>
+        <div class="infoBlock">
+
+            <div class="infoName">eMail
+            </div>
+            <div class="info">
+                <%-shiftData.email%>
+            </div>
+        </div>
+        <div class="infoBlock">
+
+            <div class="infoName">Bemerkungen
+            </div>
+            <div class="info">
+                <%-shiftData.comment%>
+            </div>
+        </div>
+        
+        
+                   
+                            <div class="searchContent">
+                                <div class="infoBlock">
+                                <div class="infoName">Essensbezüge
+                                </div>
+                            </div>
+                                <div class="titleBar"><div class="leftText">Uhrzeit</div><div class="centerSeperator"></div><div class="rightText">Datum</div></div>
+                                <div class="searchElement"><div class="leftText text">${shiftName}</div><div class="centerSeperator"></div><div class="rightText text">${shiftDate}, ${shiftTime}</div></div>
+                        </div>
+
+    </div>
+</body>
+
+</html>
+<script>
+     var locations = {
+        "sz": "Steinbislin 9, 6423 Seewen",
+        "gr": "Planaterra 11, 7000 Chur GR",
+        "gl": "Burgstrasse 26, 8750 Glarus"
+    }
+    var shiftData =<%-JSON.stringify(shiftData.shifts) %>;
+    var start = moment('2023-03-02'), // Sept. 1st
+        end = moment('2025-11-02'), // Nov. 2nd
+        day = 6;                    // Sunday
+
+    var result = [];
+    var current = start.clone();
+
+    while (current.day(7 + day).isBefore(end)) {
+        result.push(current.clone());
+    }
+
+    var saveSat = result.map(m => m.format('YYYY-MM-DD'));
+    saveSatDone = []
+    saveSat.forEach(function (element) {
+        if (!moment(element).isBefore(moment().subtract(1, 'days'))) { saveSatDone.push(element) }
+    })
+    saveSatDone = saveSatDone.slice(0, 8)
+    saveSatDone.forEach(element => {
+        if (shiftData.shifts[element.split('-')[2] + "." + element.split('-')[1] + "." + element.split('-')[0]]) {
+            var data = shiftData.shifts[element.split('-')[2] + "." + element.split('-')[1] + "." + element.split('-')[0]];
+            var date = element.split('-')[2] + "." + element.split('-')[1] + "." + element.split('-')[0];
+
+            if(Object.keys(data).length){
+                var showDate = date;
+                if(date == moment().format('DD.MM.YYYY')) showDate = "<%=__('Today')%>";
+            var obj = ` <div class="dateTitle title">
+            ${showDate}
+        </div>
+        <div class="shiftContainer ${element}"></div> 
+        <div class="spacing5"></div>
+`;
+            $('.dateContainer').append(obj)
+            addElements(data, element)
+    }
+        }
+    });
+</script>

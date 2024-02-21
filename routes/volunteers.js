@@ -215,5 +215,35 @@ router.post("/checkIn", function (req, res) {
 });
 
 
+router.get("/lookup", function (req, res, next) {
+  database.query(
+    `SELECT * FROM volunteers;`,
+    function (error, results, fields) {
+      if (error) return res.redirect("/admin");
+      res.render("admin/volunteerSearch", { results: results });
+    }
+  );
+});
+
+router.get("/:id", function (req, res, next) {
+  database.query(
+    "SELECT * FROM volunteers WHERE id = ?;",
+    [req.params.id],
+    function (error, results, fields) {
+        if (error) console.log(error);
+        if (error)
+          return res.json({
+            success: false,
+            error: 4,
+            message: "An error occured.",
+          });
+      if(!error)return res.render("admin/volunteerMaintenance", {
+        shiftData: results[0],
+      });
+    }
+  );
+});
+
+
 
 module.exports = router;
