@@ -4,6 +4,7 @@
     --mainTextColour: #FFFFFF;
     --mainBorderColour: #FFFFFF;
     --mainBackgroundColour: #212529;
+    --mainInputBackgroundColour: #2b3034;
     --unblockBtnColour: #0A4500;
     --blockBtnColour: #681A1A;
   }
@@ -61,15 +62,15 @@ html {
     width: 100%;
 }
 input, select, textarea{
-    border: 2px solid var(--mainBorderColour);
+    border: 1px solid var(--mainTextColour);
+    background-color: var(--mainInputBackgroundColour);
     padding: 2%;
     margin-top: 3%;
     padding-top: 3%;
     padding-bottom: 3%;
     width: 83%;
-    border-radius: 10px;
+    border-radius: 15px;
     margin-left: 6.5%;
-    background: none;
 }
 .noBorderInput{
     border: none;
@@ -334,6 +335,7 @@ div.unblockButton{
 }
 .tile{
     display: block;
+    border-radius: 20px;
 }
 .tile img{
     margin-top: 2%;

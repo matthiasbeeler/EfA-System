@@ -122,14 +122,16 @@ router.get("/chooseTime", function (req, res) {
   var tomorrow = new Date();
 
   var start = moment(new Date().setDate(beforedate.getDate() - 7)), // Sept. 1st
-    end = moment(new Date().setDate(tomorrow.getDate() + 30)), // Nov. 2nd
+    end = moment(new Date().setDate(tomorrow.getDate() + 37)), // Nov. 2nd
     day = 6; // Sunday
+
   var result = [];
   var current = start.clone();
   while (current.day(7 + day).isBefore(end)) {
     result.push(current.clone());
   }
   var result = result.map((m) => m.format("DD.MM.YYYY"));
+
   if (
     req.session.shiftDate == undefined ||
     !result.includes(req.session.shiftDate)
