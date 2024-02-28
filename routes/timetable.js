@@ -16,6 +16,30 @@ function getThreeDatesSz (){
     return date < today;
   }
  var saveSat = []
+ var sat = ['2024-01-13', '2024-01-27', '2024-02-10', '2024-02-24', '2024-03-02', '2024-03-09', '2024-03-23', '2024-04-06', '2024-04-20', '2024-05-04', '2024-05-18', '2024-06-01', '2024-06-15', '2024-06-29', '2024-07-13', '2024-07-27', '2024-08-10', '2024-08-24', '2024-09-07', '2024-09-21', '2024-10-05', '2024-10-19', '2024-11-02', '2024-11-16', '2024-11-30', '2024-12-14', '2024-12-28', '2025-01-11', '2025-01-25', '2025-02-08', '2025-02-22', '2025-03-08', '2025-03-22', '2025-04-05', '2025-04-19', '2025-05-03', '2025-05-17', '2025-05-31', '2025-06-14', '2025-06-28', '2025-07-12', '2025-07-26', '2025-08-09', '2025-08-23', '2025-09-06', '2025-09-20', '2025-10-04', '2025-10-18', '2025-11-01', '2025-11-15', '2025-11-29', '2025-12-13', '2025-12-27', '2026-01-10', '2026-01-24', '2026-02-07', '2026-02-21', '2026-03-07', '2026-03-21', '2026-04-04', '2026-04-18', '2026-05-02', '2026-05-16', '2026-05-30', '2026-06-13', '2026-06-27', '2026-07-11', '2026-07-25', '2026-08-08', '2026-08-22', '2026-09-05', '2026-09-19', '2026-10-03', '2026-10-17', '2026-10-31', '2026-11-14', '2026-11-28', '2026-12-12', '2026-12-26'];
+
+  sat.forEach(function(element) {
+    if(!isInThePast(new Date(element))) saveSat.push(element)
+   });
+saveSatFirstThree = saveSat.slice(0,3)
+ var all = []
+ saveSatFirstThree.forEach(element => {
+  var split = element.split('-')
+  all.push(split[2]+"."+split[1]+"."+split[0])
+ });
+ return all;
+}
+
+
+
+function getThreeDatesGl (){
+  function isInThePast(date) {
+    const today = new Date();
+    today.setDate(today.getDate() + 1);
+    today.setHours(0, 0, 0, 0);
+    return date < today;
+  }
+ var saveSat = []
  var sat = ["2023-01-07","2023-01-21","2023-02-04","2023-02-18","2023-03-04","2023-03-18","2023-04-01","2023-04-15","2023-04-29","2023-05-13","2023-05-27","2023-06-10","2023-06-24","2023-07-08","2023-07-22","2023-08-05","2023-08-19","2023-09-02","2023-09-16","2023-09-30","2023-10-14","2023-10-28","2023-11-11","2023-11-25","2023-12-09","2023-12-23","2024-01-06","2024-01-20","2024-02-03","2024-02-17","2024-03-02","2024-03-16","2024-03-30","2024-04-13","2024-04-27","2024-05-11","2024-05-25","2024-06-08","2024-06-22","2024-07-06","2024-07-20","2024-08-03","2024-08-17","2024-08-31","2024-09-14","2024-09-28","2024-10-12","2024-10-26","2024-11-09","2024-11-23","2024-12-07","2024-12-21","2025-01-04","2025-01-18","2025-02-01","2025-02-15","2025-03-01","2025-03-15","2025-03-29","2025-04-12","2025-04-26","2025-05-10","2025-05-24","2025-06-07","2025-06-21","2025-07-05","2025-07-19","2025-08-02","2025-08-16","2025-08-30","2025-09-13","2025-09-27","2025-10-11","2025-10-25","2025-11-08","2025-11-22","2025-12-06","2025-12-20"]
   sat.forEach(function(element) {
     if(!isInThePast(new Date(element))) saveSat.push(element)
@@ -28,6 +52,8 @@ saveSatFirstThree = saveSat.slice(0,3)
  });
  return all;
 }
+
+
 
 function getThreeDates() {
   var now  = new Date();
@@ -60,7 +86,9 @@ router.get("/",  function (req, res) {
   if(req.query.loc == "gr" || req.query.loc == "sz" || req.query.loc == "gl") req.session.location = req.query.loc;
   if(!req.session.location) req.session.location = "sz";
   var dates = getThreeDates();
-  if(req.session.location == "sz"  || req.session.location == "gl")dates = getThreeDatesSz();
+  if(req.session.location == "sz")dates = getThreeDatesSz();
+  if(req.session.location == "gl")dates = getThreeDatesGl();
+
   setTimeout(() => {
   if(!dates.includes(req.session.shiftDate)) req.session.shiftDate = dates[0]
   database.query(
@@ -206,7 +234,8 @@ router.get("/otherWeek/", function (req, res) {
   if(req.query.loc == "gr" || req.query.loc == "sz" || req.query.loc == "gl") req.session.location = req.query.loc;
   if(!req.session.location) req.session.location = "sz";
   var dates = getThreeDates();
-  if(req.session.location == "sz"  || req.session.location == "gl")dates = getThreeDatesSz();
+  if(req.session.location == "sz")dates = getThreeDatesSz();
+  if(req.session.location == "gl")dates = getThreeDatesGl();
   var redirect = "";
   if(req.session.redirect) redirect = req.session.redirect.replace("&amp;", "&");
   res.render("public/timetable/otherWeek", { dates: dates, nextDate: dates[0], redirect: redirect});
@@ -214,11 +243,12 @@ router.get("/otherWeek/", function (req, res) {
 router.post("/chooseDate/", function (req, res) {
   console.log("hi2", req.body.date)
 
-  if(req.session.location == "sz"  || req.session.location == "gl"){
+  if(req.session.location == "sz"){
     if (!getThreeDatesSz().includes(req.body.date)) return res.json({ success: false });
   }
-  console.log("hi3", req.body.date)
-
+  if(req.session.location == "gl"){
+    if (!getThreeDatesGl().includes(req.body.date)) return res.json({ success: false });
+  }
   if(req.session.location == "gr"){
     if (!getThreeDates().includes(req.body.date)) return res.json({ success: false });
   }
