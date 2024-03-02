@@ -109,8 +109,7 @@
 
       </div>
       <textarea name="comment" placeholder="Bemerkungen" id="" cols="30" rows="2"></textarea>
-
-      <button type="submit" class="button">Registrieren</button>
+      <div class="button submitButton" data-onclick="$('form').submit()" onclick="$('form').submit()"><div class="buttonText">Registrieren</div></div>
     </form>
     <div class="tick">
       <img src="/images/svg/greenTick.svg" alt="">
@@ -458,11 +457,9 @@
   $("#form").submit(function (e) {
     e.preventDefault();
     if (!entitlementSelect()) return;
-    $('form').hide();
-
-    $('.loader').show()
-    console.log($('form').serializeArray())
-    $(".button").hide();
+    $(".submitButton").addClass('buttonLoading');
+        $('.submitButton').attr('onclick', '');
+        setTimeout(() => {
     $.ajax({
       url: '/admin/receiverRegistration/',
       type: 'POST',
@@ -491,12 +488,12 @@
             $('.message').show()
             $('.message').html("Einzelne Bezügerdaten wurden bereits gefunden.")
             $('.message').append(
-              `<div class="button" onclick="window.open('/admin/receiverMaintenance/${data.receiverId}', '_blank');">BezügerIn anzeigen</div>`
+              `<div class="button" onclick="window.open('/admin/receiverMaintenance/${data.receiverId}/edit', '_blank');">BezügerIn anzeigen</div>`
             )
           }
           $('form').show();
-
-          $(".button").show();
+          $('.submitButton').attr('onclick', $('.submitButton').data('onclick'));
+          $(".submitButton").removeClass('buttonLoading');
           $('.message').show()
           $('.message').html(data.message)
           $('.loader').hide()
@@ -504,10 +501,15 @@
         }
       },
       error: function (jqXHR, textStatus, err) {
+        $('.submitButton').attr('onclick', $('.submitButton').data('onclick'));
+          $(".submitButton").removeClass('buttonLoading');
         alert('text status ' + textStatus + ', err ' + err)
         $(".button").show();
       }
     });
+    
+          
+  }, 500);
   })
   window.addEventListener("beforeunload", (e) => {
     if (reload) return;

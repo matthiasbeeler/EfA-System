@@ -110,6 +110,11 @@ select{
     justify-content: center;
     align-items: center;
     display: flex;
+    position: relative;
+}
+.button .buttonText{
+    font-size: x-large;
+
 }
 div.button{
     width:  calc(83% + 4px);
@@ -697,6 +702,39 @@ div.false{
     bottom: 10%;
 }
 
+.buttonLoading .buttonText{
+    color: transparent !important;
+  }
+  .buttonLoading::after {
+    content: "";
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    border: 4px solid transparent;
+    border-top-color: var(--mainBackground);
+    border-radius: 50%;
+    animation: button-loading-spinner 1s ease infinite;
+  }
+  
+  .lightButton.buttonLoading::after {
+    border-top-color: var(--mainButtonAndLogo);
+  }
+
+
+@keyframes button-loading-spinner {
+    from {
+        transform: rotate(0turn);
+    }
+  
+    to {
+        transform: rotate(1turn);
+    }
+  }
 
   @media (min-width: 800px) {
   .cookieNoticeBackground {
