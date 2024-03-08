@@ -35,9 +35,10 @@ router.post("/preReg", function (req, res, next) {
 });
 
 router.post("/", function (req, res, next) {
-  req.body.passportNumber = req.body.passportNumber.toUpperCase()
+  req.body.passportnumber = req.body.passportnumber.toUpperCase()
   console.log(req.body)
   try {
+
     var phone = parsePhoneNumber(req.body.phonenumber, "CH");
     database.query(
       "SELECT * FROM receivers WHERE phonenumber = ? OR passportNumber = ? OR fullName = ? AND birthdate = ? OR cardId = ?;",
