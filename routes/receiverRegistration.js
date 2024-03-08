@@ -35,6 +35,7 @@ router.post("/preReg", function (req, res, next) {
 });
 
 router.post("/", function (req, res, next) {
+  req.body.passportNumber = req.body.passportNumber.toUpperCase()
   console.log(req.body)
   try {
     var phone = parsePhoneNumber(req.body.phonenumber, "CH");
