@@ -481,15 +481,14 @@
         if (data.success == false) {
           if (data.receiverId) {
             $('.loader').hide()
-
             $(".button").show();
             $('form').show();
-
             $('.message').show()
             $('.message').html("Einzelne Bezügerdaten wurden bereits gefunden.")
             $('.message').append(
               `<div class="button" onclick="window.open('/admin/receiverMaintenance/${data.receiverId}/edit', '_blank');">BezügerIn anzeigen</div>`
             )
+           
           }
           $('form').show();
           $('.submitButton').attr('onclick', $('.submitButton').data('onclick'));
@@ -498,6 +497,10 @@
           $('.message').html(data.message)
           $('.loader').hide()
 
+          if(data.message == "cardId"){
+              $('.message').html("Karten-ID wird bereits verwendet.")
+
+            }
         }
       },
       error: function (jqXHR, textStatus, err) {

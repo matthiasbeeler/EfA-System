@@ -35,6 +35,7 @@ router.post("/preReg", function (req, res, next) {
 });
 
 router.post("/", function (req, res, next) {
+  console.log(req.body)
   try {
     var phone = parsePhoneNumber(req.body.phonenumber, "CH");
     database.query(
@@ -52,7 +53,12 @@ router.post("/", function (req, res, next) {
             results[0].id !== req.body.id &&
             results[0].activeRegistration == 1
           ) {
-            return res.json({ success: false, receiverId: results[0].id });
+            if(req.body.cardid = results[0].cardId){
+              return res.json({ success: false, message: "cardId", receiverId: results[0].id });
+            }else{
+              return res.json({ success: false, message:"nCardId", receiverId: results[0].id });
+            }
+            
           } else if (
             results[0].id !== req.body.id &&
             results[0].activeRegistration == 0
@@ -103,6 +109,7 @@ router.post("/", function (req, res, next) {
         req.params.id = uuid;
         var passportNumber = "";
         function addZemis(num) {
+          req.body["passportnumber" + num].toUpperCase();
           if (num == 0) num = "";
           insertString =
             insertString +
@@ -122,7 +129,7 @@ router.post("/", function (req, res, next) {
             "' AND receiverId NOT LIKE '" +
             req.params.id +
             "' OR ";
-          passportNumber = passportNumber + req.body["passportnumber" + num];
+          passportNumber = passportNumber.toUpperCase() + req.body["passportnumber" + num].toUpperCase();
 
           zemisCounter--;
           if (zemisCounter >= 0) addZemis(zemisCounter);
