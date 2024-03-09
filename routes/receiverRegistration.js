@@ -55,11 +55,7 @@ router.post("/", function (req, res, next) {
             results[0].id !== req.body.id &&
             results[0].activeRegistration == 1
           ) {
-            if(req.body.cardid = results[0].cardId){
-              return res.json({ success: false, message: "cardId", receiverId: results[0].id });
-            }else{
-              return res.json({ success: false, message:"nCardId", receiverId: results[0].id });
-            }
+              return res.json({ success: false, receiverId: results[0].id });
             
           } else if (
             results[0].id !== req.body.id &&
