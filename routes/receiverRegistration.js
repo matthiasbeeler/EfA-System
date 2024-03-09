@@ -111,8 +111,8 @@ router.post("/", function (req, res, next) {
         req.params.id = uuid;
         var passportNumber = "";
         function addZemis(num) {
-          req.body["passportnumber" + num].toUpperCase();
           if (num == 0) num = "";
+          req.body["passportnumber" + num] = req.body["passportnumber" + num].toUpperCase();
           insertString =
             insertString +
             "('" +
