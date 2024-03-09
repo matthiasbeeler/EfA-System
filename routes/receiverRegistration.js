@@ -120,6 +120,7 @@ router.post("/", function (req, res, next) {
             "','" +
             req.body["birthdate" + num] +
             "'),";
+            if(req.body["passportnumber" + num] == ""){
           searchstr =
             searchstr +
             " zemisNr = '" +
@@ -127,6 +128,7 @@ router.post("/", function (req, res, next) {
             "' AND receiverId NOT LIKE '" +
             req.params.id +
             "' OR ";
+            }
           passportNumber = passportNumber.toUpperCase() + req.body["passportnumber" + num].toUpperCase();
 
           zemisCounter--;
