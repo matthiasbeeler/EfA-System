@@ -109,11 +109,52 @@ router.get("/", function (req, res, next) {
         var zemisCounter = Number(req.body.familyMembers.split(":")[1]) - 1;
         try{
           if(req.body.passportnumber){
-        function addZemis(num) {
+            for (const key in req.body) {
+              if (key.startsWith('passportnumber')) {
+                var index = parseInt(key.slice('passportnumber'.length));
+                if(!parseInt(key.slice('passportnumber'.length))) index = "";
+                const passportNumber = req.body[key].toUpperCase().replace(/\s/g, "");
+                const birthdateKey = `birthdate${index}`;
+                const nameKey = `name${index}`;
+                if (birthdateKey in req.body && nameKey in req.body) {
+                  const birthdate = req.body[birthdateKey];
+                  const name = req.body[nameKey].replace(/\b\w/g, (c) => c.toUpperCase());
+                  if(passportNumber){
+                    searchstr =
+                      searchstr +
+                      " zemisNr = '" +
+                      passportNumber +
+                      "' AND receiverId NOT LIKE '" +
+                      req.params.id +
+                      "' OR ";
+                    };          
+                    insertString =
+                      insertString +
+                      "('" +
+                      req.params.id +
+                      "','" +
+                      passportNumber +
+                      "','" +
+                      name +
+                      "','" +
+                      birthdate +
+                      "'),";
+                }
+              }
+            }
+      /*  function addZemis(num) {
           if (num == 0) num = "";
-          console.log(req.body["passportnumber" + num])
           if(req.body["passportnumber" + num] !== undefined && req.body["passportnumber" + num] !== ""){
-            console.log("Num: "+ num+" pass: "+req.body["passportnumber" + num]+"check: ", req.body["passportnumber" + num] !== undefined && req.body["passportnumber" + num] !== "", req.body["passportnumber" + num] !== undefined && req.body["passportnumber" + num] !== "")
+          searchstr =
+            searchstr +
+            " zemisNr = '" +
+            req.body["passportnumber" + num].toUpperCase().replace(/\s/g, "") +
+            "' AND receiverId NOT LIKE '" +
+            req.params.id +
+            "' OR ";
+          };
+
+          if(req.body["passportnumber" + num]) req.body["passportnumber" + num] =req.body["passportnumber" + num].toUpperCase().replace(/\s/g, "")
           insertString =
             insertString +
             "('" +
@@ -125,20 +166,13 @@ router.get("/", function (req, res, next) {
             "','" +
             req.body["birthdate" + num] +
             "'),";
-          };
-          searchstr =
-            searchstr +
-            " zemisNr = '" +
-            req.body["passportnumber" + num] +
-            "' AND receiverId NOT LIKE '" +
-            req.params.id +
-            "' OR ";
+
           passportNumber = passportNumber + req.body["passportnumber" + num];
 
           zemisCounter--;
           if (zemisCounter >= 0) addZemis(zemisCounter);
-        }
-        if (zemisCounter >= 0) addZemis(zemisCounter);
+        }*/
+        //if (zemisCounter >= 0) addZemis(zemisCounter);
         
         /*console.log(typeof req.body.passportnumber)
         if(typeof req.body.passportnumber == "string"){
@@ -165,7 +199,6 @@ router.get("/", function (req, res, next) {
       database.query(
         `SELECT * FROM receivers WHERE phonenumber = ?`,[phone.number],
         function (error, results, fields) {
-          console.log(error)
           if(error) console.log(error)
           if(error) return res.json({ success: false, message: "An error occured" });
           if (results[0] && results[0].id !== req.params.id) {
@@ -179,7 +212,8 @@ router.get("/", function (req, res, next) {
                 if(results[0]) return res.json({ success: false, receiverId: results[0].receiverId });
                 database.query(
                   `DELETE FROM receiversZemis WHERE receiverId = ?;`,[req.params.id],
-                  function (error, results, fields) {})
+                  function (error, results, fields) {
+                  })
                   database.query(
                     `${passportInsert};`,
                     function (error, results, fields) {
@@ -189,7 +223,7 @@ router.get("/", function (req, res, next) {
             [
                 phone.number,
                 req.body.permit,
-                req.body.passportnumber,
+                req.body.passportnumber.toUpperCase().replace(/\s/g, "") ,
                 req.body.birthdate,
                 req.body.name.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
                 req.body.gender,

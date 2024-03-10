@@ -35,7 +35,7 @@ router.post("/preReg", function (req, res, next) {
 });
 
 router.post("/", function (req, res, next) {
-  req.body.passportnumber = req.body.passportnumber.toUpperCase()
+  req.body.passportnumber = req.body.passportnumber.toUpperCase().replace(/\s/g, "")
   console.log(req.body)
   try {
 
@@ -106,9 +106,42 @@ router.post("/", function (req, res, next) {
 
         req.params.id = uuid;
         var passportNumber = "";
-        function addZemis(num) {
+        for (const key in req.body) {
+          if (key.startsWith('passportnumber')) {
+            var index = parseInt(key.slice('passportnumber'.length));
+            if(!parseInt(key.slice('passportnumber'.length))) index = "";
+            const passportNumber = req.body[key].toUpperCase().replace(/\s/g, "");
+            const birthdateKey = `birthdate${index}`;
+            const nameKey = `name${index}`;
+            if (birthdateKey in req.body && nameKey in req.body) {
+              const birthdate = req.body[birthdateKey];
+              const name = req.body[nameKey].replace(/\b\w/g, (c) => c.toUpperCase());
+              if(passportNumber){
+                searchstr =
+                  searchstr +
+                  " zemisNr = '" +
+                  passportNumber +
+                  "' AND receiverId NOT LIKE '" +
+                  req.params.id +
+                  "' OR ";
+                };          
+                insertString =
+                  insertString +
+                  "('" +
+                  req.params.id +
+                  "','" +
+                  passportNumber +
+                  "','" +
+                  name +
+                  "','" +
+                  birthdate +
+                  "'),";
+            }
+          }
+        }
+        /*function addZemis(num) {
           if (num == 0) num = "";
-          req.body["passportnumber" + num] = req.body["passportnumber" + num].toUpperCase();
+          req.body["passportnumber" + num] = req.body["passportnumber" + num].toUpperCase().replace(/\s/g, "");
           insertString =
             insertString +
             "('" +
@@ -127,12 +160,12 @@ router.post("/", function (req, res, next) {
             "' AND receiverId NOT LIKE '" +
             req.params.id +
             "' OR ";
-          passportNumber = passportNumber.toUpperCase() + req.body["passportnumber" + num].toUpperCase();
+          passportNumber = passportNumber.toUpperCase().replace(/\s/g, "") + req.body["passportnumber" + num].toUpperCase().replace(/\s/g, "");
 
           zemisCounter--;
           if (zemisCounter >= 0) addZemis(zemisCounter);
         }
-        if (zemisCounter >= 0) addZemis(zemisCounter);
+        if (zemisCounter >= 0) addZemis(zemisCounter);*/
       
 
         insertString = insertString.slice(0, insertString.length - 1);

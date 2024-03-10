@@ -25,6 +25,8 @@ router.get("/", function (req, res) {
       var aReceiversLoc = 0;
       var bReceiversLoc = 0;
       var registrationsLoc = 0;
+      var registrationsPaidLoc = 0;
+
       var receiversLoc = 0;
       results.forEach((element) => {
         receivers++;
@@ -51,15 +53,9 @@ router.get("/", function (req, res) {
           return bReceiversLoc++;
       });
       database.query(
-        "SELECT * FROM receivers;",
+        "SELECT count(*) as count FROM receivers WHERE registrationLocation = ?;",[jwt.verify(req.cookies.Auth, process.env.jwtSecret).location],
         function (error, results, fields) {
-          results.forEach((element) => {
-            if (
-              element.registrationLocation ==
-              jwt.verify(req.cookies.Auth, process.env.jwtSecret).location
-            )
-              registrationsLoc++;
-          });
+              registrationsLoc = results[0].count;
         }
       );
       database.query(
@@ -75,6 +71,8 @@ router.get("/", function (req, res) {
             bReceiversLoc: bReceiversLoc,
             registrationsLoc: registrationsLoc,
             registrationsLocDate: "--",
+            registrationsLocPaidDate: "--",
+            registrationsLocUnpaidDate: "--",
             receiversLoc: receiversLoc,
             location: jwt.verify(req.cookies.Auth, process.env.jwtSecret)
               .location,
@@ -113,7 +111,9 @@ router.get("/:date/", function (req, res) {
       var bReceiversLoc = 0;
       var registrationsLoc = 0;
       var receiversLoc = 0;
-      registrationsLocDate = 0;
+      var registrationsLocDate = 0;
+      var registrationsLocPaidDate = 0;
+      var registrationsLocUnpaidDate = 0;
       results.forEach((element) => {
         receivers++;
         if (element.entitlement == "A") return aReceivers++;
@@ -152,6 +152,16 @@ router.get("/:date/", function (req, res) {
                 jwt.verify(req.cookies.Auth, process.env.jwtSecret).location && element.registrationDate == req.params.date
               )
               registrationsLocDate++;
+              if (
+                element.registrationLocation ==
+                jwt.verify(req.cookies.Auth, process.env.jwtSecret).location && element.registrationDate == req.params.date && element.paid == 0
+              )
+              registrationsLocUnpaidDate++;
+              if (
+                element.registrationLocation ==
+                jwt.verify(req.cookies.Auth, process.env.jwtSecret).location && element.registrationDate == req.params.date && element.paid == 1
+              )
+              registrationsLocPaidDate++;
           });
         }
       );
@@ -172,6 +182,8 @@ router.get("/:date/", function (req, res) {
             bReceiversLoc: bReceiversLoc,
             registrationsLoc: registrationsLoc,
             registrationsLocDate: registrationsLocDate,
+            registrationsLocPaidDate: registrationsLocPaidDate,
+            registrationsLocUnpaidDate: registrationsLocUnpaidDate,
             receiversLoc: receiversLoc,
             location: jwt.verify(req.cookies.Auth, process.env.jwtSecret)
               .location,

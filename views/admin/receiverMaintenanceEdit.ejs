@@ -273,7 +273,7 @@ console.log($('#familyMembers').val())
 
                     $('.message').show()
                     $('.message').html("Einzelne Bezügerdaten wurden bereits gefunden.")
-                    $('.message').append(`<div class="button" onclick="window.open('/admin/receiverMaintenance/${data.receiverId}', '_blank');">BezügerIn anzeigen</div>`)
+                    $('.message').append(`<div class="button" onclick="window.open('/admin/receiverMaintenance/${data.receiverId}/edit', '_blank');">BezügerIn anzeigen</div>`)
                   }
                   $('form').show();
 
