@@ -296,6 +296,9 @@ div.unblockButton{
     white-space: nowrap;
     margin-top: 2vw;
 }
+.hidden{
+    display: none !important;
+}
 .checkInOverlay{
     width: 100%;
     max-height: 100vh;

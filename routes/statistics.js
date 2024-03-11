@@ -59,8 +59,24 @@ router.get("/", function (req, res) {
         }
       );
       database.query(
+        `SELECT DATE_FORMAT(STR_TO_DATE(date , '%d.%m.%Y'), '%Y-%m-%d') AS date, SUM(CASE WHEN entitlement = 'A' THEN 1 ELSE 0 END) AS aCount, 
+        SUM(CASE WHEN entitlement = 'B' THEN 1 ELSE 0 END) AS bCount, COUNT(*) as totalCount
+        FROM EfA.entryLogs WHERE logLocation = ?
+        GROUP BY DATE_FORMAT(STR_TO_DATE(date , '%d.%m.%Y'), '%Y-%m-%d') ORDER BY  DATE_FORMAT(STR_TO_DATE(date , '%d.%m.%Y'), '%Y-%m-%d') ASC;`, [jwt.verify(req.cookies.Auth, process.env.jwtSecret).location],
+        function (error, results, fields) {
+          var logData = results;
+          database.query(
+            `SELECT  DATE_FORMAT(STR_TO_DATE(registrationDate , '%d.%m.%Y'), '%Y-%m-%d') AS registrationDate, SUM(CASE WHEN paid = 0 THEN 1 ELSE 0 END) AS unpaid, 
+            COUNT(*) as totalCount
+           FROM EfA.receivers WHERE registrationLocation = ? AND registrationDate IS NOT NULL
+           GROUP BY  DATE_FORMAT(STR_TO_DATE(registrationDate , '%d.%m.%Y'), '%Y-%m-%d') ORDER BY  DATE_FORMAT(STR_TO_DATE(registrationDate , '%d.%m.%Y'), '%Y-%m-%d') ASC;`, [jwt.verify(req.cookies.Auth, process.env.jwtSecret).location],
+            function (error, results, fields) {
+              console.log(error)
+              var registrationData = results;
+      database.query(
         "SELECT count(*) as count FROM receivers;",
         function (error, results, fields) {
+        
           res.render("admin/statistics", {
             title: "Statistik",
             receivers: receivers,
@@ -76,14 +92,36 @@ router.get("/", function (req, res) {
             receiversLoc: receiversLoc,
             location: jwt.verify(req.cookies.Auth, process.env.jwtSecret)
               .location,
+              logData: JSON.stringify(logData),
+              registrationData: JSON.stringify(registrationData)
+
           });
         }
       );
     }
   );
+    }
+  );
+}
+);
 });
 
 router.get("/:date/", function (req, res) {
+  database.query(
+    `SELECT DATE_FORMAT(STR_TO_DATE(date , '%d.%m.%Y'), '%Y-%m-%d') AS date, SUM(CASE WHEN entitlement = 'A' THEN 1 ELSE 0 END) AS aCount, 
+    SUM(CASE WHEN entitlement = 'B' THEN 1 ELSE 0 END) AS bCount, COUNT(*) as totalCount
+    FROM EfA.entryLogs WHERE logLocation = ?
+    GROUP BY DATE_FORMAT(STR_TO_DATE(date , '%d.%m.%Y'), '%Y-%m-%d') ORDER BY  DATE_FORMAT(STR_TO_DATE(date , '%d.%m.%Y'), '%Y-%m-%d') ASC;`, [jwt.verify(req.cookies.Auth, process.env.jwtSecret).location],
+    function (error, results, fields) {
+      var logData = results;
+      database.query(
+        `SELECT  DATE_FORMAT(STR_TO_DATE(registrationDate , '%d.%m.%Y'), '%Y-%m-%d') AS registrationDate, SUM(CASE WHEN paid = 0 THEN 1 ELSE 0 END) AS unpaid, 
+        COUNT(*) as totalCount
+       FROM EfA.receivers WHERE registrationLocation = ? AND registrationDate IS NOT NULL
+       GROUP BY  DATE_FORMAT(STR_TO_DATE(registrationDate , '%d.%m.%Y'), '%Y-%m-%d') ORDER BY  DATE_FORMAT(STR_TO_DATE(registrationDate , '%d.%m.%Y'), '%Y-%m-%d') ASC;`, [jwt.verify(req.cookies.Auth, process.env.jwtSecret).location],
+        function (error, results, fields) {
+          console.log(error)
+          var registrationData = results;
   database.query(
     "SELECT entitlement, logLocation FROM entryLogs WHERE date = ?;",
     [req.params.date],
@@ -102,7 +140,12 @@ router.get("/:date/", function (req, res) {
           registrationsLocDate: "--",
           location: jwt.verify(req.cookies.Auth, process.env.jwtSecret)
             .location,
+            logData: logData,
+            registrationData: JSON.stringify(registrationData)
+
+
         });
+        
       }
       var receivers = 0;
       var aReceivers = 0;
@@ -171,7 +214,6 @@ router.get("/:date/", function (req, res) {
         function (error, results, fields) {
           var count = "--";
           if (results) count = results[0].count;
-
           res.render("admin/statistics", {
             title: req.params.date,
             receivers: receivers,
@@ -187,11 +229,16 @@ router.get("/:date/", function (req, res) {
             receiversLoc: receiversLoc,
             location: jwt.verify(req.cookies.Auth, process.env.jwtSecret)
               .location,
+              logData: JSON.stringify(logData),
+              registrationData: JSON.stringify(registrationData)
+
           });
         }
       );
     }
   );
+});
+});
 });
 
 module.exports = router;

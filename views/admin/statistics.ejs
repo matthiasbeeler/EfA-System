@@ -6,10 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Essen für Alle</title>
-  <link rel="stylesheet" href="/stylesheets/main.css?v=1">
+  <link rel="stylesheet" href="/stylesheets/main.css?v=1.1">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
+  <script src="/javascripts/chart.js"></script>
 </head>
 <body>
   <div class="content">
@@ -27,12 +28,14 @@
     </select>
     <div class="infoBlock stats">
 
-      <div class="infoName">Bezüger*innen in <%-location%>
+      <div onclick="$(this).parent().children('#logChart').toggleClass('hidden')" class="infoName">Bezüger*innen in <%-location%>
       </div>
       <br>
       <div class="info statsNumber">
         <%-receiversLoc%>
       </div>
+      <canvas class="" id="logChart" style="width:100%;max-width:700px;height:40vh;"></canvas>
+
     </div>
     
     <div class="infoBlock stats">
@@ -67,13 +70,18 @@
     </div>
     <div class="infoBlock stats">
     
-      <div class="infoName">Registrationen in <%-location%>
+      <div class="infoName" onclick="$(this).parent().children('#registrationChart').toggleClass('hidden')">Registrationen in <%-location%>
       </div>
       <br>
       <div class="info statsNumber">
         <%-registrationsLoc%>
       </div>
+      <canvas class="" id="registrationChart" style="width:100%;max-width:700px;height:40vh;"></canvas>
+
     </div>
+
+    </div>
+
     <br>
     <br>
     <br>
@@ -145,4 +153,137 @@ function pickDate(){
   if($('.date').val() == "all") return window.location = "/admin/statistics/";
   return window.location = "/admin/statistics/"+$('.date').val()+"/"
 }
+
+
+
+
+var logData= <%-logData%>;
+
+    // Process the input data
+var xValues = [];
+var aCountValues = [];
+var bCountValues = [];
+var totalCountValues = [];
+
+logData.forEach(function(entry) {
+    xValues.push(entry.date);
+    aCountValues.push(entry.aCount);
+    bCountValues.push(entry.bCount);
+    totalCountValues.push(entry.totalCount);
+});
+
+// Create the chart
+new Chart("logChart", {
+    type: "line",
+    data: {
+        labels: xValues,
+        datasets: [{
+            label: 'A-Karten',
+            borderColor: "rgba(255, 80, 80, 0.5)",
+            data: aCountValues,
+            pointRadius: 0,
+            pointHoverRadius: 0,
+
+        }, {
+            label: 'B-Karten',
+            borderColor: "rgba(0, 102, 255, 0.5)",
+            data: bCountValues,
+            pointRadius: 0,
+            pointHoverRadius: 0,
+
+        }, {
+            label: 'Total',
+            borderColor: "rgba(0,255,0,1)",
+            data: totalCountValues,
+            pointRadius: 0,
+            pointHoverRadius: 0,
+        },
+        ]
+    },
+    options: { 
+      scales: {
+        x: {
+            ticks: {
+                maxTicksLimit: 2,
+                fontColor: "white",
+            }
+        },
+        y: {
+            ticks: {
+                maxTicksLimit: 2
+            }
+        }
+    },
+    legend: {
+      labels: {
+         fontColor: 'white'
+      },
+      pointBorderColor: "transparent",
+   },
+    } // Add your desired options here
+});
+
+
+var registrationData= <%-registrationData%>;
+
+
+var xValuesReg = [];
+var unpaidValues = [];
+var totalRegCountValues = [];
+
+registrationData.forEach(function(entry) {
+  console.log(entry)
+  xValuesReg.push(entry.registrationDate);
+    unpaidValues.push(entry.unpaid);
+    totalRegCountValues.push(entry.totalCount);
+});
+// Create the chart
+new Chart("registrationChart", {
+    type: "line",
+    data: {
+        labels: xValuesReg,
+        datasets: [{
+            label: 'unpaid',
+            borderColor: "rgba(255, 80, 80, 0.5)",
+            data: unpaidValues,
+            pointRadius: 0,
+            pointHoverRadius: 0,
+
+        },
+        {
+            label: 'Total',
+            borderColor: "rgba(0,255,0,1)",
+            data: totalRegCountValues,
+            pointRadius: 0,
+            pointHoverRadius: 0,
+        },
+        ]
+    },
+    options: { 
+      scales: {
+        x: {
+            ticks: {
+                maxTicksLimit: 2,
+                fontColor: "white",
+            }
+        },
+        y: {
+            ticks: {
+                maxTicksLimit: 2
+            }
+        }
+    },
+    legend: {
+      labels: {
+         fontColor: 'white'
+      },
+      pointBorderColor: "transparent",
+   },
+    } // Add your desired options here
+});
+
+
+$('#logChart, #registrationChart').toggleClass('hidden')
+
+
 </script>
