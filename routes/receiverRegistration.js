@@ -36,7 +36,19 @@ router.post("/preReg", function (req, res, next) {
 
 router.post("/", function (req, res, next) {
   req.body.passportnumber = req.body.passportnumber.toUpperCase().replace(/\s/g, "")
-  console.log(req.body)
+  database.query(
+    "INSERT INTO registrationLog (body, timestamp, sender) VALUES (?,?,?)",
+    [
+      JSON.stringify(req.body),
+      new Date().valueOf(),
+      jwt.verify(req.cookies.Auth, process.env.jwtSecret).email,
+
+    ],
+    function (error, results, fields) {
+      if(error) console.log(error)
+
+    })
+    return
   try {
 
     var phone = parsePhoneNumber(req.body.phonenumber, "CH");
@@ -196,7 +208,7 @@ router.post("/", function (req, res, next) {
                   message: "An error occured",
                 });
               database.query(
-                "INSERT INTO receivers (id, phonenumber,passportNumber, passportType, birthdate, fullName, gender, familyMembers, postalCode, cardId, timeslot, entitlement, comment, activeRegistration, registrationDate, registrationLocation,paid) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                "INSERT INTO receivers (id, phonenumber,passportNumber, passportType, birthdate, fullName, gender, familyMembers, postalCode, cardId, timeslot, entitlement, comment, activeRegistration, registrationDate, registrationLocation,paid,registrator) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                 [
                   uuid,
                   phone.number,
@@ -215,6 +227,7 @@ router.post("/", function (req, res, next) {
                   currentDate,
                   jwt.verify(req.cookies.Auth, process.env.jwtSecret).location,
                   req.body.paid,
+                  jwt.verify(req.cookies.Auth, process.env.jwtSecret).email,
                 ],
                 function (error, results, fields) {
                   if (error) console.log(error);
