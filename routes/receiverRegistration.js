@@ -48,7 +48,6 @@ router.post("/", function (req, res, next) {
       if(error) console.log(error)
 
     })
-    return
   try {
 
     var phone = parsePhoneNumber(req.body.phonenumber, "CH");
