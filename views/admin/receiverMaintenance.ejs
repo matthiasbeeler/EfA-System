@@ -19,18 +19,19 @@
             <div class="message infoBlock">
                 <div class="info"></div>
             </div>
-            <input type="text" name="name" placeholder="Vorname, Nachname" id="name" onkeyup="searchName()" required>
-            <input type="text" name="tel" placeholder="Telefonnummer" id="phone" onkeyup="searchPhone()" required>
-            <input type="text" name="passportNumber" placeholder="Ausweisnummer" id="passportNumber" onkeyup="searchPassport()" required>
-            <input type="text" name="plz" placeholder="Ort/Postleitzahl" id="Postalcode" onkeyup="searchPostalcode()" required>
-            <input type="number" name="number" inputmode="decimal" placeholder="Karten-ID" onkeyup="searchCardId()" id="username" required>
-            <input type="text" name="description" placeholder="Beschreibung" onkeyup="searchComment()" id="description" required>
+            <input type="text" name="name" placeholder="Vorname, Nachname" id="name" onkeyup="searchName()" >
+            <input type="text" name="tel" placeholder="Telefonnummer" id="phone" onkeyup="searchPhone()" >
+            <input type="text" name="passportNumber" placeholder="Ausweisnummer" id="passportNumber" onkeyup="searchPassport()" >
+            <input type="text" name="plz" placeholder="Ort/Postleitzahl" id="Postalcode" onkeyup="searchPostalcode()" >
+            <input type="number" name="number" inputmode="decimal" placeholder="Karten-ID" onkeyup="searchCardId()" id="username" >
+            <input type="text" name="birthdate" placeholder="Geburtsdatum" onkeyup="searchBirthdate()" id="description" >
+
         </form>
 
             <div class="searchContent">
                 <div class="titleBar"><div class="leftText">Name</div><div class="centerSeperator"></div><div class="rightText">Karten-ID</div></div>
                 <% results.forEach(function(result) { %>
-                    <div class="searchElement" onclick="window.location = '/admin/receiverMaintenance/<%-result.id%>/edit'"><div class="leftText text"><%-result.fullName%></div><div class="centerSeperator"></div><div class="rightText text"><%-result.cardId%></div><div class="phonenumberText text" style="display: none;"><%-result.phonenumber%></div><div class="passportText text" style="display: none;"><%-result.passportNumber%></div><div class="postalcodeText text" style="display: none;"><%-result.postalCode%></div><div class="commentText text" style="display: none;"><%-result.comment%></div><img src="/images/svg/continue.svg" alt=""></div>
+                    <div class="searchElement" onclick="window.location = '/admin/receiverMaintenance/<%-result.id%>/edit'"><div class="leftText text"><%-result.fullName.replace(/(^\w|\s\w)/g, m => m.toUpperCase())%></div><div class="centerSeperator"></div><div class="rightText text"><%-result.cardId%></div><div class="phonenumberText text" style="display: none;"><%-result.phonenumber%></div><div class="passportText text" style="display: none;"><%-result.all_zemisNr%></div><div class="postalcodeText text" style="display: none;"><%-result.postalCode%></div><div class="commentText text" style="display: none;"><%-result.all_birthdates%></div><div class="allNamesText text" style="display: none;"><%-result.all_names.replace(/(^\w|\s\w)/g, m => m.toUpperCase())%></div><img src="/images/svg/continue.svg" alt=""></div>
                 <% }); %> 
 
             </div>
@@ -58,7 +59,7 @@
             }
         }
     }
-    function searchComment() {
+    function searchBirthdate() {
         var input, filter, table, tr, td, i, txtValue;
         input = document.getElementById("description");
         filter = input.value.toUpperCase();
@@ -79,13 +80,13 @@
     }
     function searchName() {
         var input, filter, table, tr, td, i, txtValue;
-        input = document.getElementById("name");
+        input = document.getElementById("name").replace(/(^\w|\s\w)/g, m => m.toUpperCase());
         filter = input.value.toUpperCase();
         table = document.querySelector(".searchContent");
         tr = table.getElementsByClassName("searchElement");
         // Loop through all table rows, and hide those who don't match the search query
         for (i = 0; i < tr.length; i++) {
-            td = tr[i].getElementsByClassName("text")[0];
+            td = tr[i].getElementsByClassName("text")[6];
             if (td) {
                 txtValue = td.textContent || td.innerText;
                 if (txtValue.toUpperCase().indexOf(filter) > -1) {

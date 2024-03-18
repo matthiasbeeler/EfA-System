@@ -21,8 +21,47 @@ router.get("/", function (req, res, next) {
     )
       return res.redirect("/admin");
     database.query(
-      `SELECT * FROM receivers;`,
+      `SELECT 
+      r.*,
+      CONCAT_WS(', ', rz_names.all_names) AS all_names,
+      CONCAT_WS(', ', rz_birthdates.all_birthdates) AS all_birthdates,
+      CONCAT_WS(', ', rz_zemisNr.all_zemisNr) AS all_zemisNr
+  FROM 
+      receivers AS r
+  LEFT JOIN 
+      (
+          SELECT 
+              rz.receiverId,
+              GROUP_CONCAT(rz.name SEPARATOR ', ') AS all_names
+          FROM 
+              receiversZemis AS rz
+          GROUP BY 
+              rz.receiverId
+      ) AS rz_names ON r.id = rz_names.receiverId
+  LEFT JOIN 
+      (
+          SELECT 
+              rz.receiverId,
+              GROUP_CONCAT(rz.birthdate SEPARATOR ', ') AS all_birthdates
+          FROM 
+              receiversZemis AS rz
+          GROUP BY 
+              rz.receiverId
+      ) AS rz_birthdates ON r.id = rz_birthdates.receiverId
+  LEFT JOIN 
+      (
+          SELECT 
+              rz.receiverId,
+              GROUP_CONCAT(rz.zemisNr SEPARATOR ', ') AS all_zemisNr
+          FROM 
+              receiversZemis AS rz
+          GROUP BY 
+              rz.receiverId
+      ) AS rz_zemisNr ON r.id = rz_zemisNr.receiverId;
+          `,
       function (error, results, fields) {
+        console.log(results)
+        console.log(error)
         if (error) return res.redirect("/admin");
         res.render("admin/receiverMaintenance", { results: results });
       }
@@ -135,7 +174,7 @@ router.get("/", function (req, res, next) {
                       "','" +
                       passportNumber +
                       "','" +
-                      name +
+                      name.replace(/(^\w|\s\w)/g, m => m.toUpperCase()); +
                       "','" +
                       birthdate +
                       "'),";
@@ -225,7 +264,7 @@ router.get("/", function (req, res, next) {
                 req.body.permit,
                 req.body.passportnumber.toUpperCase().replace(/\s/g, "") ,
                 req.body.birthdate,
-                req.body.name.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase()),
+                req.body.name.replace(/(^\w|\s\w)/g, m => m.toUpperCase()),
                 req.body.gender,
                 Number(req.body.familyMembers.split(":")[1]),
                 req.body.postalcode,
