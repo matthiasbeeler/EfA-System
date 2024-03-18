@@ -80,7 +80,7 @@
     }
     function searchName() {
         var input, filter, table, tr, td, i, txtValue;
-        input = document.getElementById("name").replace(/(^\w|\s\w)/g, m => m.toUpperCase());
+        input = document.getElementById("name");
         filter = input.value.toUpperCase();
         table = document.querySelector(".searchContent");
         tr = table.getElementsByClassName("searchElement");
