@@ -157,6 +157,7 @@ router.get("/", function (req, res, next) {
                 const nameKey = `name${index}`;
                 if (birthdateKey in req.body && nameKey in req.body) {
                   const birthdate = req.body[birthdateKey];
+                  console.log(birthdate)
                   const name = req.body[nameKey].replace(/\b\w/g, (c) => c.toUpperCase());
                   if(passportNumber){
                     searchstr =
@@ -174,7 +175,7 @@ router.get("/", function (req, res, next) {
                       "','" +
                       passportNumber +
                       "','" +
-                      name.replace(/(^\w|\s\w)/g, m => m.toUpperCase()); +
+                      name.replace(/(^\w|\s\w)/g, m => m.toUpperCase()) +
                       "','" +
                       birthdate +
                       "'),";

@@ -143,7 +143,7 @@ router.post("/", function (req, res, next) {
                   "','" +
                   passportNumber +
                   "','" +
-                  name.replace(/(^\w|\s\w)/g, m => m.toUpperCase()); +
+                  name.replace(/(^\w|\s\w)/g, m => m.toUpperCase()) +
                   "','" +
                   birthdate +
                   "'),";
