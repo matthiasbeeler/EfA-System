@@ -309,6 +309,7 @@ div.unblockButton{
     top: 0px;
     background-color: rgba(0, 0, 0, 0.425);
     display: none;
+    z-index: 99;
 }
 .checkInOverlayInner{
     margin: 0px;
@@ -370,6 +371,7 @@ div.unblockButton{
     width: 100vw;
     height: max-content;
     background: var(--mainBackgroundColour);
+    z-index: 99;
 }
 .overlayBig{
     position: fixed;
