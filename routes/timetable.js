@@ -62,6 +62,10 @@ function getThreeDates() {
   }
   array = [];
   array.push(moment(now).day(6).format("DD.MM.YYYY"), moment(now).day(13).format("DD.MM.YYYY"), moment(now).day(20).format("DD.MM.YYYY"));
+  const index = array.indexOf("11.05.2024");
+  if (index > -1) { // only splice array when item is found
+    array.splice(index, 1); // 2nd parameter means remove one item only
+  }
   return array;
 }
 
