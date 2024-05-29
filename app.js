@@ -9,7 +9,6 @@ var MemcachedStore = require('connect-memcached')(session);
 
 var indexRouter = require("./routes/index");
 var adminRouter = require("./routes/admin");
-var preRegRouter = require("./routes/preReg");
 var receiverRegistration = require("./routes/receiverRegistration");
 var receiverMaintenance = require("./routes/receiverMaintenance");
 var entry = require("./routes/entry");
@@ -81,7 +80,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/", indexRouter);
 app.use("/admin", adminRouter);
-app.use("/preReg", preRegRouter);
 app.use("/admin/receiverRegistration", receiverRegistration);
 app.use("/admin/receiverMaintenance", receiverMaintenance);
 app.use("/admin/entry", entry);
