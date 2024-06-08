@@ -19,7 +19,8 @@ router.get("/", function (req, res) {
   database.query(
     "SELECT entitlement, logLocation FROM entryLogs;",
     function (error, results, fields) {
-      var receivers = 0;
+      var allLogData = results;
+      /*var receivers = 0;
       var aReceivers = 0;
       var bReceivers = 0;
       var aReceiversLoc = 0;
@@ -51,10 +52,13 @@ router.get("/", function (req, res) {
             jwt.verify(req.cookies.Auth, process.env.jwtSecret).location
         )
           return bReceiversLoc++;
-      });
+      });*/
       database.query(
+
         "SELECT count(*) as count FROM receivers WHERE registrationLocation = ?;",[jwt.verify(req.cookies.Auth, process.env.jwtSecret).location],
         function (error, results, fields) {
+          console.log(2)
+
               registrationsLoc = results[0].count;
         }
       );
@@ -64,6 +68,7 @@ router.get("/", function (req, res) {
         FROM EfA.entryLogs WHERE logLocation = ?
         GROUP BY DATE_FORMAT(STR_TO_DATE(date , '%d.%m.%Y'), '%Y-%m-%d') ORDER BY  DATE_FORMAT(STR_TO_DATE(date , '%d.%m.%Y'), '%Y-%m-%d') ASC;`, [jwt.verify(req.cookies.Auth, process.env.jwtSecret).location],
         function (error, results, fields) {
+
           var logData = results;
           database.query(
             `SELECT  DATE_FORMAT(STR_TO_DATE(registrationDate , '%d.%m.%Y'), '%Y-%m-%d') AS registrationDate, SUM(CASE WHEN paid = 0 THEN 1 ELSE 0 END) AS unpaid, 
@@ -71,25 +76,27 @@ router.get("/", function (req, res) {
            FROM EfA.receivers WHERE registrationLocation = ? AND registrationDate IS NOT NULL
            GROUP BY  DATE_FORMAT(STR_TO_DATE(registrationDate , '%d.%m.%Y'), '%Y-%m-%d') ORDER BY  DATE_FORMAT(STR_TO_DATE(registrationDate , '%d.%m.%Y'), '%Y-%m-%d') ASC;`, [jwt.verify(req.cookies.Auth, process.env.jwtSecret).location],
             function (error, results, fields) {
+
               console.log(error)
               var registrationData = results;
       database.query(
         "SELECT count(*) as count FROM receivers;",
         function (error, results, fields) {
-        
+
           res.render("admin/statistics", {
             title: "Statistik",
-            receivers: receivers,
+          allLogData: JSON.stringify(allLogData),
+            /*receivers: receivers,
             aReceivers: aReceivers,
             bReceivers: bReceivers,
             registrations: results[0].count,
             aReceiversLoc: aReceiversLoc,
-            bReceiversLoc: bReceiversLoc,
+            bReceiversLoc: bReceiversLoc,*/
             registrationsLoc: registrationsLoc,
             registrationsLocDate: "--",
             registrationsLocPaidDate: "--",
             registrationsLocUnpaidDate: "--",
-            receiversLoc: receiversLoc,
+            //receiversLoc: receiversLoc,
             location: jwt.verify(req.cookies.Auth, process.env.jwtSecret)
               .location,
               logData: JSON.stringify(logData),
@@ -147,17 +154,18 @@ router.get("/:date/", function (req, res) {
         });
         
       }
-      var receivers = 0;
+      var allLogData = results;
+      /*var receivers = 0;
       var aReceivers = 0;
       var bReceivers = 0;
       var aReceiversLoc = 0;
-      var bReceiversLoc = 0;
+      var bReceiversLoc = 0;*/
       var registrationsLoc = 0;
       var receiversLoc = 0;
       var registrationsLocDate = 0;
       var registrationsLocPaidDate = 0;
       var registrationsLocUnpaidDate = 0;
-      results.forEach((element) => {
+      /*results.forEach((element) => {
         receivers++;
         if (element.entitlement == "A") return aReceivers++;
         if (element.entitlement == "B") return bReceivers++;
@@ -180,7 +188,7 @@ router.get("/:date/", function (req, res) {
             jwt.verify(req.cookies.Auth, process.env.jwtSecret).location
         )
           return bReceiversLoc++;
-      });
+      });*/
       database.query(
         "SELECT * FROM receivers;",
         function (error, results, fields) {
@@ -216,12 +224,8 @@ router.get("/:date/", function (req, res) {
           if (results) count = results[0].count;
           res.render("admin/statistics", {
             title: req.params.date,
-            receivers: receivers,
-            aReceivers: aReceivers,
-            bReceivers: bReceivers,
             registrations: count,
-            aReceiversLoc: aReceiversLoc,
-            bReceiversLoc: bReceiversLoc,
+            allLogData: JSON.stringify(allLogData),
             registrationsLoc: registrationsLoc,
             registrationsLocDate: registrationsLocDate,
             registrationsLocPaidDate: registrationsLocPaidDate,

@@ -31,8 +31,7 @@
       <div onclick="$(this).parent().children('#logChart').toggleClass('hidden')" class="infoName">Bezüger*innen in <%-location%>
       </div>
       <br>
-      <div class="info statsNumber">
-        <%-receiversLoc%>
+      <div class="info statsNumber receiversLoc">
       </div>
       <canvas class="" id="logChart" style="width:100%;max-width:700px;height:40vh;"></canvas>
 
@@ -43,8 +42,7 @@
       <div class="infoName">A - Bezüger*innen <%-location%>
       </div>
       <br>
-      <div class="info statsNumber">
-        <%-aReceiversLoc%>
+      <div class="info statsNumber aReceiversLoc">
       </div>
     </div>
     <div class="infoBlock stats">
@@ -52,8 +50,7 @@
       <div class="infoName">B - Bezüger*innen <%-location%>
       </div>
       <br>
-      <div class="info statsNumber">
-        <%-bReceiversLoc%>
+      <div class="info statsNumber bReceiversLoc">
       </div>
     </div>
     <div class="infoBlock stats">
@@ -61,10 +58,10 @@
       <div class="infoName">Registrationen in <%-location%> an ausgewähltem Datum
       </div>
       <br>
-      <div class="info statsNumber">
+      <div class="info statsNumber registrationsLocDate">
         <%-registrationsLocDate%>
       </div>
-      <p>Unbezahlt:  <%-registrationsLocUnpaidDate%></p>
+      <p>Unbezahlt: <%-registrationsLocUnpaidDate%> </p>
       <p>Bezahlt:  <%-registrationsLocPaidDate%></p>
 
     </div>
@@ -73,7 +70,7 @@
       <div class="infoName" onclick="$(this).parent().children('#registrationChart').toggleClass('hidden')">Registrationen in <%-location%>
       </div>
       <br>
-      <div class="info statsNumber">
+      <div class="info statsNumber registrationsLoc">
         <%-registrationsLoc%>
       </div>
       <canvas class="" id="registrationChart" style="width:100%;max-width:700px;height:40vh;"></canvas>
@@ -92,8 +89,7 @@
     <div class="infoName">Bezüger*innen
     </div>
     <br>
-    <div class="info statsNumber">
-      <%-receivers%>
+    <div class="info statsNumber receivers">
     </div>
   </div>
 
@@ -102,8 +98,7 @@
     <div class="infoName">A - Bezüger*innen
     </div>
     <br>
-    <div class="info statsNumber">
-      <%-aReceivers%>
+    <div class="info statsNumber aReceivers">
     </div>
   </div>
  
@@ -112,8 +107,7 @@
     <div class="infoName">B - Bezüger*innen
     </div>
     <br>
-    <div class="info statsNumber">
-      <%-bReceivers%>
+    <div class="info statsNumber bReceivers">
     </div>
   </div>
  
@@ -122,8 +116,7 @@
     <div class="infoName">Registrationen
     </div>
     <br>
-    <div class="info statsNumber">
-      <%-registrations%>
+    <div class="info statsNumber registrations">
     </div>
   </div>
  
@@ -155,6 +148,47 @@ function pickDate(){
 }
 
 
+
+var allLogData = <%-allLogData%>;
+
+var aReceivers = 0;
+var receivers = 0;
+      var bReceivers = 0;
+      var aReceiversLoc = 0;
+      var bReceiversLoc = 0;
+      var registrationsLoc = 0;
+      var registrationsPaidLoc = 0;
+
+      var receiversLoc = 0;
+      allLogData.forEach((element) => {
+        receivers++;
+        if (element.entitlement == "A") return aReceivers++;
+        if (element.entitlement == "B") return bReceivers++;
+      });
+      allLogData.forEach((element) => {
+        if (
+          element.logLocation ==
+          "<%-location%>"
+        )
+          receiversLoc++;
+        if (
+          element.entitlement == "A" &&
+          element.logLocation ==
+          "<%-location%>"
+        )
+          return aReceiversLoc++;
+        if (
+          element.entitlement == "B" &&
+          element.logLocation ==
+          "<%-location%>"
+        )
+          return bReceiversLoc++;
+      });
+      $('.bReceivers').html(bReceivers)
+      $('.bReceiversLoc').html(bReceiversLoc)
+      $('.aReceivers').html(aReceivers)
+      $('.aReceiversLoc').html(aReceiversLoc)
+      $('.receiversLoc').html(receiversLoc)
 
 
 var logData= <%-logData%>;
