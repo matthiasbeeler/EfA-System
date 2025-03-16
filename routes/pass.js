@@ -11,6 +11,10 @@ const { settingsPasswordChange, updateImage } = require("../javascript/volunteer
 const fs = require('fs')
 const { validate } = require("uuid");
 
+router.all("*", function(req,res, next){
+  return res.redirect("https://system.essenfueralle.org");
+ 
+})
 
 router.get(["/", "/login", "/signup"], function (req, res, next) {
   try {
@@ -21,6 +25,8 @@ router.get(["/", "/login", "/signup"], function (req, res, next) {
     next()
   }
 });
+
+
 
 router.get("/", function (req, res) {
   if(req.session.redirect) return res.render("public/timetable/pass/start", {redirect: req.session.redirect.replace("&amp;", "&")});

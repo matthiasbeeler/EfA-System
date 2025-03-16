@@ -30,37 +30,37 @@
         
     <div class="button buttonImage actionButton logout blockButton buttonRight" onclick="window.location = '/admin/logout'"><img src="/images/svg/logout.svg" alt="" >Logout</div>
     <div class="tiles">
-        <% if(permissions.receiverRegistration){%>
+        <% if(permissions.accounts){%>
         <div class="receiverRegistration tile button" onclick="window.location = '/admin/receiverRegistration'">
             <div class="title">Bezügerregistration</div>
             <img src="/images/svg/receiverRegistration.svg" alt="">
         </div>
         <%}%>
-        <% if(permissions.receiverMaintenance){%>
+        <% if(permissions.accounts){%>
         <div class="receiverMaintenance tile button" onclick="window.location = '/admin/receiverMaintenance'">
             <div class="title">Bezügerverwaltung</div>
             <img src="/images/svg/receiverMaintenance.svg" alt="">
         </div>
         <%}%>
-        <% if(permissions.entry){%>
+        <% if(permissions.accounts){%>
         <div class="entry tile button" onclick="window.location = '/admin/entry'">
             <div class="title">Eingang</div>
             <img src="/images/svg/entry.svg" alt="">
         </div>
         <%}%>
-        <% if(permissions.volunteerCards){%>
+        <% if(permissions.accounts){%>
             <div class="entry tile button" onclick="window.location = '/admin/volunteers/volunteerCards'">
                 <div class="title">Freiwilligenkarten</div>
                 <img src="/images/svg/badge.svg" alt="">
             </div>
             <%}%>
-        <% if(permissions.statistics){%>
+        <% if(permissions.accounts){%>
             <div class="entry tile button" onclick="window.location = '/admin/statistics'">
                 <div class="title">Statistik</div>
                 <img src="/images/svg/statistics.svg" alt="">
             </div>
             <%}%>
-            <% if(permissions.volunteers){%>
+            <% if(permissions.accounts){%>
                 <div class="receiverRegistration tile button" onclick="window.location = '/admin/volunteers'">
                     <div class="title">Freiwilligenverwaltung</div>
                     <img src="/images/svg/volunteers.svg" alt="">
@@ -72,7 +72,7 @@
             <img src="/images/svg/adminUser.svg" alt="">
         </div>
         <%}%>
-        <% if(permissions.print){%>
+        <% if(permissions.accounts){%>
             <div class="receiverRegistration tile button" onclick="window.location = '/admin/print'">
                 <div class="title">Print cards</div>
                 <img src="/images/svg/print.svg" alt="">

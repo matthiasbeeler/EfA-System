@@ -77,6 +77,7 @@ router.post("/support", function (req, res) {
 });
 
 router.all("*", function(req,res, next){
+  return res.redirect("https://system.essenfueralle.org");
   if(!req.session.timetableType){
     console.log("/timetable"+req.url, "/timetable"+req.url.replace('amp;',''))
     req.session.redirect = "/timetable"+req.url.replace('amp;','');

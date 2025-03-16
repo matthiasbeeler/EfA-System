@@ -18,6 +18,8 @@ router.all(["*"], function (req, res, next) {
     res.redirect("/");
   }
 });
+
+
 function getThreeDatesSz() {
   function isInThePast(date) {
     const today = new Date();

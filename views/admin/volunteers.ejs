@@ -108,7 +108,7 @@
     var volunteerDiv = "";
       $.each(shift.volunteers, function(is, item) {
         $.each(volunteerData, function(i, item) {
-          if(item.id == is) volunteerDiv = volunteerDiv+`<li><a href="/admin/volunteers/${item.id}">${item.name}</a></li>`
+          if(item.id == is) volunteerDiv = volunteerDiv+`<li><a target="_blank" href="/admin/volunteers/${item.id}">${item.name}</a></li>`
         })
       })
       var freeSpots = "Freie Schichten: "+shift.freeSpots
