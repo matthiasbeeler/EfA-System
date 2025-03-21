@@ -30,31 +30,31 @@
         
     <div class="button buttonImage actionButton logout blockButton buttonRight" onclick="window.location = '/admin/logout'"><img src="/images/svg/logout.svg" alt="" >Logout</div>
     <div class="tiles">
-        <% if(permissions.accounts){%>
+        <% if(permissions.receiverRegistration){%>
         <div class="receiverRegistration tile button" onclick="window.location = '/admin/receiverRegistration'">
             <div class="title">Bezügerregistration</div>
             <img src="/images/svg/receiverRegistration.svg" alt="">
         </div>
         <%}%>
-        <% if(permissions.accounts){%>
+        <% if(permissions.receiverMaintenance){%>
         <div class="receiverMaintenance tile button" onclick="window.location = '/admin/receiverMaintenance'">
             <div class="title">Bezügerverwaltung</div>
             <img src="/images/svg/receiverMaintenance.svg" alt="">
         </div>
         <%}%>
-        <% if(permissions.accounts){%>
+        <% if(permissions.entry){%>
         <div class="entry tile button" onclick="window.location = '/admin/entry'">
             <div class="title">Eingang</div>
             <img src="/images/svg/entry.svg" alt="">
         </div>
         <%}%>
-        <% if(permissions.accounts){%>
+        <% if(permissions.volunteerCards){%>
             <div class="entry tile button" onclick="window.location = '/admin/volunteers/volunteerCards'">
                 <div class="title">Freiwilligenkarten</div>
                 <img src="/images/svg/badge.svg" alt="">
             </div>
             <%}%>
-        <% if(permissions.accounts){%>
+        <% if(permissions.statistics){%>
             <div class="entry tile button" onclick="window.location = '/admin/statistics'">
                 <div class="title">Statistik</div>
                 <img src="/images/svg/statistics.svg" alt="">
