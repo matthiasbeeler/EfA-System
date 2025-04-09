@@ -30,19 +30,19 @@
         
     <div class="button buttonImage actionButton logout blockButton buttonRight" onclick="window.location = '/admin/logout'"><img src="/images/svg/logout.svg" alt="" >Logout</div>
     <div class="tiles">
-        <% if(permissions.receiverRegistration){%>
+        <% if(permissions.accounts){%>
         <div class="receiverRegistration tile button" onclick="window.location = '/admin/receiverRegistration'">
             <div class="title">Bezügerregistration</div>
             <img src="/images/svg/receiverRegistration.svg" alt="">
         </div>
         <%}%>
-        <% if(permissions.receiverMaintenance){%>
+        <% if(permissions.accounts){%>
         <div class="receiverMaintenance tile button" onclick="window.location = '/admin/receiverMaintenance'">
             <div class="title">Bezügerverwaltung</div>
             <img src="/images/svg/receiverMaintenance.svg" alt="">
         </div>
         <%}%>
-        <% if(permissions.entry){%>
+        <% if(permissions.accounts){%>
         <div class="entry tile button" onclick="window.location = '/admin/entry'">
             <div class="title">Eingang</div>
             <img src="/images/svg/entry.svg" alt="">

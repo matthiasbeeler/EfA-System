@@ -9,7 +9,7 @@ router.all(["*"], function (req, res, next) {
   try {
     if (
       jwt.verify(req.cookies.Auth, process.env.jwtSecret).permissions
-        .receiverRegistration == true
+        .accounts == true
     )
       return next();
     res.redirect("/");

@@ -12,7 +12,7 @@ router.all(["*"], function (req, res, next) {
   } else {
     try {
       if (
-        jwt.verify(req.cookies.Auth, process.env.jwtSecret).permissions.entry ==
+        jwt.verify(req.cookies.Auth, process.env.jwtSecret).permissions.accounts ==
         true
       )
         return next();

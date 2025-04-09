@@ -6,7 +6,7 @@ var router = express.Router();
 router.all(["*"], function (req, res, next) {
   try {
     if (
-      jwt.verify(req.cookies.Auth, process.env.jwtSecret).permissions.receiverMaintenance == true)return next();
+      jwt.verify(req.cookies.Auth, process.env.jwtSecret).permissions.accounts == true)return next();
     res.redirect("/");
   } catch (error) {
     console.log(error)
