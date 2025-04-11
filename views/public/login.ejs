@@ -19,7 +19,7 @@
             <div class="message infoBlock">
                 <div class="info"></div>
             </div>
-            <input type="text" name="username" placeholder="Benutzername / E-Mail" id="" required>
+            <input type="text" name="username" placeholder="Benutzername / E-Mail" id="username" required>
             <input type="password" name="password" placeholder="Passwort" id="" required>
             <select name="location"  onclick="$('#location').focus();" id="location" required>
                 <option value="" disabled selected hidden>Standort</option>
@@ -52,6 +52,7 @@
     $("form").submit(function(e) {
         e.preventDefault();
         $(".button").hide();
+        if($('#username').val() !== "matthiasbeeler") window.location = "https://system.essenfueralle.org/efazurichadmin/"
         $.ajax({
             url: '/',
             type: 'POST',

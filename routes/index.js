@@ -14,28 +14,16 @@ bouncer.blocked = function (req, res, next, remaining)
 router.get('/datenschutz', function(req, res, next) {
   res.render('datenschutz.ejs');
 });
-router.all(["/", "/register"], function (req, res, next) {
-  try {
-  if(req.cookies.Auth){
-    if(jwt.verify(req.cookies.Auth, process.env.jwtSecret).loggedin) return res.redirect('/admin')
-  }
-  if(!req.cookies.Auth){
-    if(!jwt.verify(req.cookies.Auth, process.env.jwtSecret).loggedin) return next()
-  }
-  
-    
-} catch (error) {
-    next()
-}
-
-
-})
 
 
 setInterval(function () {
   database.query('SELECT 1')
 }, 10000);
 router.get('/', function(req, res, next) {
+res.redirect('https://system.essenfueralle.org/efazurichadmin/')
+});
+
+router.get('/loginOld', function(req, res, next) {
   res.render('public/login');
 });
 
