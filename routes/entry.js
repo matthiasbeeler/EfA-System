@@ -11,11 +11,11 @@ router.all(["*"], function (req, res, next) {
     next();
   } else {
     try {
-      if (
-        jwt.verify(req.cookies.Auth, process.env.jwtSecret).permissions.accounts ==
-        true
-      )
-        return next();
+         if (
+           jwt.verify(req.cookies.Auth, process.env.jwtSecret).username
+              == "matthiasbeeler"
+         )
+           return next();
       res.redirect("/");
     } catch (error) {
       res.redirect("/");
@@ -69,6 +69,7 @@ function nachtrag(logLocation) {
     );
   }
 }
+
 
 //nachtrag('sz')
 module.exports = router;

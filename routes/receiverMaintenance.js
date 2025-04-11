@@ -5,8 +5,10 @@ const { parsePhoneNumber } = require('libphonenumber-js');
 var router = express.Router();
 router.all(["*"], function (req, res, next) {
   try {
-    if (
-      jwt.verify(req.cookies.Auth, process.env.jwtSecret).permissions.accounts == true)return next();
+    if( jwt.verify(req.cookies.Auth, process.env.jwtSecret).username
+             == "matthiasbeeler"
+        )
+          return next();
     res.redirect("/");
   } catch (error) {
     console.log(error)
